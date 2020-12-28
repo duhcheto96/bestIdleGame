@@ -1,0 +1,142 @@
+.fieldTab:nth-of-type(1) {
+    grid-template-columns: 50% 50%;
+    height: 700px;
+}
+    .fInv {
+        border: 1px solid red;
+    }
+        .invTitle {
+            text-align: center;
+            font-size: 50px;
+            height: 60px;
+            outline: 1px solid red;
+            background-color: brown;
+            color: yellow;
+        }
+        .invContent {
+            height: 640px;
+            overflow: auto;
+        }
+            .expandable {
+                outline: 1px solid blue;
+                background-color: pink;
+                height: 30px;
+                text-align: center;
+                font-size: 25px;
+                font-weight: bold;
+                
+            }
+                .invMiningItem {
+                    background-color: pink;
+                }
+            .invWoodcutting {
+                outline: 1px solid green;
+            }
+                .invWoodcuttingItem {
+                    background-color: green;
+                }
+            .invHunting {
+                outline: 1px solid blue;
+            }
+                .invHuntingItem {
+                    background-color: yellow;
+                }
+        .invItem {
+            display: grid;
+            margin-left: 10px;
+            grid-template-columns: 35% 65%;
+        }
+            .invItemName {
+                width: 100px;
+            }
+            .invItemQuantity {
+                width: auto;
+            }
+
+    .fUpg {
+        height: 700px;
+        border: 1px solid red;
+    }
+        .upgTitle {
+            text-align: center;
+            font-size: 50px;
+            height: 60px;
+            outline: 1px solid red;
+            background-color: brown;
+            color: yellow;
+        }
+        .upgContent {
+            height: 640px;
+            overflow: auto;
+        }
+        .upgrade {
+            display: grid;
+            grid-template-columns: 20% 20% 60%;
+            grid-template-rows: 25% 75%;
+            outline: 2px solid green;
+            height: auto;
+        }
+            .upgradeLevel {
+                grid-column: 1;
+                grid-row: 1;
+                font-size: 25px;
+                border: 1px solid purple;
+                height: 32px;
+                background: rgb(192, 206, 195)
+            }
+            .upgradeName {
+                grid-column: 2 / span 2;
+                grid-row: 1;
+                text-align: center;
+                font-size: 25px;
+                border: 2px solid black;
+                height: 32px;
+                background: rgb(192, 206, 195)
+            }
+            .upgradeButton {
+                display: grid;
+                grid-column: 1;
+                grid-row: 2;
+                background-color: red;
+                border-radius: 10px;
+                text-align: center;
+                line-height: 100px;
+            }
+            .upgradeStats {
+                grid-column: 2;
+                grid-row: 2;
+                height: 100px;
+            }
+                .upgradeStats div {
+                    height: 40%;
+                    text-align: center;
+                    margin-top: 5%;
+                }
+            .upgradeReqItems {
+                display: grid;
+                grid-template-rows: 10% 90%;
+                grid-column: 3 / span 1;
+                outline: 1px solid rgb(12, 226, 77);
+                height: 100px;
+            }
+            .upgradeReqItems > div:first-child {
+                background-color: aquamarine;
+            }
+                .upgMiningReqItemsTitle {
+                    grid-row: 1 / span 1;
+                    display: grid;
+                }
+                .upgradeReqItemsItems {
+                    overflow: auto;
+                    grid-row: 2 / span 1;
+                }
+                .upgradeReqItem span:first-child {
+                        color: blue;
+                }
+                .upgradeUpgradesList {
+                    overflow: auto;
+                }
+
+
+                
+                

@@ -1,0 +1,13 @@
+.fieldTab:nth-of-type(4) {
+    grid-template-columns: 20% 10% 10% 30% 30%;
+    grid-template-rows: 20% 40% 30% 10%;
+    height: 700px;
+    outline: 10px solid red;
+}
+    .fieldTab:nth-of-type(4) div {
+        outline: 1px solid green;
+        text-align: center;
+        font-weight: bold;
+        font-size: 30px;
+    }
+

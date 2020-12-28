@@ -1,0 +1,55 @@
+pretty much the same as that i was going to make
+% chance for diff mats
+food, il think about if it will be required for farming other materials.
+tools can be salvaged for silver coins
+
+levels for:
+mining
+wood cutting
+upgrades
+
+
+
+
+INVENTORY
+    all items / real inv 
+MINING
+    tool / choose a place to mine / material being mined
+    (these could be vertically aligned)
+
+WOOD CUTTING
+    same as mining, just with wood
+UPGRADES
+    2 rows of rectangles
+    first one : available upgrades
+    second one : already bulit ( should somehow show the bonus they give )
+FARMING
+    a building for producing seeds -> then using hoe for planting
+    same as mining ( places are different ground types)
+STATISTICS
+    total bonuses and everything about the game here. ( prob will include help here too.)
+
+mining level -> xxx
+cutting level -> xxx
+
+
+
+
+
+
+
+Hold ctrl, shift, Z , for buying upgrades in bundle
+
+
+
+
+ CAN ADD AN OBJECT FOR THE MAIN FUNCTION -> MATERIAL : {
+     name: 
+     currentHP:
+     totalHP:
+    etc.
+ }
+
+
+
+ hunt every day at hour (event), for limited time

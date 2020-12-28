@@ -1,0 +1,26 @@
+.activeTab {
+    display: grid;
+}
+.activeMenu {
+    background: rgb(185, 179, 179);
+}
+
+.collapsed {
+    display: none;  
+}
+
+.expanded {
+    display: grid;
+}
+
+.activeArea {
+    background: rgb(185, 179, 179);
+}
+
+.activeUpgrade {
+    display: grid;
+}
+
+.unactiveUpgrade {
+    display: none;
+}
