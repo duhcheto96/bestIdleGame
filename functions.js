@@ -544,7 +544,7 @@ function logElementColor(e, mat) {
 }
 
 function materialColor(e, mat) {
-    e.textContent = `${mat}`;
+    e.childNodes[0].textContent = `${mat}`;
     if (mat === "gold") e.style.backgroundColor = "yellow";
     if (mat === "Looking for material") e.style.backgroundColor = "white";
     // add colors to other materials
@@ -554,7 +554,7 @@ function resetHPandMat(tab) {
     let material = tab.childNodes[4];
     let HPbar = tab.childNodes[6];
     
-    material.textContent = 'Click to start';
+    material.childNodes[0].textContent = 'Click to start';
     HPbar.childNodes[0].textContent = 'Health: 0 / 0';
 
     material.style.backgroundColor = 'white';
@@ -580,7 +580,21 @@ function generateMaterialGatheringTab(tab) {
     }
 
     let material = createDiv('material');
-    material.textContent = 'Click to start';
+    let matNameDiv = createDiv('materialName');
+    let matLevel = createDiv('materialLevel');
+    let leftArrow = createDiv('leftArrow');
+
+    const leftArrowImg = document.createElement('img');
+    leftArrowImg.setAttribute("src", "images/leftArrow.png");
+    leftArrowImg.classList.add('arrowImg');
+    leftArrow.appendChild(leftArrowImg);
+    let rightArrow = createDiv('rightArrow');
+
+    matNameDiv.textContent = 'Click to start';
+    appendMoreChilds(material, matNameDiv, matLevel, leftArrow, rightArrow);
+    
+    
+    // material.textContent = 'Click to start';
     let log = createDiv('log');
     let progress = createDiv('progress');
     let HPbar = createDiv('HPbar');

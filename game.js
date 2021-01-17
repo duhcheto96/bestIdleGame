@@ -44,9 +44,8 @@ var main = {
 
 var scroll = true;
 
-
 // START MINING
-sa('.material')[0].addEventListener('click', () => {
+sa('.material')[0].childNodes[0].addEventListener('click', () => {
     if (main.mining.clicked) {
         clearInterval(main.mining.breakingTime);
         clearTimeout(main.mining.timeout);
