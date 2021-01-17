@@ -14,6 +14,9 @@ let main = {
         timeout: undefined,
         itemGroup: 'miningMaterials',
         materialLevel: 1,
+        currentMaterialLevel: 1,
+        requiredMatsForNextMaterialLevel: 5,
+        materialsDropped: 0,
     },
     woodcutting: {
         index: 1,
@@ -86,69 +89,115 @@ sa('.material')[2].addEventListener('click', () => {
 
 
 
-let mainMaterialGatheringFunction = (main) => {
+// increase material level
+sa('.material')[0].childNodes[3].addEventListener('click', () => {
+    if (main.mining.materialsDropped >= main.mining.requiredMatsForNextMaterialLevel) {
+        main.mining.materialLevel++;
+        main.mining.currentMaterialLevel++;
+        main.mining.materialsDropped = 0;
+    } else if (main.mining.materialLevel > main.mining.currentMaterialLevel) {
+        main.mining.currentMaterialLevel++;
+    }
+    updateMaterialLevels();
+});
 
-    if (main.material === "Looking for material") {
-        main.material = getRandomElement(main.currentArea);
+sa('.material')[0].childNodes[2].addEventListener('click', () => {
+    if (main.mining.currentMaterialLevel > 1) {
+        main.mining.currentMaterialLevel--;
+    }
+    updateMaterialLevels();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+let mainMaterialGatheringFunction = (mainType) => {
+
+    if (mainType.material === "Looking for material") {
+        mainType.material = getRandomElement(mainType.currentArea);
     } else {
-        main.material = "Looking for material";
+        mainType.material = "Looking for material";
     }
     
     updateEverything();
     
-    materialColor(sa('.material')[main.index], main.material);
+    materialColor(sa('.material')[mainType.index], mainType.material);
 
-    if (main.material === "Looking for material") {
+    if (mainType.material === "Looking for material") {
         
-        main.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, main), main.tool.lookingForTime);
+        mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), mainType.tool.lookingForTime);
     } else {
-        main.currentHP = main.currentArea[main.material]['health'];
-        main.totalHP = main.currentArea[main.material]['health'];
+        // mainType.currentHP = mainType.currentArea[mainType.material]['health'];
+        mainType.currentHP = getMaterialHealth(mainType);
         
-        setHPbar(sa('.progress')[main.index], main.currentHP, main.totalHP);
+        // mainType.totalHP = mainType.currentArea[mainType.material]['health'];
+        mainType.totalHP = getMaterialHealth(mainType);
+        
+        setHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
-        main.breakingTime = setInterval(breakBlock.bind(null, main), main.tool.aps);
+        mainType.breakingTime = setInterval(breakBlock.bind(null, mainType), mainType.tool.aps);
     }
 }
 
-let breakBlock = (main) => {
 
-    main.currentHP -= main.tool.getPower();
-    
-    if (main.currentHP < 0) main.currentHP = 0;
-    
-    updateHPbar(sa('.progress')[main.index], main.currentHP, main.totalHP);
 
-    if (main.currentHP == 0) {
-        if (main.inventory[main.material] === undefined) {
-            addNewItemToInventory(main.material, main.itemGroup, sa('.itemsList')[main.index]);
+
+
+
+
+
+let breakBlock = (mainType) => {
+
+    mainType.currentHP -= mainType.tool.getPower();
+    
+    if (mainType.currentHP < 0) mainType.currentHP = 0;
+    
+    updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
+
+    if (mainType.currentHP == 0) {
+        if (mainType.inventory[mainType.material] === undefined) {
+            addNewItemToInventory(mainType.material, mainType.itemGroup, sa('.itemsList')[mainType.index]);
         }
+
+        let drop = mainType.currentArea[mainType.material]['drop'];
         
-        main.inventory[main.material] += main.currentArea[main.material]['drop'];
-        main.currentArea[main.material]['totalDropped'] += main.currentArea[main.material]['drop'];
+        mainType.inventory[mainType.material] += drop;
+        mainType.currentArea[mainType.material]['totalDropped'] += drop;
 
-
-        //toDo remove
-        // add hp on level, not on kill
-        // main.currentArea[main.material]['health'] += main.currentArea[main.material]['healthOnKill'];
-
+        if (mainType.materialLevel == mainType.currentMaterialLevel) {
+            mainType.materialsDropped += drop;
+        }
         
         markUpgradesBuyable();
 
-        increaseToolXP(main.tool, main.currentArea[main.material]['xp']);
+        // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
+        let xp = mainType.currentArea[mainType.material]['xp'] 
+        + (mainType.currentMaterialLevel - 1) * mainType.currentArea[mainType.material]['xpOnLevel'];
 
-        const logSpan = addSpan(`You have obtained ${main.currentArea[main.material]['drop']} ${main.material}`);
 
-        logElementColor(logSpan, main.material);
+        increaseToolXP(mainType.tool, xp);
 
-        appendMoreChilds(sa('.log')[main.index], logSpan, addBR());
+        const logSpan = addSpan(`You have obtained ${mainType.currentArea[mainType.material]['drop']} ${mainType.material}`);
+
+        logElementColor(logSpan, mainType.material);
+
+        appendMoreChilds(sa('.log')[mainType.index], logSpan, addBR());
 
         // scroll to bottom of the log, while mouse is out of it
-        if (scroll) sa('.log')[main.index].scrollTop = sa('.log')[main.index].scrollHeight;
+        if (scroll) sa('.log')[mainType.index].scrollTop = sa('.log')[mainType.index].scrollHeight;
 
-        mainMaterialGatheringFunction(main)
+        mainMaterialGatheringFunction(mainType)
 
-        clearInterval(main.breakingTime);
+        clearInterval(mainType.breakingTime);
     }
 }
 

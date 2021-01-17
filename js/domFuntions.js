@@ -170,6 +170,7 @@ function generateMaterialGatheringTab(tab) {
     let material = createDiv('material');
     let matNameDiv = createDiv('materialName');
     let matLevel = createDiv('materialLevel');
+    // REMOVE LATER, to update on reload (level is on main object)
     matLevel.textContent = 1;
 
     let leftArrow = createDiv('leftArrow');
@@ -198,7 +199,19 @@ function generateMaterialGatheringTab(tab) {
           log, progress);
 }
 
-// DOM ELEMENTS
+function resetHPandMat(tab) {
+    let material = tab.childNodes[4];
+    let HPbar = tab.childNodes[6];
+    
+    material.childNodes[0].textContent = 'Click to start';
+    HPbar.childNodes[0].textContent = 'Health: 0 / 0';
+
+    material.style.backgroundColor = 'white';
+    HPbar.childNodes[1].style.width = '0px';
+
+}
+
+// DOM ELEMENTS ( helper functions)
 function addBR() {
     const br = document.createElement('br');
     return br;
@@ -353,12 +366,19 @@ function updateUpgrades() {
     });
 }
 
+
+function updateMaterialLevels() {
+    sa('.material')[main.mining.index].childNodes[1].textContent = main.mining.currentMaterialLevel;
+    //toDo add the other tabs
+}
+
 function updateEverything() {
     updateInventory();
     updateToolStats();
     updateUpgrades();
     markUpgradesBuyable();
 }
+
 // END OF UPDATES
 
 

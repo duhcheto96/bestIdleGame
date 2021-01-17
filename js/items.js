@@ -23,7 +23,7 @@ let tools = {
         lookingForTime: 2_000,
         level: 1,
         tier: 1,
-        bonusXPfromTier: 0.1,
+        // bonusXPfromTier: 0.1,
         bonuses: {
             a : 1,
         },
@@ -147,7 +147,7 @@ let materials = {
             // Onyx
         }, 
         area4 : {
-            'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
+            // 'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
             'Iron Ore' : createMaterial(2, 30, 3, 3, 1, 400, 0),
             'Copper' : createMaterial(3, 20, 2, 2, 1, 250, 0),
             'Silver' : createMaterial(4, 40, 4, 4, 1, 100, 0),
