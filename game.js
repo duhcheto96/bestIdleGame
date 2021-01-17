@@ -12,7 +12,7 @@ var main = {
         tool: tools.miningTool,
         breakingTime: undefined,
         timeout: undefined,
-        itemGroup: 'miningMaterials',
+        itemGroup: 'miningMaterials', 
     },
     woodcutting: {
         index: 1,

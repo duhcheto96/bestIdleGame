@@ -582,13 +582,15 @@ function generateMaterialGatheringTab(tab) {
     let material = createDiv('material');
     let matNameDiv = createDiv('materialName');
     let matLevel = createDiv('materialLevel');
-    let leftArrow = createDiv('leftArrow');
 
-    const leftArrowImg = document.createElement('img');
-    leftArrowImg.setAttribute("src", "images/leftArrow.png");
-    leftArrowImg.classList.add('arrowImg');
+    let leftArrow = createDiv('leftArrow');
+    const leftArrowImg = createImg("images/leftArrow.png", "arrowImg");
     leftArrow.appendChild(leftArrowImg);
+    
     let rightArrow = createDiv('rightArrow');
+    const rightArrowImg = createImg("images/rightArrow.png", "arrowImg");
+    rightArrow.appendChild(rightArrowImg);
+
 
     matNameDiv.textContent = 'Click to start';
     appendMoreChilds(material, matNameDiv, matLevel, leftArrow, rightArrow);
@@ -643,6 +645,15 @@ function appendMoreChilds(e, ...childs) {
 
 function createDiv(...classes) {
     const e = document.createElement(`div`);
+    for (let c in classes) {
+        e.classList.add(`${classes[c]}`);
+    }
+    return e
+}
+
+function createImg(src, ...classes) {
+    const e = document.createElement('img');
+    e.setAttribute("src", src);
     for (let c in classes) {
         e.classList.add(`${classes[c]}`);
     }
