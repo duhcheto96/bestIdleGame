@@ -1,6 +1,6 @@
 "use strict"
 
-var main = {
+let main = {
     mining: {
         index: 0,
         clicked: false,
@@ -12,7 +12,8 @@ var main = {
         tool: tools.miningTool,
         breakingTime: undefined,
         timeout: undefined,
-        itemGroup: 'miningMaterials', 
+        itemGroup: 'miningMaterials',
+        materialLevel: 1,
     },
     woodcutting: {
         index: 1,
@@ -42,7 +43,7 @@ var main = {
     },
 }
 
-var scroll = true;
+let scroll = true;
 
 // START MINING
 sa('.material')[0].childNodes[0].addEventListener('click', () => {
@@ -126,7 +127,10 @@ let breakBlock = (main) => {
         main.inventory[main.material] += main.currentArea[main.material]['drop'];
         main.currentArea[main.material]['totalDropped'] += main.currentArea[main.material]['drop'];
 
-        main.currentArea[main.material]['health'] += main.currentArea[main.material]['healthOnKill'];
+
+        //toDo remove
+        // add hp on level, not on kill
+        // main.currentArea[main.material]['health'] += main.currentArea[main.material]['healthOnKill'];
 
         
         markUpgradesBuyable();

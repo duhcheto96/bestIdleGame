@@ -88,7 +88,7 @@ let tools = {
     },
 
 }
-// index, health, healthOnKill, xp, drop, chance, totalDropped
+// index, health, healthOnLevel, xp, drop, chance, totalDropped
 let materials = {
     miningMaterials: {
         area1 : {
