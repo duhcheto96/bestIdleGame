@@ -89,19 +89,25 @@ let tools = {
 
 }
 // index, health, healthOnLevel, xp, drop, chance, totalDropped
-let materials = {
-    miningMaterials: {
+let areas = {
+    miningAreas: {
         area1 : {
-            'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
-            'Iron Ore' : createMaterial(2, 30, 3, 3, 1, 400, 0),
-            'Copper' : createMaterial(3, 20, 2, 2, 1, 250, 0),
-            'Silver' : createMaterial(4, 40, 4, 4, 1, 100, 0),
-            'Gold' : createMaterial(5, 50, 5, 5, 1, 50, 0),
-            "Platinum" : createMaterial(6, 100, 10, 10, 1, 40, 0),
-
-            "Lead" : createMaterial(7, 100, 10, 10, 1, 25, 0),
-            "Titanium" : createMaterial(8, 100, 10, 10, 1, 10, 0),
-            "Diamond" : createMaterial(9, 100, 10, 10, 1, 1, 0),
+            materials: {
+                'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
+                'Iron Ore' : createMaterial(2, 30, 3, 3, 1, 400, 0),
+                'Copper' : createMaterial(3, 20, 2, 2, 1, 250, 0),
+                'Silver' : createMaterial(4, 40, 4, 4, 1, 100, 0),
+                'Gold' : createMaterial(5, 50, 5, 5, 1, 50, 0),
+                "Platinum" : createMaterial(6, 100, 10, 10, 1, 40, 0),
+    
+                "Lead" : createMaterial(7, 100, 10, 10, 1, 25, 0),
+                "Titanium" : createMaterial(8, 100, 10, 10, 1, 10, 0),
+                "Diamond" : createMaterial(9, 100, 10, 10, 1, 1, 0),
+            },
+            totalLevel: 1,
+            level: 1,
+            materialsDropped: 0,
+            requiredMaterialsForNextLevel: 5,
         },
         area2 : {
             'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),

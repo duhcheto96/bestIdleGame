@@ -41,6 +41,7 @@
         }
         .materialLevel {
             grid-column: 1 / span 2;
+            margin: auto;
         }
         .leftArrow {
 

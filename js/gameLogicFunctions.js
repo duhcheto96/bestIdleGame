@@ -1,5 +1,5 @@
 function increaseToolXP(tool, xp) {
-    
+
     // xp = Math.round(xp + xp * tool.bonusXPfromTier * tool.tier);
     tool.xp += xp;
     tool.totalXP += xp;
@@ -27,7 +27,7 @@ function getRandomElement(mats) {
 }
 // not done
 function getDropChance() {
-    let mats = materials.miningMaterials.area1
+    let mats = areas.miningAreas.area1
     let chances = [];
     for (let key in mats) chances.push(mats[key]['chance']);
     let sum = 0;
@@ -223,13 +223,13 @@ function addMiningUpgradeBonus(upgradeName, bonus, type) {
     if (upgradeName == 'Increase Platinum drop') increaseDrop('Platinum')
 
     if (upgradeName == 'Increase chance to find Diamond') {
-        materials.miningMaterials.area1['Diamond'].chance += materials.miningMaterials.area1['Diamond'].chance * bonus;
+        areas.miningAreas.area1['Diamond'].chance += areas.miningAreas.area1['Diamond'].chance * bonus;
     } else if (upgradeName == 'Increase chance to find Azurite') {
-        materials.miningMaterials.area2['Azurite'].chance += materials.miningMaterials.area1['Azurite'].chance * bonus;
+        areas.miningAreas.area2['Azurite'].chance += areas.miningAreas.area1['Azurite'].chance * bonus;
     } else if (upgradeName == 'Increase chance to find Onyx') {
-        materials.miningMaterials.area3['Onyx'].chance += materials.miningMaterials.area1['Onyx'].chance * bonus;
+        areas.miningAreas.area3['Onyx'].chance += areas.miningAreas.area1['Onyx'].chance * bonus;
     } else if (upgradeName == 'Increase chance to find Black Star Diopside') {
-        materials.miningMaterials.area4['Black Star Diopside'].chance += materials.miningMaterials.area1['Black Star Diopside'].chance * bonus;
+        areas.miningAreas.area4['Black Star Diopside'].chance += areas.miningAreas.area1['Black Star Diopside'].chance * bonus;
     }
 }
 
@@ -244,16 +244,16 @@ function addHuntingUpgradeBonus() {
 function increaseDrop(material) {
     let type;
 
-    for(let t in materials) {
-        for (let area in materials[t]) {
-            if (materials[t][area].hasOwnProperty(material)) {
+    for(let t in areas) {
+        for (let area in areas[t]) {
+            if (areas[t][area].hasOwnProperty(material)) {
                 type = t;
             }
         }
     }
-    for(let area in materials[type]) {
-        if (materials[type][area][material] != undefined) {
-            materials[type][area][material]['drop'] += 1;
+    for(let area in areas[type]) {
+        if (areas[type][area][material] != undefined) {
+            areas[type][area][material]['drop'] += 1;
         }
     }
 }

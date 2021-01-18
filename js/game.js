@@ -7,16 +7,12 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        currentArea: materials.miningMaterials['area1'],
+        currentArea: areas.miningAreas['area1'],
         inventory: inventoryMaterials.miningMaterials,
         tool: tools.miningTool,
         breakingTime: undefined,
         timeout: undefined,
         itemGroup: 'miningMaterials',
-        materialLevel: 1,
-        currentMaterialLevel: 1,
-        requiredMatsForNextMaterialLevel: 5,
-        materialsDropped: 0,
     },
     woodcutting: {
         index: 1,
@@ -24,7 +20,7 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        currentArea: materials.woodcuttingMaterials['area1'],
+        currentArea: areas.woodcuttingMaterials['area1'],
         inventory: inventoryMaterials.woodcuttingMaterials,
         tool: tools.woodcuttingTool,
         breakingTime: undefined,
@@ -37,7 +33,7 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        currentArea: materials.huntingMaterials['area1'],
+        currentArea: areas.huntingMaterials['area1'],
         inventory: inventoryMaterials.huntingMaterials,
         tool: tools.huntingTool,
         breakingTime: undefined,
@@ -224,13 +220,27 @@ let breakBlock = (mainType) => {
 sa('.areas').forEach((areas, tabIndex) => {
     areas.childNodes.forEach((area, index) => {
         area.addEventListener('click', () => {
+
+            if (main.mining.materialLevel < 3) {
+                return;
+            }
+
+            if (tabIndex == 0) {
+                main.mining.currentArea = areas.miningMaterials[`area${index + 1}`];
+            }
+            if (tabIndex == 1) main.woodcutting.currentArea = areas.woodcuttingMaterials[`area${index + 1}`];
+            if (tabIndex == 2) main.hunting.currentArea = areas.huntingMaterials[`area${index + 1}`];
+
             areas.childNodes.forEach((area) => {
                 area.classList.remove('activeArea');
             });
             area.classList.add('activeArea');
-            if (tabIndex == 0) main.mining.currentArea = materials.miningMaterials[`area${index + 1}`];
-            if (tabIndex == 1) main.woodcutting.currentArea = materials.woodcuttingMaterials[`area${index + 1}`];
-            if (tabIndex == 2) main.hunting.currentArea = materials.huntingMaterials[`area${index + 1}`];
+
+            // MAKE IT FOR ALL, NOT JUST MINING LATER
+            clearInterval(main.mining.breakingTime);
+            clearTimeout(main.mining.timeout);
+            main.mining.clicked = false;
+            resetHPandMat(sa('.fieldTab')[1]);
         });
     });
 });

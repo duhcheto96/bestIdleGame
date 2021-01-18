@@ -41,11 +41,11 @@ updateEverything();
 // fMiningAreas[0].appendChild(div);
 
 // fMiningAreas[0].addEventListener('mouseenter', x => {
-//     x.target.childNodes[1].style.visibility = "visible";
+//     x.target.childNodes[0].style.visibility = "visible";
 
 // });
 // fMiningAreas[0].addEventListener('mouseleave', x => {
-//     x.target.childNodes[1].style.visibility = "hidden";
+//     x.target.childNodes[0].style.visibility = "hidden";
 
 // });
 // END 
