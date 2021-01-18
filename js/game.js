@@ -7,12 +7,13 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        currentArea: areas.miningAreas['area1'],
+        area: areas.miningAreas['area1'],
         inventory: inventoryMaterials.miningMaterials,
         tool: tools.miningTool,
         breakingTime: undefined,
         timeout: undefined,
         itemGroup: 'miningMaterials',
+        areaGroup: 'miningAreas',
     },
     woodcutting: {
         index: 1,
@@ -20,7 +21,7 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        currentArea: areas.woodcuttingMaterials['area1'],
+        area: areas.woodcuttingMaterials['area1'],
         inventory: inventoryMaterials.woodcuttingMaterials,
         tool: tools.woodcuttingTool,
         breakingTime: undefined,
@@ -33,7 +34,7 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        currentArea: areas.huntingMaterials['area1'],
+        area: areas.huntingMaterials['area1'],
         inventory: inventoryMaterials.huntingMaterials,
         tool: tools.huntingTool,
         breakingTime: undefined,
@@ -119,7 +120,7 @@ sa('.material')[0].childNodes[2].addEventListener('click', () => {
 let mainMaterialGatheringFunction = (mainType) => {
 
     if (mainType.material === "Looking for material") {
-        mainType.material = getRandomElement(mainType.currentArea);
+        mainType.material = getRandomElement(mainType.area.materials);
     } else {
         mainType.material = "Looking for material";
     }
@@ -132,10 +133,7 @@ let mainMaterialGatheringFunction = (mainType) => {
         
         mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), mainType.tool.lookingForTime);
     } else {
-        // mainType.currentHP = mainType.currentArea[mainType.material]['health'];
         mainType.currentHP = getMaterialHealth(mainType);
-        
-        // mainType.totalHP = mainType.currentArea[mainType.material]['health'];
         mainType.totalHP = getMaterialHealth(mainType);
         
         setHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
@@ -164,25 +162,26 @@ let breakBlock = (mainType) => {
             addNewItemToInventory(mainType.material, mainType.itemGroup, sa('.itemsList')[mainType.index]);
         }
 
-        let drop = mainType.currentArea[mainType.material]['drop'];
+        let drop = mainType.area.materials[mainType.material]['drop'];
         
         mainType.inventory[mainType.material] += drop;
-        mainType.currentArea[mainType.material]['totalDropped'] += drop;
+        mainType.area.materials[mainType.material]['totalDropped'] += drop;
 
-        if (mainType.materialLevel == mainType.currentMaterialLevel) {
-            mainType.materialsDropped += drop;
+        // add drop if on the last level
+        if (mainType.area.level == mainType.totalLevel) {
+            mainType.area.materialsDropped += drop;
         }
         
         markUpgradesBuyable();
 
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
-        let xp = mainType.currentArea[mainType.material]['xp'] 
-        + (mainType.currentMaterialLevel - 1) * mainType.currentArea[mainType.material]['xpOnLevel'];
+        let xp = mainType.area.materials[mainType.material]['xp'] 
+        + (mainType.area.level - 1) * mainType.area.materials[mainType.material]['xpOnLevel'];
 
 
         increaseToolXP(mainType.tool, xp);
 
-        const logSpan = addSpan(`You have obtained ${mainType.currentArea[mainType.material]['drop']} ${mainType.material}`);
+        const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${mainType.material}`);
 
         logElementColor(logSpan, mainType.material);
 
@@ -226,10 +225,10 @@ sa('.areas').forEach((areas, tabIndex) => {
             }
 
             if (tabIndex == 0) {
-                main.mining.currentArea = areas.miningMaterials[`area${index + 1}`];
+                main.mining.area = areas.miningAreas[`area${index + 1}`];
             }
-            if (tabIndex == 1) main.woodcutting.currentArea = areas.woodcuttingMaterials[`area${index + 1}`];
-            if (tabIndex == 2) main.hunting.currentArea = areas.huntingMaterials[`area${index + 1}`];
+            if (tabIndex == 1) main.woodcutting.area = areas.woodcuttingMaterials[`area${index + 1}`];
+            if (tabIndex == 2) main.hunting.area = areas.huntingMaterials[`area${index + 1}`];
 
             areas.childNodes.forEach((area) => {
                 area.classList.remove('activeArea');

@@ -49,11 +49,11 @@ function addNewItemToInventory(itemName, itemGroup, list) {
     let added = false;
 
     for (let c = 0; c < list.childNodes.length; c++) {
-        let itemIndex = areas[itemGroup]['area1'][itemName].index;
+        let itemIndex = areas[itemGroup]['area1'].materials[itemName].index;
         
         let curItem = list.childNodes[c];
         let curName = curItem.childNodes[0].textContent;
-        let curIndex = areas[itemGroup]['area1'][curName].index;
+        let curIndex = areas[itemGroup]['area1'].materials[curName].index;
         
         if (itemIndex < curIndex) {
             list.insertBefore(item, curItem);

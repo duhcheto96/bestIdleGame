@@ -27,7 +27,7 @@ function getRandomElement(mats) {
 }
 // not done
 function getDropChance() {
-    let mats = areas.miningAreas.area1
+    let mats = areas.miningAreas.area1.materials
     let chances = [];
     for (let key in mats) chances.push(mats[key]['chance']);
     let sum = 0;
@@ -246,14 +246,14 @@ function increaseDrop(material) {
 
     for(let t in areas) {
         for (let area in areas[t]) {
-            if (areas[t][area].hasOwnProperty(material)) {
+            if (areas[t][area].materials.hasOwnProperty(material)) {
                 type = t;
             }
         }
     }
     for(let area in areas[type]) {
-        if (areas[type][area][material] != undefined) {
-            areas[type][area][material]['drop'] += 1;
+        if (areas[type][area].materials[material] != undefined) {
+            areas[type][area].materials[material]['drop'] += 1;
         }
     }
 }
@@ -307,7 +307,7 @@ function addAllElementsToInventory() {
 }
 
 function getMaterialHealth(mainType) {
-    return mainType.currentArea[mainType.material]['health'] * mainType.currentMaterialLevel;
+    return mainType.currentArea.materials[mainType.material]['health'] * mainType.currentArea.level;
 }
 
 
