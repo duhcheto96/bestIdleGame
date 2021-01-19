@@ -27,27 +27,45 @@ updateEverything();
 
 
 
-// INFORMATION ON HOVER
-// const fMiningAreas = sa('.area');
-// const div = document.createElement('div');
-// div.textContent = "This area contains: "
-// div.style.visibility = 'hidden';
-// div.style.position = "absolute";
-// div.style.top = "0";
-// div.style.height = "150%";
-// div.style.width = "150%";
-// div.style.backgroundColor = "silver";
-// fMiningAreas[0].style.position = 'relative';
-// fMiningAreas[0].appendChild(div);
+// AREA INFORMATION ON HOVER
 
-// fMiningAreas[0].addEventListener('mouseenter', x => {
-//     x.target.childNodes[0].style.visibility = "visible";
+sa('.areas').forEach((domArea, tabIndex) => {
+    domArea.childNodes.forEach((area, index) => {
+        const div = createDiv('areaHover');
+        switch (index) {
+            case 0:
+                div.classList.add('topLeftAreaHover');
+                break;
+            case 1:
+                div.classList.add('topRightHover');
+                break;
+            case 2:
+                div.classList.add('botLeftHover');
+                break;
+            case 3:
+                div.classList.add('botRightHover');
+                break;
+            default:
+                break;
+        }
+        
+        div.textContent = "This area contains: "
 
-// });
-// fMiningAreas[0].addEventListener('mouseleave', x => {
-//     x.target.childNodes[0].style.visibility = "hidden";
+        area.style.position = 'relative';
+        area.appendChild(div);
 
-// });
-// END 
+
+
+
+        area.addEventListener('mouseenter', x => {
+            x.target.childNodes[0].style.visibility = "visible";
+
+        });
+        area.addEventListener('mouseleave', x => {
+            x.target.childNodes[0].style.visibility = "hidden";
+
+        });
+    })
+});
 
 

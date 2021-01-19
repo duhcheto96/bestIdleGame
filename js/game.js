@@ -86,21 +86,21 @@ sa('.material')[2].addEventListener('click', () => {
 
 
 
-// increase material level
+// increase area level
 sa('.material')[0].childNodes[3].addEventListener('click', () => {
-    if (main.mining.materialsDropped >= main.mining.requiredMatsForNextMaterialLevel) {
-        main.mining.materialLevel++;
-        main.mining.currentMaterialLevel++;
-        main.mining.materialsDropped = 0;
-    } else if (main.mining.materialLevel > main.mining.currentMaterialLevel) {
-        main.mining.currentMaterialLevel++;
+    if (main.mining.area.materialsDropped >= main.mining.area.requiredMaterialsForNextLevel) {
+        main.mining.area.level++;
+        main.mining.area.totalLevel++;
+        main.mining.area.materialsDropped = 0;
+    } else if (main.mining.area.totalLevel > main.mining.area.level) {
+        main.mining.area.level++;
     }
     updateMaterialLevels();
 });
-
+// decrease area level
 sa('.material')[0].childNodes[2].addEventListener('click', () => {
-    if (main.mining.currentMaterialLevel > 1) {
-        main.mining.currentMaterialLevel--;
+    if (main.mining.area.level > 1) {
+        main.mining.area.level--;
     }
     updateMaterialLevels();
 });
@@ -159,7 +159,7 @@ let breakBlock = (mainType) => {
 
     if (mainType.currentHP == 0) {
         if (mainType.inventory[mainType.material] === undefined) {
-            addNewItemToInventory(mainType.material, mainType.itemGroup, sa('.itemsList')[mainType.index]);
+            addNewItemToInventory(mainType);
         }
 
         let drop = mainType.area.materials[mainType.material]['drop'];
@@ -168,7 +168,7 @@ let breakBlock = (mainType) => {
         mainType.area.materials[mainType.material]['totalDropped'] += drop;
 
         // add drop if on the last level
-        if (mainType.area.level == mainType.totalLevel) {
+        if (mainType.area.level == mainType.area.totalLevel) {
             mainType.area.materialsDropped += drop;
         }
         
@@ -216,8 +216,8 @@ let breakBlock = (mainType) => {
 
 
 // Set active area
-sa('.areas').forEach((areas, tabIndex) => {
-    areas.childNodes.forEach((area, index) => {
+sa('.areas').forEach((domAreas, tabIndex) => {
+    domAreas.childNodes.forEach((area, index) => {
         area.addEventListener('click', () => {
 
             if (main.mining.materialLevel < 3) {
@@ -230,7 +230,7 @@ sa('.areas').forEach((areas, tabIndex) => {
             if (tabIndex == 1) main.woodcutting.area = areas.woodcuttingMaterials[`area${index + 1}`];
             if (tabIndex == 2) main.hunting.area = areas.huntingMaterials[`area${index + 1}`];
 
-            areas.childNodes.forEach((area) => {
+            domAreas.childNodes.forEach((area) => {
                 area.classList.remove('activeArea');
             });
             area.classList.add('activeArea');
@@ -286,10 +286,10 @@ sa('.log').forEach(x => {
 
 // Add event listeners to every upgrade button, based on name
 sa('.upgrade').forEach(element => {
-
+    
     let upgName = element.childNodes[1].textContent;
     let lvlUpButton = element.childNodes[2];
-
+    
     lvlUpButton.addEventListener("click", () => {
 
         if (!areUpgradeMaterialsAvailable(upgName)) return;
@@ -307,6 +307,7 @@ sa('.upgrade').forEach(element => {
         markUpgradesBuyable();
     });
 });
+
 
 document.addEventListener('keydown', (key) => {
     if (key.code === 'KeyZ') {

@@ -1,0 +1,32 @@
+.areas {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-column: 4 / span 2;
+    grid-row: 1 / span 2;
+}
+    .area {
+        color: blue;
+    }
+
+.areaHover {
+    visibility: hidden;
+    position: absolute;
+    height: 150%;
+    width: 150%;
+    background-color: silver;
+    z-index: 2;
+}
+
+    .topLeftAreaHover {
+        top: 0;
+    }
+    .topRightHover {
+        right: 0%;
+    }
+    .botLeftHover {
+        bottom: 0%;
+    }
+    .botRightHover {
+        bottom: 0%;
+        right: 0%;
+    }

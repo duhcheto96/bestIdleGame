@@ -31,7 +31,11 @@ function activeTab(elem, e) {
     elem.classList.add("activeTab");
 }
 
-function addNewItemToInventory(itemName, itemGroup, list) {
+function addNewItemToInventory(mainType) {
+    itemName = mainType.material;
+    itemGroup = mainType.itemGroup;
+    areaGroup = mainType.areaGroup;
+    list = sa('.itemsList')[mainType.index];
     if (inventoryMaterials[itemGroup][itemName] == undefined) {
         inventoryMaterials[itemGroup][itemName] = 0;
     }
@@ -49,11 +53,11 @@ function addNewItemToInventory(itemName, itemGroup, list) {
     let added = false;
 
     for (let c = 0; c < list.childNodes.length; c++) {
-        let itemIndex = areas[itemGroup]['area1'].materials[itemName].index;
+        let itemIndex = areas[areaGroup]['area1'].materials[itemName].index;
         
         let curItem = list.childNodes[c];
         let curName = curItem.childNodes[0].textContent;
-        let curIndex = areas[itemGroup]['area1'].materials[curName].index;
+        let curIndex = areas[areaGroup]['area1'].materials[curName].index;
         
         if (itemIndex < curIndex) {
             list.insertBefore(item, curItem);
@@ -368,7 +372,7 @@ function updateUpgrades() {
 
 
 function updateMaterialLevels() {
-    sa('.material')[main.mining.index].childNodes[1].textContent = main.mining.currentMaterialLevel;
+    sa('.material')[main.mining.index].childNodes[1].textContent = main.mining.area.level;
     //toDo add the other tabs
 }
 

@@ -18,20 +18,20 @@ let tools = {
         power: 100,
         'power on level': 2,
         'power from levels': 0,
-        'power from upgrades' : 0,
-        aps: 2_000,
-        lookingForTime: 2_000,
+        'power from upgrades': 0,
+        aps: 2_00,
+        lookingForTime: 2_00,
         level: 1,
         tier: 1,
         // bonusXPfromTier: 0.1,
         bonuses: {
-            a : 1,
+            a: 1,
         },
         getPower: () => {
             return (tools.miningTool.power +
-            tools.miningTool['power from levels'] +
-            tools.miningTool['power from upgrades']) * 
-            tools.miningTool.tier;
+                tools.miningTool['power from levels'] +
+                tools.miningTool['power from upgrades']) *
+                tools.miningTool.tier;
         },
     },
 
@@ -46,18 +46,18 @@ let tools = {
         power: 1,
         'power on level': 2,
         'power from levels': 0,
-        'power from upgrades' : 0,
+        'power from upgrades': 0,
         aps: 1_000,
         lookingForTime: 2_000,
         level: 1,
         tier: 1,
         bonuses: {
-            a : 1
+            a: 1
         },
         getPower: () => {
             return tools.woodcuttingTool.power +
-            tools.woodcuttingTool['power from levels'] +
-            tools.woodcuttingTool['power from upgrades'];
+                tools.woodcuttingTool['power from levels'] +
+                tools.woodcuttingTool['power from upgrades'];
         },
     },
 
@@ -72,18 +72,18 @@ let tools = {
         power: 1,
         'power on level': 2,
         'power from levels': 0,
-        'power from upgrades' : 0,
+        'power from upgrades': 0,
         aps: 1_000,
         lookingForTime: 2_000,
         level: 1,
         tier: 1,
         bonuses: {
-            a : 1
+            a: 1
         },
         getPower: () => {
             return tools.huntingTool.power +
-            tools.huntingTool['power from levels'] +
-            tools.huntingTool['power from upgrades'];
+                tools.huntingTool['power from levels'] +
+                tools.huntingTool['power from upgrades'];
         },
     },
 
@@ -91,31 +91,31 @@ let tools = {
 // index, health, healthOnLevel, xp, drop, chance, totalDropped
 let areas = {
     miningAreas: {
-        area1 : {
+        area1: {
             materials: {
-                'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
-                'Iron Ore' : createMaterial(2, 30, 3, 3, 1, 400, 0),
-                'Copper' : createMaterial(3, 20, 2, 2, 1, 250, 0),
-                'Silver' : createMaterial(4, 40, 4, 4, 1, 100, 0),
-                'Gold' : createMaterial(5, 50, 5, 5, 1, 50, 0),
-                "Platinum" : createMaterial(6, 100, 10, 10, 1, 40, 0),
-    
-                "Lead" : createMaterial(7, 100, 10, 10, 1, 25, 0),
-                "Titanium" : createMaterial(8, 100, 10, 10, 1, 10, 0),
-                "Diamond" : createMaterial(9, 100, 10, 10, 1, 1, 0),
+                'Stone': createMaterial(1, 10, 1, 1, 1, 1000, 0),
+                'Iron Ore': createMaterial(2, 30, 3, 3, 1, 400, 0),
+                'Copper': createMaterial(3, 20, 2, 2, 1, 250, 0),
+                'Silver': createMaterial(4, 40, 4, 4, 1, 100, 0),
+                'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
+                "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
+
+                "Lead": createMaterial(7, 100, 10, 10, 1, 25, 0),
+                "Titanium": createMaterial(8, 100, 10, 10, 1, 10, 0),
+                "Diamond": createMaterial(9, 100, 10, 10, 1, 1, 0),
             },
             totalLevel: 1,
             level: 1,
             materialsDropped: 0,
             requiredMaterialsForNextLevel: 5,
         },
-        area2 : {
-            'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
-            'Iron Ore' : createMaterial(2, 30, 3, 3, 1, 400, 0),
-            'Copper' : createMaterial(3, 20, 2, 2, 1, 250, 0),
-            'Silver' : createMaterial(4, 40, 4, 4, 1, 100, 0),
-            'Gold' : createMaterial(5, 50, 5, 5, 1, 50, 0),
-            "Platinum" : createMaterial(6, 100, 10, 10, 1, 40, 0),
+        area2: {
+            'Stone': createMaterial(1, 10, 1, 1, 1, 1000, 0),
+            'Iron Ore': createMaterial(2, 30, 3, 3, 1, 400, 0),
+            'Copper': createMaterial(3, 20, 2, 2, 1, 250, 0),
+            'Silver': createMaterial(4, 40, 4, 4, 1, 100, 0),
+            'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
+            "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
 
             // Chromite
             // Cobalt
@@ -129,13 +129,13 @@ let areas = {
             // Obsidian
             // Azurite
         },
-        area3 : {
-            'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
-            'Iron Ore' : createMaterial(2, 30, 3, 3, 1, 400, 0),
-            'Copper' : createMaterial(3, 20, 2, 2, 1, 250, 0),
-            'Silver' : createMaterial(4, 40, 4, 4, 1, 100, 0),
-            'Gold' : createMaterial(5, 50, 5, 5, 1, 50, 0),
-            "Platinum" : createMaterial(6, 100, 10, 10, 1, 40, 0),
+        area3: {
+            'Stone': createMaterial(1, 10, 1, 1, 1, 1000, 0),
+            'Iron Ore': createMaterial(2, 30, 3, 3, 1, 400, 0),
+            'Copper': createMaterial(3, 20, 2, 2, 1, 250, 0),
+            'Silver': createMaterial(4, 40, 4, 4, 1, 100, 0),
+            'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
+            "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
 
 
             // Amethyst
@@ -151,14 +151,14 @@ let areas = {
             // Moonstone
             // Bloodstone
             // Onyx
-        }, 
-        area4 : {
+        },
+        area4: {
             // 'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
-            'Iron Ore' : createMaterial(2, 30, 3, 3, 1, 400, 0),
-            'Copper' : createMaterial(3, 20, 2, 2, 1, 250, 0),
-            'Silver' : createMaterial(4, 40, 4, 4, 1, 100, 0),
-            'Gold' : createMaterial(5, 50, 5, 5, 1, 50, 0),
-            "Platinum" : createMaterial(6, 100, 10, 10, 1, 40, 0),
+            'Iron Ore': createMaterial(2, 30, 3, 3, 1, 400, 0),
+            'Copper': createMaterial(3, 20, 2, 2, 1, 250, 0),
+            'Silver': createMaterial(4, 40, 4, 4, 1, 100, 0),
+            'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
+            "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
 
             // Sulfur
             // Uranium
@@ -171,40 +171,40 @@ let areas = {
             // Tanzanite
             // Black Star Diopside
         },
-    }, 
+    },
     woodcuttingMaterials: {
-        area1 : {
-            stick : createMaterial(1, 20, 1, 10, 100),
-            oakWood : createMaterial(2, 20, 1, 10, 150),
-            mapleWood : createMaterial(3, 20, 1, 10, 200),
-            mahoganyWood : createMaterial(4, 20, 1, 10, 250),
-            birchWood : createMaterial(5, 20, 1, 10, 300),
+        area1: {
+            stick: createMaterial(1, 20, 1, 10, 100),
+            oakWood: createMaterial(2, 20, 1, 10, 150),
+            mapleWood: createMaterial(3, 20, 1, 10, 200),
+            mahoganyWood: createMaterial(4, 20, 1, 10, 250),
+            birchWood: createMaterial(5, 20, 1, 10, 300),
         },
-        area2 : {
+        area2: {
 
         },
-        area3 : {
+        area3: {
 
-        }, 
-        area4 : {
+        },
+        area4: {
 
         },
     },
     huntingMaterials: {
-        area1 : {
-            rabbitLeg : createMaterial(1, 20, 1, 10, 100),
-            deerHorns : createMaterial(2, 20, 1, 10, 150),
-            deerSkin : createMaterial(3, 20, 1, 10, 200),
-            'foxSkin' : createMaterial(4, 20, 1, 10, 250),
-            buckSteak : createMaterial(5, 20, 1, 10, 300),
+        area1: {
+            rabbitLeg: createMaterial(1, 20, 1, 10, 100),
+            deerHorns: createMaterial(2, 20, 1, 10, 150),
+            deerSkin: createMaterial(3, 20, 1, 10, 200),
+            'foxSkin': createMaterial(4, 20, 1, 10, 250),
+            buckSteak: createMaterial(5, 20, 1, 10, 300),
         },
-        area2 : {
+        area2: {
 
         },
-        area3 : {
+        area3: {
 
-        }, 
-        area4 : {
+        },
+        area4: {
 
         },
     },
@@ -212,168 +212,173 @@ let areas = {
 
 let upgrades = {
     miningUpgrades: {
-        'Increase pickaxe power' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 2,
-            'value' : "flat",
-            'required materials' : {
-                'Stone' : {
+        'Increase pickaxe power': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 2,
+            'value': "flat",
+            'required materials': {
+                'Stone': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
-                'Copper' : {
+                'Copper': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
-            }
-        },
-        'Increase pickaxe atack speed' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : .01,
-            'value' : "percent",
-            'required materials' : {
-                'Copper' : {
+                'Iron Ore': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
             }
         },
-        'Upgrade tier' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
+        'Increase pickaxe atack speed': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': .01,
+            'value': "percent",
+            'required materials': {
+                'Copper': {
+                    'required': 1,
+                    'initial required': 1,
+                    'required on level': 1,
+                },
+            }
+        },
+        'Upgrade tier': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
 
             },
-            'required levels' : 2,
-            
+            'required levels': 2,
+
         },
-        'Decrease looking for material time' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : .01,
-            'value' : "percent",
-            'required materials' : {
-                'Copper' : {
+        'Decrease looking for material time': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': .01,
+            'value': "percent",
+            'required materials': {
+                'Copper': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
             }
-            
+
         },
-        'Upgrade pickaxe' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
+        'Upgrade pickaxe': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
 
             },
-            'required levels' : 5,
-            
+            'required levels': 5,
+
         },
-        'Add chance for double material gain' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
+        'Add chance for double material gain': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
 
             },
-            'required levels' : 5,
-            
+            'required levels': 5,
+
         },
-        'Increase Stone drop' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
-                'Stone' : {
+        'Increase Stone drop': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
+                'Stone': {
                     'required': 100,
                     'initial required': 100,
                     'required on level': 100,
                 },
             }
         },
-        'Increase Iron Ore drop' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
-                'Iron Ore' : {
+        'Increase Iron Ore drop': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
+                'Iron Ore': {
                     'required': 100,
                     'initial required': 100,
                     'required on level': 100,
                 },
             }
         },
-        'Increase Copper drop' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
-                'Copper' : {
+        'Increase Copper drop': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
+                'Copper': {
                     'required': 100,
                     'initial required': 100,
                     'required on level': 100,
                 },
             }
         },
-        'Increase Silver drop' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
-                'Silver' : {
+        'Increase Silver drop': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
+                'Silver': {
                     'required': 100,
                     'initial required': 100,
                     'required on level': 100,
                 },
             }
         },
-        'Increase Gold drop' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
-                'Gold' : {
+        'Increase Gold drop': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
+                'Gold': {
                     'required': 100,
                     'initial required': 100,
                     'required on level': 100,
                 },
             }
         },
-        'Increase Platinum drop' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 1,
-            'value' : "flat",
-            'required materials' : {
-                'Platinum' : {
+        'Increase Platinum drop': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 1,
+            'value': "flat",
+            'required materials': {
+                'Platinum': {
                     'required': 100,
                     'initial required': 100,
                     'required on level': 100,
                 },
             }
         },
-        'Increase chance to find Diamond' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 0.05,
-            'value' : "percent",
-            'required materials' : {
+        'Increase chance to find Diamond': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 0.05,
+            'value': "percent",
+            'required materials': {
                 // 'Silver' : {
                 //     'required': 50,
                 //     'initial required': 50,
@@ -396,12 +401,12 @@ let upgrades = {
                 // },
             }
         },
-        'Increase chance to find Azurite' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 0.05,
-            'value' : "percent",
-            'required materials' : {
+        'Increase chance to find Azurite': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 0.05,
+            'value': "percent",
+            'required materials': {
                 // 'Silver' : {
                 //     'required': 50,
                 //     'initial required': 50,
@@ -424,12 +429,12 @@ let upgrades = {
                 // },
             }
         },
-        'Increase chance to find Onyx' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 0.05,
-            'value' : "percent",
-            'required materials' : {
+        'Increase chance to find Onyx': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 0.05,
+            'value': "percent",
+            'required materials': {
                 // 'Silver' : {
                 //     'required': 50,
                 //     'initial required': 50,
@@ -452,12 +457,12 @@ let upgrades = {
                 // },
             }
         },
-        'Increase chance to find Black Star Diopside' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 0.05,
-            'value' : "percent",
-            'required materials' : {
+        'Increase chance to find Black Star Diopside': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 0.05,
+            'value': "percent",
+            'required materials': {
                 // 'Silver' : {
                 //     'required': 50,
                 //     'initial required': 50,
@@ -482,45 +487,45 @@ let upgrades = {
         },
     },
     woodcuttingUpgrades: {
-        'Increase axe power' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 2,
-            'value' : "flat",
-            'required materials' : {
-                'Stone' : {
+        'Increase axe power': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 2,
+            'value': "flat",
+            'required materials': {
+                'Stone': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
-                'stick' : {
+                'stick': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
             }
         },
-    }, 
+    },
     huntingUpgrades: {
-        'Increase weapon power' : {
-            'level' : 0,
-            'current bonus' : 0,
-            'bonus on level' : 2,
-            'value' : "flat",
-            'required materials' : {
-                'Stone' : {
+        'Increase weapon power': {
+            'level': 0,
+            'current bonus': 0,
+            'bonus on level': 2,
+            'value': "flat",
+            'required materials': {
+                'Stone': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
-                'stick' : {
+                'stick': {
                     'required': 1,
                     'initial required': 1,
                     'required on level': 1,
                 },
             }
         },
-    }, 
+    },
 }
 
 

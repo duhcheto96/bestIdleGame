@@ -38,6 +38,7 @@ function getDropChance() {
     }
 }
 
+//increase pickaxe power = upgradeName
 function areUpgradeMaterialsAvailable(upgradeName) {
     let reqMats;
     for (let type in upgrades) {
@@ -56,6 +57,7 @@ function areUpgradeMaterialsAvailable(upgradeName) {
         }
     }
 
+    // if materials found are less than required, return
     if(found < Object.keys(reqMats).length) {
         return false;
     }
@@ -95,16 +97,16 @@ function areUpgradeRequirementsMet(upgradeName) {
     }
     if (t == 'miningUpgrades') {
         if (reqLevel != undefined) {
-            if (tools.miningTool.level >= reqLevel) {
-                return true
+            if (tools.miningTool.level < reqLevel) {
+                return false
             }
         } else if (reqTier != undefined) {
-            if (tools.miningTool.tier >= reqTier) {
-                return true
+            if (tools.miningTool.tier < reqTier) {
+                return false
             }
         }
     }
-    return false
+    return true
 }
 
 function removeUpgradeMaterials(upgradeName) {
@@ -307,7 +309,7 @@ function addAllElementsToInventory() {
 }
 
 function getMaterialHealth(mainType) {
-    return mainType.currentArea.materials[mainType.material]['health'] * mainType.currentArea.level;
+    return mainType.area.materials[mainType.material]['health'] * mainType.area.level;
 }
 
 
