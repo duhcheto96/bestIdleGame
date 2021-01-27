@@ -56,14 +56,20 @@ sa('.areas').forEach((domArea, tabIndex) => {
 
 
         area.addEventListener('mouseenter', x => {
-            x.target.childNodes[0].style.visibility = "visible";
-
+            x.target.childNodes.forEach(el => {
+                if (el.classList.contains("areaHover")) {
+                    el.style.visibility = "visible";
+                }
+            });
         });
         area.addEventListener('mouseleave', x => {
-            x.target.childNodes[0].style.visibility = "hidden";
-
+            x.target.childNodes.forEach(el => {
+                if (el.classList.contains("areaHover")) {
+                    el.style.visibility = "hidden";
+                }
+            });
         });
-    })
+    });
 });
 
 

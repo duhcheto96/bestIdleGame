@@ -160,17 +160,42 @@ function generateMaterialGatheringTab(tab, type) {
     appendMoreChilds(toolTier, addSpan("Tier:"), addBR(), addBR(), addSpan("1"));
 
     let toolBonuses = createDiv('toolBonuses');
-    appendMoreChilds(toolBonuses, addSpan(), addBR(), addSpan(), addBR(), addSpan(), addBR(), addSpan())
+    appendMoreChilds(toolBonuses, addSpan(), addBR(), addSpan(), addBR(), addSpan(), addBR(), addSpan());
 
-    let areas = createDiv('areas')
-    areas.setAttribute('data-type', type)
+
+
+
+    let areas = createDiv('areas');
+    areas.setAttribute('data-type', type);
     for (let i = 0; i < 4; i++) {
-        let area = createDiv('area')
+
+        let area = createDiv('area');
+        let name = createDiv('areaName');
+        name.textContent = 'area';
+        let currentLevel = createDiv('areaCurrentLevel');
+        currentLevel.textContent = 'current level: 1';
+        let totalLevel = createDiv('areaTotalLevel');
+        totalLevel.textContent = 'total level: 1';
+        let isUnlocked = createDiv('areaUnlocked');
+        isUnlocked.textContent = 'unlocked';
+        let progress = createDiv('areaProgress');
+        progress.textContent = '1/5';
+
+
+
         if (i == 0) {
             area.classList.add('activeArea');
         }
+        
+        appendMoreChilds(area, name, currentLevel, totalLevel, isUnlocked, progress);
         areas.appendChild(area);
     }
+
+
+
+
+
+
 
     let material = createDiv('material');
     let matNameDiv = createDiv('materialName');
@@ -273,6 +298,43 @@ function updateHPbar(el, curHP, totalHP) {
     let color = curHP / totalHP * 255;
     el.childNodes[1].style.backgroundColor = `rgb(200, ${color}, 0)`;
     el.childNodes[1].style.width = `${width}%`;
+}
+
+function updateAreas() {
+    sa('.areas').forEach((domAreas, tabIndex) => {
+        domAreas.childNodes.forEach((area, index) => {
+
+            let name = area.childNodes[0];
+            let currentLevel = area.childNodes[1];
+            let totalLevel = area.childNodes[2];
+            let unlocked = area.childNodes[3];
+            let progress = area.childNodes[4];
+
+
+            let currentArea = areas[`${domAreas.dataset.type}Areas`][`area${index + 1}`];
+            
+            name.textContent = currentArea.name;
+            currentLevel.textContent = `current level: ${currentArea.level}`;
+            totalLevel.textContent = `total level: ${currentArea.totalLevel}`;
+            if (currentArea.unlocked) {
+                unlocked.textContent = 'Area unlocked!';
+                unlocked.style.backgroundColor = 'rgb(12, 242, 58)';
+                unlocked.style.color = 'rgb(11, 55, 3)';
+            } else {
+                let previousArea = areas[`${domAreas.dataset.type}Areas`][`area${index}`];
+                unlocked.textContent = `Area locked. Need lvl 100 ${previousArea.name}.`;
+                unlocked.style.backgroundColor = 'rgb(184, 29, 50)';
+                unlocked.style.color = 'rgb(92, 32, 40)';
+            }
+            if (currentArea.level < currentArea.totalLevel) {
+                progress.textContent = '';
+            } else {
+                progress.textContent = `${currentArea.materialsDropped} 
+                / ${currentArea.requiredMaterialsForNextLevel}`;
+            }
+
+        });
+    });
 }
 
 function updateToolStats() {
@@ -383,6 +445,7 @@ function updateEverything() {
     updateUpgrades();
     markUpgradesBuyable();
     unlockAreas();
+    updateAreas();
 }
 
 // END OF UPDATES

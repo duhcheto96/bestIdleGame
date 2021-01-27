@@ -89,13 +89,16 @@ sa('.material')[2].addEventListener('click', () => {
 // increase area level
 sa('.material')[0].childNodes[3].addEventListener('click', () => {
     if (main.mining.area.materialsDropped >= main.mining.area.requiredMaterialsForNextLevel) {
+        if (main.mining.area.level == main.mining.area.totalLevel) {
+            main.mining.area.totalLevel++;
+            main.mining.area.materialsDropped = 0;
+        }
         main.mining.area.level++;
-        main.mining.area.totalLevel++;
-        main.mining.area.materialsDropped = 0;
     } else if (main.mining.area.totalLevel > main.mining.area.level) {
         main.mining.area.level++;
     }
     unlockAreas();
+    updateAreas();
     updateMaterialLevels();
 });
 // decrease area level
@@ -103,6 +106,8 @@ sa('.material')[0].childNodes[2].addEventListener('click', () => {
     if (main.mining.area.level > 1) {
         main.mining.area.level--;
     }
+    unlockAreas();
+    updateAreas();
     updateMaterialLevels();
 });
 
@@ -343,7 +348,6 @@ document.addEventListener('keydown', (key) => {
 addAllElementsToInventory();
 
 updateEverything();
-
 
 
 

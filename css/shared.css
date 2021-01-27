@@ -5,7 +5,13 @@
     grid-row: 1 / span 2;
 }
     .area {
+        display: grid;
+        grid-template-rows: 20%;
         color: blue;
+        padding: 15px;
+    }
+    .areas .area div {
+        font-size: 20px;
     }
 
 .areaHover {
@@ -22,6 +28,7 @@
     }
     .topRightHover {
         right: 0%;
+        top: 0%;
     }
     .botLeftHover {
         bottom: 0%;
@@ -29,4 +36,7 @@
     .botRightHover {
         bottom: 0%;
         right: 0%;
+    }
+
+    .areaName {
     }
