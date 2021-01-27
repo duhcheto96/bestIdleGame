@@ -9,16 +9,14 @@ for (let type in upgrades) {
 }
 // generateUpgrade("woodcuttingUpgrades", name);
 
-generateMaterialGatheringTab(sa('.fieldTab')[1]);
-generateMaterialGatheringTab(sa('.fieldTab')[2]);
-generateMaterialGatheringTab(sa('.fieldTab')[3]);
+generateMaterialGatheringTab(sa('.fieldTab')[1], 'mining');
+generateMaterialGatheringTab(sa('.fieldTab')[2], 'woodcutting');
+generateMaterialGatheringTab(sa('.fieldTab')[3], 'hunting');
 
 
 
 
 updateEverything();
-
-
 
 
 
@@ -36,19 +34,19 @@ sa('.areas').forEach((domArea, tabIndex) => {
             case 0:
                 div.classList.add('topLeftAreaHover');
                 break;
-            case 1:
+                case 1:
                 div.classList.add('topRightHover');
                 break;
-            case 2:
+                case 2:
                 div.classList.add('botLeftHover');
                 break;
-            case 3:
+                case 3:
                 div.classList.add('botRightHover');
                 break;
             default:
                 break;
         }
-        
+
         div.textContent = "This area contains: "
 
         area.style.position = 'relative';

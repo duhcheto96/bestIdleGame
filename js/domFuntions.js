@@ -154,7 +154,7 @@ function markUpgradesBuyable() {
     });
 }
 
-function generateMaterialGatheringTab(tab) {
+function generateMaterialGatheringTab(tab, type) {
     let toolName = createDiv("toolName");
     let toolTier = createDiv("toolTier");
     appendMoreChilds(toolTier, addSpan("Tier:"), addBR(), addBR(), addSpan("1"));
@@ -163,6 +163,7 @@ function generateMaterialGatheringTab(tab) {
     appendMoreChilds(toolBonuses, addSpan(), addBR(), addSpan(), addBR(), addSpan(), addBR(), addSpan())
 
     let areas = createDiv('areas')
+    areas.setAttribute('data-type', type)
     for (let i = 0; i < 4; i++) {
         let area = createDiv('area')
         if (i == 0) {
@@ -173,9 +174,9 @@ function generateMaterialGatheringTab(tab) {
 
     let material = createDiv('material');
     let matNameDiv = createDiv('materialName');
-    let matLevel = createDiv('materialLevel');
+    let areaLevel = createDiv('areaLevel');
     // REMOVE LATER, to update on reload (level is on main object)
-    matLevel.textContent = 1;
+    areaLevel.textContent = 1;
 
     let leftArrow = createDiv('leftArrow');
     const leftArrowImg = createImg("images/leftArrow.png", "arrowImg");
@@ -187,7 +188,7 @@ function generateMaterialGatheringTab(tab) {
 
 
     matNameDiv.textContent = 'Click to start';
-    appendMoreChilds(material, matNameDiv, matLevel, leftArrow, rightArrow);
+    appendMoreChilds(material, matNameDiv, areaLevel, leftArrow, rightArrow);
     
     
     // material.textContent = 'Click to start';
@@ -381,6 +382,7 @@ function updateEverything() {
     updateToolStats();
     updateUpgrades();
     markUpgradesBuyable();
+    unlockAreas();
 }
 
 // END OF UPDATES

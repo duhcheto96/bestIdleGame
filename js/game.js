@@ -21,7 +21,7 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        area: areas.woodcuttingMaterials['area1'],
+        area: areas.woodcuttingAreas['area1'],
         inventory: inventoryMaterials.woodcuttingMaterials,
         tool: tools.woodcuttingTool,
         breakingTime: undefined,
@@ -34,7 +34,7 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        area: areas.huntingMaterials['area1'],
+        area: areas.huntingAreas['area1'],
         inventory: inventoryMaterials.huntingMaterials,
         tool: tools.huntingTool,
         breakingTime: undefined,
@@ -95,6 +95,7 @@ sa('.material')[0].childNodes[3].addEventListener('click', () => {
     } else if (main.mining.area.totalLevel > main.mining.area.level) {
         main.mining.area.level++;
     }
+    unlockAreas();
     updateMaterialLevels();
 });
 // decrease area level
@@ -218,24 +219,39 @@ let breakBlock = (mainType) => {
 // Set active area
 sa('.areas').forEach((domAreas, tabIndex) => {
     domAreas.childNodes.forEach((area, index) => {
-        area.addEventListener('click', () => {
+        area.addEventListener('click', (e) => {
 
-            if (main.mining.materialLevel < 3) {
+            let areaType;
+            let mainArea;
+            if (tabIndex == 0) {
+                areaType = 'miningAreas';
+                mainArea = main.mining.area;
+            }
+            if (tabIndex == 1) {
+                areaType = 'woodcuttingAreas';
+                mainArea = main.woodcutting.area;
+            }
+            if (tabIndex == 2) {
+                areaType = 'huntingAreas';
+                mainArea = main.hunting.area
+            }
+
+            let nextArea = areas[areaType][`area${index + 1}`];
+
+            if (!nextArea.unlocked) {
                 return;
             }
 
-            if (tabIndex == 0) {
-                main.mining.area = areas.miningAreas[`area${index + 1}`];
-            }
-            if (tabIndex == 1) main.woodcutting.area = areas.woodcuttingMaterials[`area${index + 1}`];
-            if (tabIndex == 2) main.hunting.area = areas.huntingMaterials[`area${index + 1}`];
+            mainArea = nextArea;
 
             domAreas.childNodes.forEach((area) => {
                 area.classList.remove('activeArea');
             });
             area.classList.add('activeArea');
 
-            // MAKE IT FOR ALL, NOT JUST MINING LATER
+            updateMaterialLevels();
+
+            // MAKE IT FOR ALL, NOT JUST MINING ,,,, LATER
             clearInterval(main.mining.breakingTime);
             clearTimeout(main.mining.timeout);
             main.mining.clicked = false;
@@ -328,13 +344,6 @@ document.addEventListener('keydown', (key) => {
 addAllElementsToInventory();
 
 updateEverything();
-
-
-
-
-
-
-
 
 
 

@@ -31,7 +31,7 @@
         .materialName {
             grid-column: 1 / span 2;
         }
-        .materialLevel {
+        .areaLevel {
             grid-column: 1 / span 2;
             margin: auto;
         }

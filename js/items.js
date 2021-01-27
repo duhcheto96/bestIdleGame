@@ -104,18 +104,28 @@ let areas = {
                 "Titanium": createMaterial(8, 100, 10, 10, 1, 10, 0),
                 "Diamond": createMaterial(9, 100, 10, 10, 1, 1, 0),
             },
+            index: 0,
             totalLevel: 1,
             level: 1,
             materialsDropped: 0,
             requiredMaterialsForNextLevel: 5,
+            unlocked: true,
         },
         area2: {
-            'Stone': createMaterial(1, 10, 1, 1, 1, 1000, 0),
-            'Iron Ore': createMaterial(2, 30, 3, 3, 1, 400, 0),
-            'Copper': createMaterial(3, 20, 2, 2, 1, 250, 0),
-            'Silver': createMaterial(4, 40, 4, 4, 1, 100, 0),
-            'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
-            "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
+            materials: {
+                'Stone': createMaterial(1, 10, 1, 1, 1, 1000, 0),
+                'Iron Ore': createMaterial(2, 30, 3, 3, 1, 400, 0),
+                'Copper': createMaterial(3, 20, 2, 2, 1, 250, 0),
+                'Silver': createMaterial(4, 40, 4, 4, 1, 100, 0),
+                'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
+                "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
+            },
+            index: 1,
+            totalLevel: 1,
+            level: 1,
+            materialsDropped: 0,
+            requiredMaterialsForNextLevel: 5,
+            unlocked: false,
 
             // Chromite
             // Cobalt
@@ -137,6 +147,13 @@ let areas = {
             'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
             "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
 
+            index: 2,
+            totalLevel: 1,
+            level: 1,
+            materialsDropped: 0,
+            requiredMaterialsForNextLevel: 5,
+            unlocked: false,
+
 
             // Amethyst
             // Ruby
@@ -153,12 +170,19 @@ let areas = {
             // Onyx
         },
         area4: {
-            // 'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
+            'Stone' : createMaterial(1, 10, 1, 1, 1, 1000, 0),
             'Iron Ore': createMaterial(2, 30, 3, 3, 1, 400, 0),
             'Copper': createMaterial(3, 20, 2, 2, 1, 250, 0),
             'Silver': createMaterial(4, 40, 4, 4, 1, 100, 0),
             'Gold': createMaterial(5, 50, 5, 5, 1, 50, 0),
             "Platinum": createMaterial(6, 100, 10, 10, 1, 40, 0),
+
+            index: 3,
+            totalLevel: 1,
+            level: 1,
+            materialsDropped: 0,
+            requiredMaterialsForNextLevel: 5,
+            unlocked: false,
 
             // Sulfur
             // Uranium
@@ -172,7 +196,7 @@ let areas = {
             // Black Star Diopside
         },
     },
-    woodcuttingMaterials: {
+    woodcuttingAreas: {
         area1: {
             stick: createMaterial(1, 20, 1, 10, 100),
             oakWood: createMaterial(2, 20, 1, 10, 150),
@@ -190,7 +214,7 @@ let areas = {
 
         },
     },
-    huntingMaterials: {
+    huntingAreas: {
         area1: {
             rabbitLeg: createMaterial(1, 20, 1, 10, 100),
             deerHorns: createMaterial(2, 20, 1, 10, 150),

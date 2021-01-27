@@ -314,5 +314,17 @@ function getMaterialHealth(mainType) {
 
 
 
+function unlockAreas() {
+    Object.keys(areas).forEach((areaType, typeIndex) => {
+        Object.keys(areas[areaType]).forEach((area, areaIndex) => {
+
+            if (areas[areaType][area].level >= 3) {
+                if (areas[areaType][`area${areaIndex + 2}`] !== undefined) {
+                    areas[areaType][`area${areaIndex + 2}`].unlocked = true;
+                }
+            }
+        })
+    })
+}
 
 
