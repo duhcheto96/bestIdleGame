@@ -221,28 +221,27 @@ sa('.areas').forEach((domAreas, tabIndex) => {
     domAreas.childNodes.forEach((area, index) => {
         area.addEventListener('click', (e) => {
 
-            let areaType;
-            let mainArea;
+            let type;
             if (tabIndex == 0) {
-                areaType = 'miningAreas';
-                mainArea = main.mining.area;
+                type = 'mining';
             }
             if (tabIndex == 1) {
-                areaType = 'woodcuttingAreas';
-                mainArea = main.woodcutting.area;
+                type = 'woodcutting';
             }
             if (tabIndex == 2) {
-                areaType = 'huntingAreas';
-                mainArea = main.hunting.area
+                type = 'hunting';
             }
 
-            let nextArea = areas[areaType][`area${index + 1}`];
+            let nextArea = areas[`${type}Areas`][`area${index + 1}`];
+
+            unlockAreas();
 
             if (!nextArea.unlocked) {
                 return;
             }
 
-            mainArea = nextArea;
+            main[type].area = nextArea;
+
 
             domAreas.childNodes.forEach((area) => {
                 area.classList.remove('activeArea');

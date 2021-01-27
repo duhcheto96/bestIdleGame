@@ -124,7 +124,7 @@ let areas = {
             totalLevel: 1,
             level: 1,
             materialsDropped: 0,
-            requiredMaterialsForNextLevel: 5,
+            requiredMaterialsForNextLevel: 6,
             unlocked: false,
 
             // Chromite

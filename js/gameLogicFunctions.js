@@ -313,7 +313,7 @@ function getMaterialHealth(mainType) {
 }
 
 
-
+// update level *** 
 function unlockAreas() {
     Object.keys(areas).forEach((areaType, typeIndex) => {
         Object.keys(areas[areaType]).forEach((area, areaIndex) => {
