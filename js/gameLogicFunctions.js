@@ -26,16 +26,20 @@ function getRandomElement(mats) {
     return material
 }
 // not done
-function getDropChance() {
-    let mats = areas.miningAreas.area1.materials
+function getDropChance(mats) {
+    // let mats = areas.miningAreas.area1.materials
     let chances = [];
     for (let key in mats) chances.push(mats[key]['chance']);
     let sum = 0;
     sum = chances.reduce((e1, e2) => sum = e1 + e2, 0);
 
+    let materialChanceArr = [];
+
     for (let mat in mats) {
-        console.log(`${mat} chance to drop: ${(mats[mat].chance / sum * 100).toFixed(2)}%`);
+        materialChanceArr.push(`${mat} : ${(mats[mat].chance / sum * 100).toFixed(2)}%`);
+        console.log(`${mat} : ${(mats[mat].chance / sum * 100).toFixed(2)}%`);
     }
+    return materialChanceArr;
 }
 
 //increase pickaxe power = upgradeName

@@ -171,31 +171,57 @@ function generateMaterialGatheringTab(tab, type) {
 
         let area = createDiv('area');
         let name = createDiv('areaName');
-        name.textContent = 'area';
         let currentLevel = createDiv('areaCurrentLevel');
-        currentLevel.textContent = 'current level: 1';
         let totalLevel = createDiv('areaTotalLevel');
-        totalLevel.textContent = 'total level: 1';
         let isUnlocked = createDiv('areaUnlocked');
-        isUnlocked.textContent = 'unlocked';
         let progress = createDiv('areaProgress');
-        progress.textContent = '1/5';
 
+        // AREA INFORMATION ON HOVER
+        const areaHover = createDiv('areaHover');
+        switch (i) {
+            case 0:
+                areaHover.classList.add('topLeftAreaHover');
+                break;
+            case 1:
+                areaHover.classList.add('topRightHover');
+                break;
+            case 2:
+                areaHover.classList.add('botLeftHover');
+                break;
+            case 3:
+                areaHover.classList.add('botRightHover');
+                break;
+            default:
+                break;
+        }
 
+        areaHover.textContent = "This area contains: "
+
+        area.style.position = 'relative';
+
+        area.addEventListener('mouseenter', x => {
+            x.target.childNodes.forEach(el => {
+                if (el.classList.contains("areaHover")) {
+                    el.style.visibility = "visible";
+                }
+            });
+        });
+        area.addEventListener('mouseleave', x => {
+            x.target.childNodes.forEach(el => {
+                if (el.classList.contains("areaHover")) {
+                    el.style.visibility = "hidden";
+                }
+            });
+        });
 
         if (i == 0) {
             area.classList.add('activeArea');
         }
         
-        appendMoreChilds(area, name, currentLevel, totalLevel, isUnlocked, progress);
+        appendMoreChilds(area, name, currentLevel, totalLevel, isUnlocked, progress, areaHover);
         areas.appendChild(area);
     }
-
-
-
-
-
-
+    // end adding areas
 
     let material = createDiv('material');
     let matNameDiv = createDiv('materialName');
@@ -221,8 +247,6 @@ function generateMaterialGatheringTab(tab, type) {
     let progress = createDiv('progress');
     let HPbar = createDiv('HPbar');
     appendMoreChilds(progress, addSpan('Health: 0 / 0'), HPbar)
-    
-
 
     appendMoreChilds(tab, toolName, toolTier,
          toolBonuses, areas, material,
@@ -309,6 +333,7 @@ function updateAreas() {
             let totalLevel = area.childNodes[2];
             let unlocked = area.childNodes[3];
             let progress = area.childNodes[4];
+            let areaHover = area.childNodes[5];
 
 
             let currentArea = areas[`${domAreas.dataset.type}Areas`][`area${index + 1}`];
@@ -324,15 +349,25 @@ function updateAreas() {
                 let previousArea = areas[`${domAreas.dataset.type}Areas`][`area${index}`];
                 unlocked.textContent = `Area locked. Need lvl 100 ${previousArea.name}.`;
                 unlocked.style.backgroundColor = 'rgb(184, 29, 50)';
-                unlocked.style.color = 'rgb(92, 32, 40)';
+                unlocked.style.color = 'rgb(44, 22, 33)';
             }
             if (currentArea.level < currentArea.totalLevel) {
                 progress.textContent = '';
             } else {
                 progress.textContent = `${currentArea.materialsDropped} 
-                / ${currentArea.requiredMaterialsForNextLevel}`;
+                    / ${currentArea.requiredMaterialsForNextLevel}`;
             }
+            
+            let areaItems = createDiv();
+            appendMoreChilds(areaItems, addSpan('This area contains: '), addBR());
+            let materialChanceArr = getDropChance(currentArea.materials);
 
+            materialChanceArr.forEach(mat => {
+                appendMoreChilds(areaItems, addSpan(mat), addBR());
+            });
+            
+            areaHover.innerHTML = '';
+            areaHover.appendChild(areaItems);
         });
     });
 }
