@@ -50,6 +50,10 @@
         grid-row: 3 / span 1;
         overflow: auto;
     }
+        .clearLogButton {
+            position: absolute;
+            padding: 10px;
+        }
     .progress {
         position: relative;
         grid-column: 1 / span 5;
@@ -63,4 +67,15 @@
         top: 0;
         left: 0;
         z-index: -1;
+    }
+
+
+    .expandCollapseAllUpg {
+        /* position: absolute; */
+        float: left;
+        display: inline;
+        width: 25%;
+        font-size: 15px;
+        padding: 5px;
+        background-color: aqua;
     }

@@ -25,9 +25,9 @@ function getRandomElement(mats) {
     let material = items[chances.filter(el => el <= rand).length];
     return material
 }
-// not done
+
 function getDropChance(mats) {
-    // let mats = areas.miningAreas.area1.materials
+    
     let chances = [];
     for (let key in mats) chances.push(mats[key]['chance']);
     let sum = 0;
@@ -37,7 +37,6 @@ function getDropChance(mats) {
 
     for (let mat in mats) {
         materialChanceArr.push(`${mat} : ${(mats[mat].chance / sum * 100).toFixed(2)}%`);
-        console.log(`${mat} : ${(mats[mat].chance / sum * 100).toFixed(2)}%`);
     }
     return materialChanceArr;
 }
@@ -157,15 +156,16 @@ function removeUpgradeLevelsOrTier(upgradeName) {
 
 
     if (t == 'miningUpgrades') {
-            if (tools.miningTool.level >= reqLevel) {
-                tools.miningTool.level = 1;
-                tools.miningTool['needed xp'] = tools.miningTool['initial needed xp'];
-                tools.miningTool.xp = 0;
-                tools.miningTool.totalXP = 0;
-            }
-            if (tools.miningTool.tier >= reqTier) {
-                tools.miningTool.tier = 1;
-            }
+        if (tools.miningTool.level >= reqLevel) {
+            tools.miningTool.level = 1;
+            tools.miningTool['needed xp'] = tools.miningTool['initial needed xp'];
+            tools.miningTool.xp = 0;
+            tools.miningTool.totalXP = 0;
+            tools.miningTool['power from levels'] = 0;
+        }
+        if (tools.miningTool.tier >= reqTier) {
+            tools.miningTool.tier = 1;
+        }
     } else if (t == 'woodcuttingUpgrades') {
 
     }
@@ -190,9 +190,9 @@ function addUpgradeBonus(upgradeName) {
     let upgrade = upgrades[type][upgradeName]['required materials'];
     
     for (let i = 0; i < multiplier; i++) {
-        if (type == 'miningUpgrades') addMiningUpgradeBonus(upgradeName, bonus, type);
-        if (type == 'woodcuttingUpgrades') addWoodcuttingUpgradeBonus(upgradeName, bonus, type);
-        if (type == 'huntingUpgrades') addHuntingUpgradeBonus(upgradeName, bonus, type);
+        if (type == 'miningUpgrades') addMiningUpgradeBonus(upgradeName, bonus);
+        if (type == 'woodcuttingUpgrades') addWoodcuttingUpgradeBonus(upgradeName, bonus);
+        if (type == 'huntingUpgrades') addHuntingUpgradeBonus(upgradeName, bonus);
         
         increaseUpgradeRequirements(upgrade);
         
@@ -202,7 +202,12 @@ function addUpgradeBonus(upgradeName) {
     updateUpgradesCost();
 }
 
-function addMiningUpgradeBonus(upgradeName, bonus, type) {
+
+
+
+
+
+function addMiningUpgradeBonus(upgradeName, bonus) {
     if (upgradeName == "Increase pickaxe power") {
         tools.miningTool['power from upgrades'] += bonus;
     } else if (upgradeName == "Increase pickaxe atack speed") {
@@ -216,9 +221,9 @@ function addMiningUpgradeBonus(upgradeName, bonus, type) {
     } else if (upgradeName == "Decrease looking for material time") {
         tools.miningTool.lookingForTime *= 1 - bonus;
     } else if (upgradeName == "Upgrade pickaxe") {
-
+        
     } else if (upgradeName == "Add chance for double material gain") {
-
+        tools.miningTool.chanceForDoubleMaterial += bonus;
     }
 
     if (upgradeName == 'Increase Stone drop') increaseDrop('Stone')

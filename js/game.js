@@ -169,25 +169,38 @@ let breakBlock = (mainType) => {
         }
 
         let drop = mainType.area.materials[mainType.material]['drop'];
+
+        // add chance for double material gain
+
+        let rand = Math.floor(Math.random() * 100) + 1;
+
+        if (mainType.tool.chanceForDoubleMaterial >= rand) {
+            drop *= 2;
+        }
         
         mainType.inventory[mainType.material] += drop;
         mainType.area.materials[mainType.material]['totalDropped'] += drop;
 
         // add drop if on the last level
         if (mainType.area.level == mainType.area.totalLevel) {
-            mainType.area.materialsDropped += drop;
+            // limit to the maximum
+            if (mainType.area.materialsDropped < mainType.area.requiredMaterialsForNextLevel) {
+                mainType.area.materialsDropped += drop;
+            }
         }
         
         markUpgradesBuyable();
 
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
-        let xp = mainType.area.materials[mainType.material]['xp'] 
-        + (mainType.area.level - 1) * mainType.area.materials[mainType.material]['xpOnLevel'];
+        let xp = (mainType.area.materials[mainType.material]['xp'] 
+        + (mainType.area.level - 1) * mainType.area.materials[mainType.material]['xpOnLevel'])
+        * mainType.tool.bonusXpFromTier;
 
+        xp = Math.floor(xp);
 
         increaseToolXP(mainType.tool, xp);
 
-        const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${mainType.material}`);
+        const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${mainType.material} (${xp} xp)`);
 
         logElementColor(logSpan, mainType.material);
 
@@ -221,78 +234,12 @@ let breakBlock = (mainType) => {
 
 
 
-// Set active area
-sa('.areas').forEach((domAreas, tabIndex) => {
-    domAreas.childNodes.forEach((area, index) => {
-        area.addEventListener('click', (e) => {
-
-            let type;
-            if (tabIndex == 0) {
-                type = 'mining';
-            }
-            if (tabIndex == 1) {
-                type = 'woodcutting';
-            }
-            if (tabIndex == 2) {
-                type = 'hunting';
-            }
-
-            let nextArea = areas[`${type}Areas`][`area${index + 1}`];
-
-            unlockAreas();
-
-            if (!nextArea.unlocked) {
-                return;
-            }
-
-            main[type].area = nextArea;
 
 
-            domAreas.childNodes.forEach((area) => {
-                area.classList.remove('activeArea');
-            });
-            area.classList.add('activeArea');
-
-            updateMaterialLevels();
-
-            // MAKE IT FOR ALL, NOT JUST MINING ,,,, LATER
-            clearInterval(main.mining.breakingTime);
-            clearTimeout(main.mining.timeout);
-            main.mining.clicked = false;
-            resetHPandMat(sa('.fieldTab')[1]);
-        });
-    });
-});
 
 
-sa('.menuItem').forEach((x, y) => {
-    x.addEventListener('click', activeTab.bind(null, sa('.fieldTab')[y]))
-});
 
 
-sa('.expandable').forEach((x, y) => {
-    x.addEventListener('click', 
-    expandCollapse.bind(null, (sa(`.expandable + div`)[y])));
-});
-
-
-// expand collapse single upgrades
-sa('.upgrade').forEach((upgrade, num) => {
-    upgrade.childNodes[1].addEventListener('click', () => {
-        for(let i = 2; i < 5; i++) {
-            let elem = upgrade.childNodes[i];
-            elem.classList.forEach((c) => {
-                if (c === "activeUpgrade") {
-                    elem.classList.remove('activeUpgrade');
-                    elem.classList.add('unactiveUpgrade');
-                } else if (c === "unactiveUpgrade") {
-                    elem.classList.remove('unactiveUpgrade');
-                    elem.classList.add('activeUpgrade');
-                }
-            });
-        }
-    });
-});
 
 // Start and stop scrolling of the log, depending on scroll variable
 sa('.log').forEach(x => {
@@ -301,6 +248,13 @@ sa('.log').forEach(x => {
     });
     x.addEventListener("mouseleave", function() {
         scroll=true;
+    });
+
+    // add logic for Clear log button
+    x.childNodes[0].addEventListener('click', btn => {
+        while (x.childNodes.length > 1) {
+            x.removeChild(x.lastChild);
+        }
     });
 });
 
@@ -351,8 +305,5 @@ updateEverything();
 
 
 
-
-
-
-
-
+// upgrade -> -2x health of mats, 2x dmg from levels, 2x less cost of upg
+// tier -> 10% more dmg, 10% more xp, 

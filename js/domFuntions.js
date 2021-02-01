@@ -31,6 +31,25 @@ function activeTab(elem, e) {
     elem.classList.add("activeTab");
 }
 
+function expandCollapseUpgrades(e, type) {
+    e.stopPropagation();
+    let upgrades = sa(`${type} .upgrade`);
+    for (let el = 0; el < upgrades.length; el++) {
+        for(let i = 2; i < 5; i++) {
+            elem = upgrades[el].childNodes[i];
+            elem.classList.forEach((c) => {
+                if (c === "activeUpgrade") {
+                    elem.classList.remove('activeUpgrade');
+                    elem.classList.add('unactiveUpgrade');
+                } else if (c === "unactiveUpgrade") {
+                    elem.classList.remove('unactiveUpgrade');
+                    elem.classList.add('activeUpgrade');
+                }
+            });
+        }
+    }
+}
+
 function addNewItemToInventory(mainType) {
     itemName = mainType.material;
     itemGroup = mainType.itemGroup;
@@ -241,16 +260,15 @@ function generateMaterialGatheringTab(tab, type) {
     matNameDiv.textContent = 'Click to start';
     appendMoreChilds(material, matNameDiv, areaLevel, leftArrow, rightArrow);
     
-    
-    // material.textContent = 'Click to start';
     let log = createDiv('log');
+    const clearLogButton = createDiv('clearLogButton');
+    clearLogButton.textContent = 'Clear log';
+    log.appendChild(clearLogButton);
     let progress = createDiv('progress');
     let HPbar = createDiv('HPbar');
     appendMoreChilds(progress, addSpan('Health: 0 / 0'), HPbar)
 
-    appendMoreChilds(tab, toolName, toolTier,
-         toolBonuses, areas, material,
-          log, progress);
+    appendMoreChilds(tab, toolName, toolTier, toolBonuses, areas, material, log, progress);
 }
 
 function resetHPandMat(tab) {
@@ -354,8 +372,7 @@ function updateAreas() {
             if (currentArea.level < currentArea.totalLevel) {
                 progress.textContent = '';
             } else {
-                progress.textContent = `${currentArea.materialsDropped} 
-                    / ${currentArea.requiredMaterialsForNextLevel}`;
+                progress.textContent = `${currentArea.materialsDropped} / ${currentArea.requiredMaterialsForNextLevel}`;
             }
             
             let areaItems = createDiv();
@@ -366,6 +383,7 @@ function updateAreas() {
                 appendMoreChilds(areaItems, addSpan(mat), addBR());
             });
             
+            // reset innerHTML, so it does not stack when updated twice
             areaHover.innerHTML = '';
             areaHover.appendChild(areaItems);
         });

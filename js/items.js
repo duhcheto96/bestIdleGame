@@ -23,10 +23,9 @@ let tools = {
         lookingForTime: 2_00,
         level: 1,
         tier: 1,
-        // bonusXPfromTier: 0.1,
-        bonuses: {
-            a: 1,
-        },
+        bonusDmgFromTier: 1.1,
+        bonusXpFromTier: 1.1,
+        chanceForDoubleMaterial: 0,
         getPower: () => {
             return (tools.miningTool.power +
                 tools.miningTool['power from levels'] +
@@ -129,6 +128,7 @@ let areas = {
             requiredMaterialsForNextLevel: 6,
             unlocked: false,
 
+            // Bronze
             // Chromite
             // Cobalt
             // Lithium
@@ -419,9 +419,12 @@ let upgrades = {
             'bonus on level': 1,
             'value': "flat",
             'required materials': {
-
+                'Stone': {
+                    'required': 1,
+                    'initial required': 1,
+                    'required on level': 1,
+                }
             },
-            'required levels': 5,
 
         },
         'Increase Stone drop': {
