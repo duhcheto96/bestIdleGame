@@ -63,7 +63,8 @@ function addNewItemToInventory(mainType) {
     const invItemName = createDiv('invItemName');
     const invItemQuantity = createDiv('invItemQuantity');
 
-    invItemName.textContent = itemName;
+    invItemName.textContent = camelCaseToNormal(itemName);
+    invItemName.dataset.name = itemName;
     invItemQuantity.textContent = inventoryMaterials[itemGroup][itemName];
 
     item.appendChild(invItemName);
@@ -71,11 +72,12 @@ function addNewItemToInventory(mainType) {
     
     let added = false;
 
+    // modify later, should not be area1 ? or add other areas
     for (let c = 0; c < list.childNodes.length; c++) {
         let itemIndex = areas[areaGroup]['area1'].materials[itemName].index;
         
         let curItem = list.childNodes[c];
-        let curName = curItem.childNodes[0].textContent;
+        let curName = curItem.childNodes[0].dataset.name;
         let curIndex = areas[areaGroup]['area1'].materials[curName].index;
         
         if (itemIndex < curIndex) {
@@ -95,7 +97,8 @@ function generateUpgrade(type, name) {
     const upgLevel = createDiv(`upgradeLevel`);
 
     const upgName = createDiv(`upgradeName`);
-    upgName.textContent = name;
+    upgName.dataset.name = name;
+    upgName.textContent = camelCaseToNormal(name);
 
     const button = createDiv(`upgradeButton`, 'activeUpgrade');
 
@@ -126,15 +129,20 @@ function generateUpgrade(type, name) {
     appendMoreChilds(stats, currentStat, nextStat);
 
 
-    const reqItems = createDiv(`upgradeReqItems`, 'activeUpgrade')
+    // REQUIRED ITEMS 
+    const reqItems = createDiv(`upgradeReqItems`, 'activeUpgrade');
     const reqItemsTitle = createDiv("upgradeReqItemsTitle");
     reqItemsTitle.textContent = "Required items:";
     const reqItemsItems = createDiv(`upgradeReqItemsItems`);
 
-    for (let mat in upgrades[type][name]['required materials']) {
+    const reqLvlTierTitle = createDiv("upgradeReqLvlTierTitle");
+    const reqLvlTier = createDiv("upgradeReqLvlTier");
+
+    for (let mat in upgrades[type][name].requiredMaterials) {
 
         const reqItem = createDiv(`upgradeReqItem`);
-        const spanName = addSpan(mat);
+        reqItem.dataset.name = mat;
+        const spanName = addSpan(camelCaseToNormal(mat));
         // remove later- ---- 
         spanName.style.width = '100px';
         spanName.style.float = 'left';
@@ -145,7 +153,7 @@ function generateUpgrade(type, name) {
         reqItemsItems.appendChild(reqItem);
     }
 
-    appendMoreChilds(reqItems, reqItemsTitle, reqItemsItems);
+    appendMoreChilds(reqItems, reqItemsTitle, reqLvlTierTitle, reqItemsItems, reqLvlTier);
     appendMoreChilds(upgrade, upgLevel, upgName, button, stats, reqItems);
 
     s(`.${type}List`).appendChild(upgrade);
@@ -163,7 +171,7 @@ function markUpgradesBuyable() {
         let levelElement = element.childNodes[0];
         let nameElement = element.childNodes[1];
 
-        if(areUpgradeMaterialsAvailable(nameElement.textContent)) {
+        if(areUpgradeMaterialsAvailable(nameElement.dataset.name)) {
             levelElement.style.backgroundColor = 'rgba(0, 200, 0, 0.5)';
             nameElement.style.backgroundColor = 'rgba(0, 200, 0, 0.5)';
         } else {
@@ -402,9 +410,9 @@ function updateToolStats() {
         const toolBonuses = elements[2].childNodes;
         
         toolName.textContent = tools[tool].name;
-        toolTier[3].textContent = tools[tool].tier;
-        toolBonuses[0].textContent = "Level : " + tools[tool].level;
-        toolBonuses[2].textContent = "XP : " + tools[tool].xp + "/" + tools[tool]['needed xp'] + " (" + tools[tool].totalXP + ")";
+        toolTier[3].textContent = tools[tool].xp.tier;
+        toolBonuses[0].textContent = "Level : " + tools[tool].xp.level;
+        toolBonuses[2].textContent = "XP : " + tools[tool].xp.currentXp + "/" + tools[tool].xp.neededXp + " (" + tools[tool].xp.totalXP + ")";
         toolBonuses[4].textContent = "Power : " + tools[tool].getPower();
         toolBonuses[6].textContent = "Atacks per second : " + (1000 / tools[tool].aps).toFixed(2);
     }
@@ -416,7 +424,7 @@ function updateInventory() {
     let quantity;
 
     invItems.forEach((item, i, list) => {
-        let name = item.childNodes[0].textContent;
+        let name = item.childNodes[0].dataset.name;
         for (let itemGroup in inventoryMaterials) {
             if (inventoryMaterials[itemGroup][name] !== undefined) {
                 quantity = inventoryMaterials[itemGroup][name];
@@ -429,16 +437,17 @@ function updateInventory() {
 function updateUpgradesCost() {
     for (let upg in upgrades) {
         for (let upgName in upgrades[upg]) {
-            for (let material in upgrades[upg][upgName]['required materials']) {
+            for (let material in upgrades[upg][upgName].requiredMaterials) {
 
-                let total = upgrades[upg][upgName]['required materials'][material]['initial required'];
+                let total = upgrades[upg][upgName].requiredMaterials[material].initialRequired;
 
-                upgrades[upg][upgName]['required materials'][material]['required'] = upgrades[upg][upgName]['required materials'][material]['initial required'];
+                upgrades[upg][upgName].requiredMaterials[material].required = upgrades[upg][upgName].requiredMaterials[material].initialRequired;
+
                 for (let i = 1; i < multiplier; i++) {
-                    upgrades[upg][upgName]['required materials'][material]['required'] += upgrades[upg][upgName]['required materials'][material]['required on level'];
-                    total += upgrades[upg][upgName]['required materials'][material]['required']
+                    upgrades[upg][upgName].requiredMaterials[material].required += upgrades[upg][upgName].requiredMaterials[material].requiredOnLevel;
+                    total += upgrades[upg][upgName].requiredMaterials[material].required;
                 }
-                upgrades[upg][upgName]['required materials'][material]['required'] = total;
+                upgrades[upg][upgName].requiredMaterials[material].required = total;
             }
         }
     }
@@ -446,7 +455,7 @@ function updateUpgradesCost() {
 
 function updateUpgrades() {
     sa('.upgrade').forEach((upgrade) => {
-        let name = upgrade.childNodes[1].textContent;
+        let name = upgrade.childNodes[1].dataset.name;
         let type;
 
         for (let upg in upgrades) {
@@ -456,16 +465,17 @@ function updateUpgrades() {
         }
         
         let level = upgrades[type][name]['level'];
+
         upgrade.childNodes[0].textContent = `Level: ${level}`;
 
         upgrade.childNodes[2].textContent = `lvlUP ${multiplier}`;
 
         
         let currentBonusDisplay = upgrade.childNodes[3].childNodes[0].childNodes[2];
-        let currentBonus = upgrades[type][name]['current bonus'];
+        let currentBonus = upgrades[type][name].currentBonus;
 
         let nextLevelBonusDisplay = upgrade.childNodes[3].childNodes[1].childNodes[2];
-        let nextLevelBonus = upgrades[type][name]['current bonus'] + upgrades[type][name]['bonus on level'];
+        let nextLevelBonus = upgrades[type][name].currentBonus + upgrades[type][name].bonusOnLevel;
 
         if (upgrades[type][name]['value'] == 'flat') {
             currentBonusDisplay.textContent = currentBonus;
@@ -475,13 +485,22 @@ function updateUpgrades() {
             nextLevelBonusDisplay.textContent = ((nextLevelBonus) * 100).toFixed(2) + "%";
         }
 
-        
-        upgrade.childNodes[4].childNodes[1].childNodes.forEach((reqItem) => {
-            let itemName = reqItem.childNodes[0].textContent;
+        upgrade.childNodes[4].childNodes[2].childNodes.forEach((reqItem) => {
+            let itemName = reqItem.dataset.name;
             let quantity = reqItem.childNodes[1];
 
-            quantity.textContent = upgrades[type][name]['required materials'][itemName]['required'];
+            quantity.textContent = upgrades[type][name].requiredMaterials[itemName].required;
         })
+
+        if (upgrades[type][name].hasOwnProperty('requiredLevel')) {
+            upgrade.childNodes[4].childNodes[1].textContent = 'Required level';
+            upgrade.childNodes[4].childNodes[3].textContent = upgrades[type][name].requiredLevel;
+        } else if (upgrades[type][name].hasOwnProperty('requiredTier')) {
+            upgrade.childNodes[4].childNodes[1].textContent = 'Required tier';
+            upgrade.childNodes[4].childNodes[3].textContent = upgrades[type][name].requiredTier;
+        }
+
+
         updateUpgradesCost();
     });
 }

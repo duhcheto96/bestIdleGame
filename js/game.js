@@ -168,7 +168,7 @@ let breakBlock = (mainType) => {
             addNewItemToInventory(mainType);
         }
 
-        let drop = mainType.area.materials[mainType.material]['drop'];
+        let drop = mainType.area.materials[mainType.material].drop;
 
         // add chance for double material gain
 
@@ -179,7 +179,7 @@ let breakBlock = (mainType) => {
         }
         
         mainType.inventory[mainType.material] += drop;
-        mainType.area.materials[mainType.material]['totalDropped'] += drop;
+        mainType.area.materials[mainType.material].totalDropped += drop;
 
         // add drop if on the last level
         if (mainType.area.level == mainType.area.totalLevel) {
@@ -192,15 +192,15 @@ let breakBlock = (mainType) => {
         markUpgradesBuyable();
 
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
-        let xp = (mainType.area.materials[mainType.material]['xp'] 
+        let xp = (mainType.area.materials[mainType.material].xp 
         + (mainType.area.level - 1) * mainType.area.materials[mainType.material]['xpOnLevel'])
-        * mainType.tool.bonusXpFromTier;
+        * mainType.tool.xp.bonusXpFromTier;
 
         xp = Math.floor(xp);
 
         increaseToolXP(mainType.tool, xp);
 
-        const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${mainType.material} (${xp} xp)`);
+        const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
 
         logElementColor(logSpan, mainType.material);
 
@@ -261,7 +261,7 @@ sa('.log').forEach(x => {
 // Add event listeners to every upgrade button, based on name
 sa('.upgrade').forEach(element => {
     
-    let upgName = element.childNodes[1].textContent;
+    let upgName = element.childNodes[1].dataset.name;
     let lvlUpButton = element.childNodes[2];
     
     lvlUpButton.addEventListener("click", () => {
@@ -304,6 +304,17 @@ addAllElementsToInventory();
 updateEverything();
 
 
+// resetProgress();
+
+
+
+
+
+
 
 // upgrade -> -2x health of mats, 2x dmg from levels, 2x less cost of upg
 // tier -> 10% more dmg, 10% more xp, 
+
+
+// reset game at start and make a variable TRUE ( as the game started ), then next time do not reset
+

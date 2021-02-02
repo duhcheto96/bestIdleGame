@@ -114,7 +114,8 @@
                 }
             .upgradeReqItems {
                 display: grid;
-                grid-template-rows: 10% 90%;
+                grid-template-rows: 20% 80%;
+                grid-template-columns: 50% 50%;
                 grid-column: 3 / span 1;
                 outline: 1px solid rgb(12, 226, 77);
                 height: 100px;

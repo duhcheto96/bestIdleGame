@@ -14,11 +14,6 @@ generateMaterialGatheringTab(sa('.fieldTab')[2], 'woodcutting');
 generateMaterialGatheringTab(sa('.fieldTab')[3], 'hunting');
 
 
-updateEverything();
-
-
-
-
 sa('.expandCollapseAllUpg').forEach(x => x.addEventListener('click', (e) => {
     expandCollapseUpgrades(e, x.dataset.type)
 }));
@@ -100,6 +95,6 @@ sa('.upgrade').forEach((upgrade, num) => {
 });
 
 
-
-
+// remove later
+updateEverything();
 
