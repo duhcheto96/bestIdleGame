@@ -1,5 +1,7 @@
 "use strict"
 
+updateEverything();
+
 let main = {
     mining: {
         index: 0,
@@ -298,23 +300,24 @@ document.addEventListener('keydown', (key) => {
     }
 });
 
-// add all items to inventory
+// add all items to inventory on next log in 
 addAllElementsToInventory();
 
 updateEverything();
 
 
-// resetProgress();
 
 
 
-
-
-
-
-// upgrade -> -2x health of mats, 2x dmg from levels, 2x less cost of upg
+// upgrade -> -50% health of mats, 50% dmg from levels, 50% less cost of upg
 // tier -> 10% more dmg, 10% more xp, 
 
 
 // reset game at start and make a variable TRUE ( as the game started ), then next time do not reset
 
+// reset button / fix later 
+sa(".fieldTab")[5].appendChild(createDiv('asd'))
+
+sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
+    resetProgress()
+})

@@ -208,22 +208,29 @@ function addUpgradeBonus(upgradeName) {
 
 
 function addMiningUpgradeBonus(upgradeName, bonus) {
+    const tool = tools.miningTool;
     if (upgradeName == "increasePickaxePower") {
-        tools.miningTool.damage.powerFromUpgrades += bonus;
+        tool.damage.powerFromUpgrades += bonus;
     } else if (upgradeName == "increasePickaxeAtackSpeed") {
-        tools.miningTool.aps *= 1 - bonus;
+        tool.aps *= 1 - bonus;
         // if (upgrades[type][upgradeName]['level'] === 301) {
         //     upgrades[type][upgradeName]['level'] = "MAX";
         // } else if (upgrades[type][upgradeName]['level'] == "MAX") {
         // }
     } else if (upgradeName == "upgradeTier") {
-        tools.miningTool.xp.tier += bonus;
+        tool.xp.tier += bonus;
+        tool.xp.bonusXpFromTier += 0.1;
+        tool.xp.bonusDmgFromTier += 0.1;
     } else if (upgradeName == "decreaseLookingForMaterialTime") {
-        tools.miningTool.lookingForTime *= 1 - bonus;
+        tool.lookingForTime *= 1 - bonus;
     } else if (upgradeName == "upgradePickaxe") {
-        
+        if (tool.upgradesList.length - 1 === tool.upgIndex) {
+            console.log("last upgrade reached");
+            return;
+        }
+        tool.upgIndex++;
     } else if (upgradeName == "addChanceForDoubleMaterialGain") {
-        tools.miningTool.chanceForDoubleMaterial += bonus;
+        tool.chanceForDoubleMaterial += bonus;
     }
 
     if (upgradeName == 'increaseStoneDrop') increaseDrop('stone')
@@ -342,10 +349,33 @@ function unlockAreas() {
 
 
 let resetProgress = function() {
+
+    resetTools()
+    resetUpgrades()
+    resetAreas()
+}
+
+let resetTools = function() {
+    Object.keys(tools).forEach(type => {
+        const tool = tools[type];
+        tool.reset();
+    })
+}
+
+let resetAreas = function() {
+    Object.keys(areas).forEach(type => {
+        Object.keys(areas[type]).forEach(currentArea => {
+            const area = areas[type][currentArea];
+            area.reset();
+        })
+    })
+}
+
+let resetUpgrades = function() {
     Object.keys(upgrades).forEach(type => {
-        Object.keys(upgrades[type]).forEach(upgrade => {
-            let upg = upgrades[type][upgrade];
-            upg.reset();
+        Object.keys(upgrades[type]).forEach(upg => {
+            let upgrade = upgrades[type][upg]
+            upgrade.reset();
         })
     })
 }

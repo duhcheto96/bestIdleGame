@@ -1,4 +1,4 @@
-
+resetProgress();
 
 for (let type in upgrades) {
     for (const name in upgrades[type]) {
@@ -95,6 +95,4 @@ sa('.upgrade').forEach((upgrade, num) => {
 });
 
 
-// remove later
-updateEverything();
 

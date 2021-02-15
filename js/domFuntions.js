@@ -403,13 +403,13 @@ function updateToolStats() {
     for (let tool in tools) {
         
         // + 1, because we start from second tab
-        let elements = sa(`.fieldTab:nth-of-type(${Number(tools[tool].index) + 1}) > div`);
+        let elements = sa(`.fieldTab:nth-of-type(${Number(tools[tool].index) + 2}) > div`);
 
         let toolName = elements[0];
         const toolTier = elements[1].childNodes;
         const toolBonuses = elements[2].childNodes;
         
-        toolName.textContent = tools[tool].name;
+        toolName.textContent = tools[tool].getName();
         toolTier[3].textContent = tools[tool].xp.tier;
         toolBonuses[0].textContent = "Level : " + tools[tool].xp.level;
         toolBonuses[2].textContent = "XP : " + tools[tool].xp.currentXp + "/" + tools[tool].xp.neededXp + " (" + tools[tool].xp.totalXP + ")";
