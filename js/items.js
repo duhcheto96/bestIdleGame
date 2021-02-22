@@ -540,7 +540,7 @@ let upgrades = {
                 this.currentBonus = 0
                 this.bonusOnLevel = 1
                 this.value = "flat"
-                this.requiredLevel = 2
+                this.requiredLevel = 50
                 this.requiredMaterials = {
 
                 }

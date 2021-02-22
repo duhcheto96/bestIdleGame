@@ -219,8 +219,6 @@ function addMiningUpgradeBonus(upgradeName, bonus) {
         // }
     } else if (upgradeName == "upgradeTier") {
         tool.xp.tier += bonus;
-        tool.xp.bonusXpFromTier += 0.1;
-        tool.xp.bonusDmgFromTier += 0.1;
     } else if (upgradeName == "decreaseLookingForMaterialTime") {
         tool.lookingForTime *= 1 - bonus;
     } else if (upgradeName == "upgradePickaxe") {
