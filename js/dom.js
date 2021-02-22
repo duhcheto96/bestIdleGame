@@ -1,4 +1,5 @@
-resetProgress();
+resetProgress(); // used for generating tabs
+
 
 for (let type in upgrades) {
     for (const name in upgrades[type]) {

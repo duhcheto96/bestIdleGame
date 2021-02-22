@@ -1,51 +1,7 @@
 "use strict"
-
+// resetProgress();
 updateEverything();
 
-let main = {
-    mining: {
-        index: 0,
-        clicked: false,
-        material: undefined,
-        currentHP: undefined,
-        totalHP: undefined,
-        area: areas.miningAreas['area1'],
-        inventory: inventoryMaterials.miningMaterials,
-        tool: tools.miningTool,
-        breakingTime: undefined,
-        timeout: undefined,
-        itemGroup: 'miningMaterials',
-        areaGroup: 'miningAreas',
-    },
-    woodcutting: {
-        index: 1,
-        clicked: false,
-        material: undefined,
-        currentHP: undefined,
-        totalHP: undefined,
-        area: areas.woodcuttingAreas['area1'],
-        inventory: inventoryMaterials.woodcuttingMaterials,
-        tool: tools.woodcuttingTool,
-        breakingTime: undefined,
-        timeout: undefined,
-        itemGroup: 'woodcuttingMaterials',
-    },
-    hunting: {
-        index: 2,
-        clicked: false,
-        material: undefined,
-        currentHP: undefined,
-        totalHP: undefined,
-        area: areas.huntingAreas['area1'],
-        inventory: inventoryMaterials.huntingMaterials,
-        tool: tools.huntingTool,
-        breakingTime: undefined,
-        timeout: undefined,
-        itemGroup: 'huntingMaterials',
-    },
-}
-
-let scroll = true;
 
 // START MINING
 sa('.material')[0].childNodes[0].addEventListener('click', () => {
@@ -119,12 +75,6 @@ sa('.material')[0].childNodes[2].addEventListener('click', () => {
 
 
 
-
-
-
-
-
-
 let mainMaterialGatheringFunction = (mainType) => {
 
     if (mainType.material === "Looking for material") {
@@ -139,55 +89,46 @@ let mainMaterialGatheringFunction = (mainType) => {
 
     if (mainType.material === "Looking for material") {
         
-        mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), mainType.tool.lookingForTime);
+        mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), mainType.getTool().lookingForTime);
     } else {
         mainType.currentHP = getMaterialHealth(mainType);
         mainType.totalHP = getMaterialHealth(mainType);
         
         setHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
-        mainType.breakingTime = setInterval(breakBlock.bind(null, mainType), mainType.tool.aps);
+        mainType.breakingTime = setInterval(breakBlock.bind(null, mainType), mainType.getTool().aps);
     }
 }
 
 
-
-
-
-
-
-
 let breakBlock = (mainType) => {
 
-    mainType.currentHP -= mainType.tool.getPower();
+    mainType.currentHP -= mainType.getTool().getPower();
     
     if (mainType.currentHP < 0) mainType.currentHP = 0;
     
     updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
     if (mainType.currentHP == 0) {
-        if (mainType.inventory[mainType.material] === undefined) {
+        if (mainType.inventory()[mainType.material] === undefined ||
+         mainType.inventory()[mainType.material] === 0) {
             addNewItemToInventory(mainType);
         }
 
-        let drop = mainType.area.materials[mainType.material].drop;
-
-        // add chance for double material gain
-
-        let rand = Math.floor(Math.random() * 100) + 1;
-
-        if (mainType.tool.chanceForDoubleMaterial >= rand) {
-            drop *= 2;
-        }
+        let drop = getDropQuantity(mainType);
         
-        mainType.inventory[mainType.material] += drop;
+        mainType.inventory()[mainType.material] += drop;
         mainType.area.materials[mainType.material].totalDropped += drop;
 
         // add drop if on the last level
         if (mainType.area.level == mainType.area.totalLevel) {
             // limit to the maximum
             if (mainType.area.materialsDropped < mainType.area.requiredMaterialsForNextLevel) {
-                mainType.area.materialsDropped += drop;
+                if (mainType.area.materialsDropped + drop > mainType.area.requiredMaterialsForNextLevel) {
+                    mainType.area.materialsDropped = mainType.area.requiredMaterialsForNextLevel
+                } else {
+                    mainType.area.materialsDropped += drop;
+                }
             }
         }
         
@@ -195,12 +136,12 @@ let breakBlock = (mainType) => {
 
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
         let xp = (mainType.area.materials[mainType.material].xp 
-        + (mainType.area.level - 1) * mainType.area.materials[mainType.material]['xpOnLevel'])
-        * mainType.tool.xp.bonusXpFromTier;
+        + (mainType.area.level - 1) * mainType.area.materials[mainType.material].xp)
+        * mainType.getTool().xp.getBonusXpFromTier();
 
         xp = Math.floor(xp);
 
-        increaseToolXP(mainType.tool, xp);
+        increaseToolXP(mainType.getTool(), xp);
 
         const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
 
@@ -222,27 +163,6 @@ let breakBlock = (mainType) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Start and stop scrolling of the log, depending on scroll variable
 sa('.log').forEach(x => {
     x.addEventListener("mouseenter", function() {
@@ -253,12 +173,10 @@ sa('.log').forEach(x => {
     });
 
     // add logic for Clear log button
-    x.childNodes[0].addEventListener('click', btn => {
-        while (x.childNodes.length > 1) {
-            x.removeChild(x.lastChild);
-        }
-    });
+    x.childNodes[0].addEventListener('click', clearLog.bind(null, x));
 });
+
+
 
 // Add event listeners to every upgrade button, based on name
 sa('.upgrade').forEach(element => {
@@ -276,15 +194,12 @@ sa('.upgrade').forEach(element => {
 
         addUpgradeBonus(upgName);
         
-        updateUpgrades();
-
-        updateToolStats();
-        
-        markUpgradesBuyable();
+        updateEverything();
     });
 });
 
 
+// modify multiplier ( might add buy maximum later * or not )
 document.addEventListener('keydown', (key) => {
     if (key.code === 'KeyZ') {
 
@@ -301,15 +216,14 @@ document.addEventListener('keydown', (key) => {
 });
 
 // add all items to inventory on next log in 
-addAllElementsToInventory();
+// addAllElementsToInventory();
 
 updateEverything();
 
+resetHPandMatAll()
 
 
-
-
-// upgrade -> -50% health of mats, 50% dmg from levels, 50% less cost of upg
+// upgrade -> -10% health of mats, 30% dmg from levels, 100% drop
 // tier -> 10% more dmg, 10% more xp, 
 
 
@@ -320,4 +234,15 @@ sa(".fieldTab")[5].appendChild(createDiv('asd'))
 
 sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
     resetProgress()
+    updateEverything()
 })
+
+
+
+
+// make gold like currency and it gives no xp, then shop for exchanging gold  for almost any other material
+
+
+
+
+

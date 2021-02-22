@@ -26,7 +26,7 @@ function activeTab(elem, e) {
     }
     // current menu item to be highlighted
     e.target.classList.add('activeMenu');
-    
+
     // current tab element to be displayed
     elem.classList.add("activeTab");
 }
@@ -35,7 +35,7 @@ function expandCollapseUpgrades(e, type) {
     e.stopPropagation();
     let upgrades = sa(`${type} .upgrade`);
     for (let el = 0; el < upgrades.length; el++) {
-        for(let i = 2; i < 5; i++) {
+        for (let i = 2; i < 5; i++) {
             elem = upgrades[el].childNodes[i];
             elem.classList.forEach((c) => {
                 if (c === "activeUpgrade") {
@@ -69,17 +69,16 @@ function addNewItemToInventory(mainType) {
 
     item.appendChild(invItemName);
     item.appendChild(invItemQuantity);
-    
-    let added = false;
 
-    // modify later, should not be area1 ? or add other areas
+    let added = false;
+    
     for (let c = 0; c < list.childNodes.length; c++) {
-        let itemIndex = areas[areaGroup]['area1'].materials[itemName].index;
-        
+        let itemIndex = mainType.area.materials[itemName].index;
+
         let curItem = list.childNodes[c];
         let curName = curItem.childNodes[0].dataset.name;
-        let curIndex = areas[areaGroup]['area1'].materials[curName].index;
-        
+        let curIndex = mainType.area.materials[curName].index;
+
         if (itemIndex < curIndex) {
             list.insertBefore(item, curItem);
             added = true;
@@ -171,7 +170,8 @@ function markUpgradesBuyable() {
         let levelElement = element.childNodes[0];
         let nameElement = element.childNodes[1];
 
-        if(areUpgradeMaterialsAvailable(nameElement.dataset.name)) {
+        if (areUpgradeMaterialsAvailable(nameElement.dataset.name) &&
+            areUpgradeRequirementsMet(nameElement.dataset.name)) {
             levelElement.style.backgroundColor = 'rgba(0, 200, 0, 0.5)';
             nameElement.style.backgroundColor = 'rgba(0, 200, 0, 0.5)';
         } else {
@@ -182,6 +182,7 @@ function markUpgradesBuyable() {
 }
 
 function generateMaterialGatheringTab(tab, type) {
+    tab.dataset.type = 'farming'
     let toolName = createDiv("toolName");
     let toolTier = createDiv("toolTier");
     appendMoreChilds(toolTier, addSpan("Tier:"), addBR(), addBR(), addSpan("1"));
@@ -244,7 +245,7 @@ function generateMaterialGatheringTab(tab, type) {
         if (i == 0) {
             area.classList.add('activeArea');
         }
-        
+
         appendMoreChilds(area, name, currentLevel, totalLevel, isUnlocked, progress, areaHover);
         areas.appendChild(area);
     }
@@ -259,7 +260,7 @@ function generateMaterialGatheringTab(tab, type) {
     let leftArrow = createDiv('leftArrow');
     const leftArrowImg = createImg("images/leftArrow.png", "arrowImg");
     leftArrow.appendChild(leftArrowImg);
-    
+
     let rightArrow = createDiv('rightArrow');
     const rightArrowImg = createImg("images/rightArrow.png", "arrowImg");
     rightArrow.appendChild(rightArrowImg);
@@ -267,7 +268,7 @@ function generateMaterialGatheringTab(tab, type) {
 
     matNameDiv.textContent = 'Click to start';
     appendMoreChilds(material, matNameDiv, areaLevel, leftArrow, rightArrow);
-    
+
     let log = createDiv('log');
     const clearLogButton = createDiv('clearLogButton');
     clearLogButton.textContent = 'Clear log';
@@ -282,13 +283,21 @@ function generateMaterialGatheringTab(tab, type) {
 function resetHPandMat(tab) {
     let material = tab.childNodes[4];
     let HPbar = tab.childNodes[6];
-    
+
     material.childNodes[0].textContent = 'Click to start';
     HPbar.childNodes[0].textContent = 'Health: 0 / 0';
 
     material.style.backgroundColor = 'white';
     HPbar.childNodes[1].style.width = '0px';
 
+}
+
+let resetHPandMatAll = function () {
+    sa('.fieldTab').forEach(tab => {
+        if (tab.dataset.type === "farming") {
+            resetHPandMat(tab);
+        }
+    })
 }
 
 // DOM ELEMENTS ( helper functions)
@@ -343,7 +352,7 @@ function sa(c) {
 
 // UPDATES
 function updateHPbar(el, curHP, totalHP) {
-    el.childNodes[0].textContent = "Health: " + curHP + "/" + totalHP;
+    el.childNodes[0].textContent = "Health: " + Math.ceil(curHP) + "/" + totalHP;
     let width = curHP / totalHP * 100;
     let color = curHP / totalHP * 255;
     el.childNodes[1].style.backgroundColor = `rgb(200, ${color}, 0)`;
@@ -363,7 +372,7 @@ function updateAreas() {
 
 
             let currentArea = areas[`${domAreas.dataset.type}Areas`][`area${index + 1}`];
-            
+
             name.textContent = currentArea.name;
             currentLevel.textContent = `current level: ${currentArea.level}`;
             totalLevel.textContent = `total level: ${currentArea.totalLevel}`;
@@ -373,7 +382,7 @@ function updateAreas() {
                 unlocked.style.color = 'rgb(11, 55, 3)';
             } else {
                 let previousArea = areas[`${domAreas.dataset.type}Areas`][`area${index}`];
-                unlocked.textContent = `Area locked. Need lvl 100 ${previousArea.name}.`;
+                unlocked.textContent = `Area locked. Need lvl ${currentArea.previousAreaLevelRequired} ${previousArea.name}.`;
                 unlocked.style.backgroundColor = 'rgb(184, 29, 50)';
                 unlocked.style.color = 'rgb(44, 22, 33)';
             }
@@ -382,7 +391,7 @@ function updateAreas() {
             } else {
                 progress.textContent = `${currentArea.materialsDropped} / ${currentArea.requiredMaterialsForNextLevel}`;
             }
-            
+
             let areaItems = createDiv();
             appendMoreChilds(areaItems, addSpan('This area contains: '), addBR());
             let materialChanceArr = getDropChance(currentArea.materials);
@@ -390,7 +399,7 @@ function updateAreas() {
             materialChanceArr.forEach(mat => {
                 appendMoreChilds(areaItems, addSpan(mat), addBR());
             });
-            
+
             // reset innerHTML, so it does not stack when updated twice
             areaHover.innerHTML = '';
             areaHover.appendChild(areaItems);
@@ -399,21 +408,21 @@ function updateAreas() {
 }
 
 function updateToolStats() {
-    
+
     for (let tool in tools) {
-        
+
         // + 1, because we start from second tab
         let elements = sa(`.fieldTab:nth-of-type(${Number(tools[tool].index) + 2}) > div`);
 
         let toolName = elements[0];
         const toolTier = elements[1].childNodes;
         const toolBonuses = elements[2].childNodes;
-        
+
         toolName.textContent = tools[tool].getName();
         toolTier[3].textContent = tools[tool].xp.tier;
         toolBonuses[0].textContent = "Level : " + tools[tool].xp.level;
         toolBonuses[2].textContent = "XP : " + tools[tool].xp.currentXp + "/" + tools[tool].xp.neededXp + " (" + tools[tool].xp.totalXP + ")";
-        toolBonuses[4].textContent = "Power : " + tools[tool].getPower();
+        toolBonuses[4].textContent = "Power : " + Math.floor(tools[tool].getPower());
         toolBonuses[6].textContent = "Atacks per second : " + (1000 / tools[tool].aps).toFixed(2);
     }
 }
@@ -463,14 +472,14 @@ function updateUpgrades() {
                 type = upg;
             }
         }
-        
+
         let level = upgrades[type][name]['level'];
 
         upgrade.childNodes[0].textContent = `Level: ${level}`;
 
         upgrade.childNodes[2].textContent = `lvlUP ${multiplier}`;
 
-        
+
         let currentBonusDisplay = upgrade.childNodes[3].childNodes[0].childNodes[2];
         let currentBonus = upgrades[type][name].currentBonus;
 
@@ -481,7 +490,7 @@ function updateUpgrades() {
             currentBonusDisplay.textContent = currentBonus;
             nextLevelBonusDisplay.textContent = nextLevelBonus;
         } else if (upgrades[type][name]['value'] == 'percent') {
-            currentBonusDisplay.textContent = (currentBonus*100).toFixed(2) + "%";
+            currentBonusDisplay.textContent = (currentBonus * 100).toFixed(2) + "%";
             nextLevelBonusDisplay.textContent = ((nextLevelBonus) * 100).toFixed(2) + "%";
         }
 
@@ -513,6 +522,7 @@ function updateMaterialLevels() {
 
 function updateEverything() {
     updateInventory();
+    removeMissingItems()
     updateToolStats();
     updateUpgrades();
     markUpgradesBuyable();
@@ -524,8 +534,17 @@ function updateEverything() {
 
 
 
+let clearLog = function (element) {
+    while (element.childNodes.length > 1) {
+        element.removeChild(element.lastChild);
+    }
+}
 
-
+let clearLogs = function () {
+    sa('.log').forEach(element => {
+        clearLog(element)
+    })
+}
 
 
 

@@ -86,7 +86,7 @@ function areUpgradeRequirementsMet(upgradeName) {
     for (let type in upgrades) {
         if (upgrades[type].hasOwnProperty(upgradeName)) {
             for (let prop in upgrades[type][upgradeName]) {
-                if (prop == 'requiredLevels') {
+                if (prop == 'requiredLevel') {
                     t = type;
                     reqLevel = upgrades[type][upgradeName][prop];
                     break;
@@ -141,7 +141,7 @@ function removeUpgradeLevelsOrTier(upgradeName) {
     for (let type in upgrades) {
         if (upgrades[type].hasOwnProperty(upgradeName)) {
             for (let prop in upgrades[type][upgradeName]) {
-                if (prop == 'requiredLevels') {
+                if (prop == 'requiredLevel') {
                     t = type;
                     reqLevel = upgrades[type][upgradeName][prop];
                     break;
@@ -158,7 +158,7 @@ function removeUpgradeLevelsOrTier(upgradeName) {
     if (t == 'miningUpgrades') {
         if (tools.miningTool.xp.level >= reqLevel) {
             tools.miningTool.xp.level = 1;
-            tools.miningToolxp.neededXp = tools.miningTool.xp.initialNeededXp;
+            tools.miningTool.xp.neededXp = tools.miningTool.xp.initialNeededXp;
             tools.miningTool.xp.currentXp = 0;
             tools.miningTool.xp.totalXP = 0;
             tools.miningTool.damage.powerFromLevels = 0;
@@ -224,11 +224,11 @@ function addMiningUpgradeBonus(upgradeName, bonus) {
     } else if (upgradeName == "decreaseLookingForMaterialTime") {
         tool.lookingForTime *= 1 - bonus;
     } else if (upgradeName == "upgradePickaxe") {
-        if (tool.upgradesList.length - 1 === tool.upgIndex) {
+        if (tool.upgrade.list.length - 1 === tool.upgrade.index) {
             console.log("last upgrade reached");
             return;
         }
-        tool.upgIndex++;
+        tool.upgrade.index++;
     } else if (upgradeName == "addChanceForDoubleMaterialGain") {
         tool.chanceForDoubleMaterial += bonus;
     }
@@ -259,6 +259,8 @@ function addHuntingUpgradeBonus() {
 
 }
 
+
+// PERHAPS SIMPLiFY THIS FUNCTION
 function increaseDrop(material) {
     let type;
 
@@ -276,6 +278,8 @@ function increaseDrop(material) {
     }
 }
 
+
+
 function increaseUpgradeRequirements(requiredMaterials) {
     for (let mat in requiredMaterials) {
         // row below have to be CHANGED!!!! 
@@ -284,17 +288,26 @@ function increaseUpgradeRequirements(requiredMaterials) {
     }
 }
 
+let getDropQuantity = function(mainType) {
+    let drop = mainType.area.materials[mainType.material].drop;
+    let rand = Math.floor(Math.random() * 100) + 1;
 
-function createMaterial(index, health, healthOnLevel, xp, drop, chance, totalDropped) {
+    if (mainType.getTool().chanceForDoubleMaterial >= rand) {
+        drop *= 2;
+    }
+
+    drop = drop + drop * mainType.getTool().upgrade.getBonusDrop();
+    return drop;
+}
+
+
+function createMaterial(index, health, xp, chance, drop = 1, totalDropped = 0) {
     return {
         index: index,
         health: health,
-        healthOnLevel: healthOnLevel,
         xp: xp,
-        // think about this below
-        xpOnLevel: xp,
-        drop: drop,
         chance: chance,
+        drop: drop,
         totalDropped: totalDropped,
     }
 }
@@ -313,6 +326,7 @@ function materialColor(e, mat) {
     // add colors to other materials
 }
 
+/// UPDATE ( NOT USED NOW )
 function addAllElementsToInventory() {
     for(let mats in inventoryMaterials) {
         let index;
@@ -329,7 +343,9 @@ function addAllElementsToInventory() {
 }
 
 function getMaterialHealth(mainType) {
-    return mainType.area.materials[mainType.material].health * mainType.area.level;
+    return mainType.area.materials[mainType.material].health *
+    mainType.area.level / 
+    mainType.getTool().upgrade.getLessHealthOfMaterials();
 }
 
 
@@ -338,7 +354,7 @@ function unlockAreas() {
     Object.keys(areas).forEach((areaType, typeIndex) => {
         Object.keys(areas[areaType]).forEach((area, areaIndex) => {
 
-            if (areas[areaType][area].level >= 3) {
+            if (areas[areaType][area].level >= areas[areaType][area].levelForNextArea) {
                 if (areas[areaType][`area${areaIndex + 2}`] !== undefined) {
                     areas[areaType][`area${areaIndex + 2}`].unlocked = true;
                 }
@@ -349,10 +365,19 @@ function unlockAreas() {
 
 
 let resetProgress = function() {
-
+    clearLogs()
+    resetMain()
     resetTools()
     resetUpgrades()
     resetAreas()
+    resetInventory()
+    resetHPandMatAll()
+}
+
+let resetMain = function() {
+    Object.keys(main).forEach(type => {
+        main[type].reset();
+    })
 }
 
 let resetTools = function() {
@@ -380,6 +405,26 @@ let resetUpgrades = function() {
     })
 }
 
+let resetDomInventory = function() {
+    sa('.invItem').forEach(x => {
+        x.remove()
+    })
+}
+
+let resetInventory = function() {
+    Object.keys(inventoryMaterials).forEach(type => {
+        inventoryMaterials.miningMaterials = {};
+    })
+    resetDomInventory()
+}
+
+let removeMissingItems = function() {
+    sa('.invItem').forEach(x => {
+        if (x.childNodes[1].textContent === '0' || x.childNodes[1].textContent.trim() === "") {
+            x.remove()
+        }
+    })
+}
 
 
 let camelCaseToNormal = function(str) {
