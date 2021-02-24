@@ -51,12 +51,12 @@ function expandCollapseUpgrades(e, type) {
 }
 
 function addNewItemToInventory(mainType) {
-    itemName = mainType.material;
-    itemGroup = mainType.itemGroup;
-    areaGroup = mainType.areaGroup;
+    let itemName = mainType.material;
+    let type = mainType.type;
+    
     list = sa('.itemsList')[mainType.index];
-    if (inventory[itemGroup][itemName] == undefined) {
-        inventory[itemGroup][itemName] = 0;
+    if (inventory[type][itemName] == undefined) {
+        inventory[type][itemName] = 0;
     }
 
     const item = createDiv('invItem');
@@ -65,7 +65,7 @@ function addNewItemToInventory(mainType) {
 
     invItemName.textContent = camelCaseToNormal(itemName);
     invItemName.dataset.name = itemName;
-    invItemQuantity.textContent = inventory[itemGroup][itemName];
+    invItemQuantity.textContent = inventory[type][itemName];
 
     item.appendChild(invItemName);
     item.appendChild(invItemQuantity);
@@ -90,7 +90,7 @@ function addNewItemToInventory(mainType) {
     }
 }
 
-function generateUpgrade(type, name) {
+function generateDomUpgrade(type, name) {
     const upgrade = createDiv(`upgrade`);
 
     const upgLevel = createDiv(`upgradeLevel`);
@@ -155,7 +155,7 @@ function generateUpgrade(type, name) {
     appendMoreChilds(reqItems, reqItemsTitle, reqLvlTierTitle, reqItemsItems, reqLvlTier);
     appendMoreChilds(upgrade, upgLevel, upgName, button, stats, reqItems);
 
-    s(`.${type}List`).appendChild(upgrade);
+    s(`.${type}UpgradesList`).appendChild(upgrade);
 }
 
 function setHPbar(el, curHP, totalHP) {
@@ -371,7 +371,7 @@ function updateAreas() {
             let areaHover = area.childNodes[5];
 
 
-            let currentArea = areas[`${domAreas.dataset.type}Areas`][`area${index + 1}`];
+            let currentArea = areas[`${domAreas.dataset.type}`][`area${index + 1}`];
 
             name.textContent = currentArea.name;
             currentLevel.textContent = `current level: ${currentArea.level}`;
@@ -381,7 +381,7 @@ function updateAreas() {
                 unlocked.style.backgroundColor = 'rgb(12, 242, 58)';
                 unlocked.style.color = 'rgb(11, 55, 3)';
             } else {
-                let previousArea = areas[`${domAreas.dataset.type}Areas`][`area${index}`];
+                let previousArea = areas[`${domAreas.dataset.type}`][`area${index}`];
                 unlocked.textContent = `Area locked. Need lvl ${currentArea.previousAreaLevelRequired} ${previousArea.name}.`;
                 unlocked.style.backgroundColor = 'rgb(184, 29, 50)';
                 unlocked.style.color = 'rgb(44, 22, 33)';
@@ -409,21 +409,22 @@ function updateAreas() {
 
 function updateToolStats() {
 
-    for (let tool in tools) {
+    for (let type in tools) {
+        let tool = tools[type];
 
         // + 1, because we start from second tab
-        let elements = sa(`.fieldTab:nth-of-type(${Number(tools[tool].index) + 2}) > div`);
+        let elements = sa(`.fieldTab:nth-of-type(${Number(tool.index) + 2}) > div`);
 
         let toolName = elements[0];
         const toolTier = elements[1].childNodes;
         const toolBonuses = elements[2].childNodes;
 
-        toolName.textContent = tools[tool].getName();
-        toolTier[3].textContent = tools[tool].xp.tier;
-        toolBonuses[0].textContent = "Level : " + tools[tool].xp.level;
-        toolBonuses[2].textContent = "XP : " + tools[tool].xp.currentXp + "/" + tools[tool].xp.neededXp + " (" + tools[tool].xp.totalXP + ")";
-        toolBonuses[4].textContent = "Power : " + Math.floor(tools[tool].getPower());
-        toolBonuses[6].textContent = "Atacks per second : " + (1000 / tools[tool].aps).toFixed(2);
+        toolName.textContent = getToolName(tool);
+        toolTier[3].textContent = tool.xp.tier;
+        toolBonuses[0].textContent = "Level : " + tool.xp.level;
+        toolBonuses[2].textContent = "XP : " + tool.xp.currentXp + "/" + tool.xp.neededXp + " (" + tool.xp.totalXP + ")";
+        toolBonuses[4].textContent = "Power : " + Math.floor(getToolPower(tool));
+        toolBonuses[6].textContent = "Atacks per second : " + (1000 / tool.aps).toFixed(2);
     }
 }
 

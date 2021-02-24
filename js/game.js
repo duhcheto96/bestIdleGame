@@ -6,6 +6,7 @@ if (!played) {
 } else {
     inventory = JSON.parse(localStorage.getItem("inventoryMaterials"))
     tools = JSON.parse(localStorage.getItem("tools"))
+    upgrades = JSON.parse(localStorage.getItem("upgrades"))
     areas = JSON.parse(localStorage.getItem("areas"))
     main = JSON.parse(localStorage.getItem("main"))
 }
@@ -100,28 +101,28 @@ let mainMaterialGatheringFunction = (mainType) => {
 
     if (mainType.material === lookingFor) {
         
-        mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), mainType.getTool().lookingForTime);
+        mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), getTool(mainType).lookingForTime);
     } else {
         mainType.currentHP = getMaterialHealth(mainType);
         mainType.totalHP = getMaterialHealth(mainType);
         
         setHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
-        mainType.breakingTime = setInterval(breakBlock.bind(null, mainType), mainType.getTool().aps);
+        mainType.breakingTime = setInterval(breakBlock.bind(null, mainType), getTool(mainType).aps);
     }
 }
 
 
 let breakBlock = (mainType) => {
 
-    mainType.currentHP -= mainType.getTool().getPower();
+    mainType.currentHP -= getToolPower(getTool(mainType));
     
     if (mainType.currentHP < 0) mainType.currentHP = 0;
     
     updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
     if (mainType.currentHP == 0) {
-        if (mainType.inventory()[mainType.material] === undefined ||
+        if (getInventory(mainType)[mainType.material] === undefined ||
          mainType.inventory()[mainType.material] === 0) {
             addNewItemToInventory(mainType);
         }
@@ -148,11 +149,11 @@ let breakBlock = (mainType) => {
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
         let xp = (mainType.area.materials[mainType.material].xp 
         + (mainType.area.level - 1) * mainType.area.materials[mainType.material].xp)
-        * mainType.getTool().xp.getBonusXpFromTier();
+        * getTool(mainType).xp.getBonusXpFromTier();
 
         xp = Math.floor(xp);
 
-        increaseToolXP(mainType.getTool(), xp);
+        increaseToolXP(getTool(mainType), xp);
 
         const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
 

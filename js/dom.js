@@ -4,7 +4,7 @@ resetProgress(); // used for generating tabs
 for (let type in upgrades) {
     for (const name in upgrades[type]) {
         if (upgrades[type].hasOwnProperty(name)) {
-            generateUpgrade(type, name);
+            generateDomUpgrade(type, name);
         }
     }
 }

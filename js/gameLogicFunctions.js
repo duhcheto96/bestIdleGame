@@ -290,11 +290,11 @@ let getDropQuantity = function(mainType) {
     let drop = mainType.area.materials[mainType.material].drop;
     let rand = Math.floor(Math.random() * 100) + 1;
 
-    if (mainType.getTool().chanceForDoubleMaterial >= rand) {
+    if (getTool(mainType).chanceForDoubleMaterial >= rand) {
         drop *= 2;
     }
 
-    drop = drop + drop * mainType.getTool().upgrade.getBonusDrop();
+    drop = drop + drop * getToolBonusDrop(getTool(mainType));
     return drop;
 }
 
@@ -350,7 +350,7 @@ function addAllElementsToInventory() {
 function getMaterialHealth(mainType) {
     return mainType.area.materials[mainType.material].health *
     mainType.area.level / 
-    mainType.getTool().upgrade.getLessHealthOfMaterials();
+    getToolLessHealthOfMaterials(getTool(mainType));
 }
 
 
@@ -373,44 +373,22 @@ function unlockAreas() {
 
 
 let resetProgress = function() {
+    main = generateMain()
+    inventory = generateInventory()
+    tools = generateTools()
+    areas = generateAreas()
+    upgrades = generateUpgrades()
+    resetDomInventory()
+    resetIntervals()
     clearLogs()
-    resetMain()
-    resetTools()
-    resetUpgrades()
-    resetAreas()
-    resetInventory()
     resetHPandMatAll()
     updateLocalStorage()
 }
 
-let resetMain = function() {
+let resetIntervals = () => {
     Object.keys(main).forEach(type => {
-        main[type].reset();
-    })
-}
-
-let resetTools = function() {
-    Object.keys(tools).forEach(type => {
-        const tool = tools[type];
-        tool.reset();
-    })
-}
-
-let resetAreas = function() {
-    Object.keys(areas).forEach(type => {
-        Object.keys(areas[type]).forEach(currentArea => {
-            const area = areas[type][currentArea];
-            area.reset();
-        })
-    })
-}
-
-let resetUpgrades = function() {
-    Object.keys(upgrades).forEach(type => {
-        Object.keys(upgrades[type]).forEach(upg => {
-            let upgrade = upgrades[type][upg]
-            upgrade.reset();
-        })
+        clearInterval(main[type].breakingTime)
+        clearTimeout(main[type].timeout)
     })
 }
 
@@ -420,13 +398,6 @@ let resetDomInventory = function() {
     })
 }
 
-let resetInventory = function() {
-    Object.keys(inventory).forEach(type => {
-        inventory.mining = {};
-    })
-    resetDomInventory()
-}
-
 let removeMissingItems = function() {
     sa('.invItem').forEach(x => {
         if (x.childNodes[1].textContent === '0' || x.childNodes[1].textContent.trim() === "") {
@@ -434,7 +405,6 @@ let removeMissingItems = function() {
         }
     })
 }
-
 
 let camelCaseToNormal = function(str) {
     let output = "";
@@ -457,48 +427,40 @@ let updateLocalStorage = function() {
     localStorage.setItem('upgrades', JSON.stringify(upgrades))
     localStorage.setItem('main', JSON.stringify(main))
     localStorage.setItem('played', JSON.stringify(played))
-    console.log(inventory);
 }
 
 // EXTRACTED FUNCTIONS FROM OBJECTS
 
 
-let getLessHealthOfMaterials = (mainType) => {
-    let tool = tools[mainType.type]
+let getToolLessHealthOfMaterials = (tool) => {
     return tool.upgrade.index / 10 + 1
 }
 
-let getMoreDamageFromLevels = (mainType) => {
-    let tool = tools[mainType.type]
+let getToolMoreDamageFromLevels = (tool) => {
     return tool.upgrade.index * 3 / 10 + 1
 }
 
-let getBonusDrop = () => {
-    let tool = tools[mainType.type]
+let getToolBonusDrop = (tool) => {
     return tool.upgrade.index
 }
 
-let getBonusXpFromTier = () => {
-    let tool = tools[mainType.type]
+let getToolBonusXpFromTier = (tool) => {
     return 0.9 + tool.xp.tier / 10
 }
 
-let getBonusDamageFromTier = () => {
-    let tool = tools[mainType.type]
+let getToolBonusDamageFromTier = (tool) => {
     return 0.9 + tool.xp.tier / 10
 }
 
-let getToolPower = () => {
-    let tool = tools[mainType.type]
+let getToolPower = (tool) => {
     return Math.floor((tool.damage.power +
         tool.damage.powerFromLevels *
-        tool.upgrade.getMoreDamageFromLevels() +
+        getToolMoreDamageFromLevels(tool) +
         tool.damage.powerFromUpgrades) *
-        tool.xp.getBonusDamageFromTier());
+        getToolBonusDamageFromTier(tool));
     }
     
-let getToolName = (mainType) => {
-    let tool = tools[mainType.type]
+let getToolName = (tool) => {
     return tool.upgrade.list[tool.upgrade.index];
 }
 
@@ -506,3 +468,7 @@ let getInventory = (mainType) => {
     return inventory[mainType.type]
 }
 
+let getTool = (mainType) => {
+    let tool = tools[mainType.type]
+    return tool
+}
