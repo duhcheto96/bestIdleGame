@@ -1,36 +1,32 @@
 
-let inventoryMaterials = {
-    miningMaterials: {
-        stone: 100,
-        loop: 132,
-    },
-    woodcuttingMaterials: {},
-    huntingMaterials: {},
-    farmingMaterials: {},
+let inventory = {
+    mining: {},
+    woodcutting: {},
+    hunting: {},
 };
 
 let tools = {
-    miningTool: {
+    mining: {
         reset: function () {
             this.index = 0
-            this.getName = function () {
-                return this.upgrade.list[this.upgrade.index];
-            }
+            // this.getName = function () {
+            //     return this.upgrade.list[this.upgrade.index];
+            // }
             this.upgrade = {
                 index: 0,
                 list: ["Wooden pickaxe", "Stone pickaxe",
                     "Iron pickaxe", "Gold pickaxe",
                     "Platinum pickaxe", "Diamond pickaxe"],
-                getLessHealthOfMaterials: function() {
-                    return this.index / 10 + 1
-                },
-                getMoreDamageFromLevels: function() {
-                    return this.index * 3 / 10 + 1
-                },
-                getBonusDrop: function() {
-                    return this.index
-                }
-            },
+                // getLessHealthOfMaterials: function () {
+                //     return this.index / 10 + 1
+                // },
+                // getMoreDamageFromLevels: function () {
+                //     return this.index * 3 / 10 + 1
+                // },
+                // getBonusDrop: function () {
+                //     return this.index
+                // }
+            }
             this.xp = {
                 level: 1,
                 tier: 1,
@@ -39,12 +35,12 @@ let tools = {
                 totalXP: 0,
                 initialNeededXp: 20,
                 neededXpOnLevel: 20,
-                getBonusXpFromTier: function() {
-                    return 0.9 + this.tier / 10
-                },
-                getBonusDamageFromTier: function() {
-                    return 0.9 + this.tier / 10
-                }
+                // getBonusXpFromTier: function () {
+                //     return 0.9 + this.tier / 10
+                // },
+                // getBonusDamageFromTier: function () {
+                //     return 0.9 + this.tier / 10
+                // }
             }
             this.damage = {
                 power: 5,
@@ -57,34 +53,34 @@ let tools = {
             this.aps = 2_000
             this.lookingForTime = 2_000
             this.chanceForDoubleMaterial = 0
-            this.getPower = function () {
-                return Math.floor((this.damage.power +
-                    this.damage.powerFromLevels * 
-                    this.upgrade.getMoreDamageFromLevels() +
-                    this.damage.powerFromUpgrades) *
-                    this.xp.getBonusDamageFromTier());
-            }
+            // this.getPower = function () {
+            //     return Math.floor((this.damage.power +
+            //         this.damage.powerFromLevels *
+            //         this.upgrade.getMoreDamageFromLevels() +
+            //         this.damage.powerFromUpgrades) *
+            //         this.xp.getBonusDamageFromTier());
+            // }
         }
     },
 
-    woodcuttingTool: {
+    woodcutting: {
         reset: function () {
             this.index = 1,
-            this.getName = function () {
-                return this.upgrade.list[this.upgrade.index];
-            }
+                this.getName = function () {
+                    return this.upgrade.list[this.upgrade.index];
+                }
             this.upgrade = {
                 index: 0,
                 list: ["Wooden axe", "Stone axe",
                     "Iron axe", "Gold axe",
                     "Platinum axe", "Diamond axe"],
-                getLessHealthOfMaterials: function() {
+                getLessHealthOfMaterials: function () {
                     return this.index / 10 + 1
                 },
-                getMoreDamageFromLevels: function() {
+                getMoreDamageFromLevels: function () {
                     return this.index * 3 / 10 + 1
                 },
-                getBonusDrop: function() {
+                getBonusDrop: function () {
                     return this.index
                 }
             }
@@ -96,10 +92,10 @@ let tools = {
                 totalXP: 0,
                 initialNeededXp: 1,
                 neededXpOnLevel: 1,
-                getBonusXpFromTier: function() {
+                getBonusXpFromTier: function () {
                     return 0.9 + this.tier / 10
                 },
-                getBonusDamageFromTier: function() {
+                getBonusDamageFromTier: function () {
                     return 0.9 + this.tier / 10
                 }
             }
@@ -116,7 +112,7 @@ let tools = {
             this.chanceForDoubleMaterial = 0
             this.getPower = function () {
                 return Math.floor((this.damage.power +
-                    this.damage.powerFromLevels * 
+                    this.damage.powerFromLevels *
                     this.upgrade.getMoreDamageFromLevels() +
                     this.damage.powerFromUpgrades) *
                     this.xp.getBonusDamageFromTier());
@@ -127,130 +123,186 @@ let tools = {
     huntingTool: {
         reset: function () {
             this.index = 2,
-            this.getName = function () {
-                return this.upgrade.list[this.upgrade.index];
-            },
+                this.getName = function () {
+                    return this.upgrade.list[this.upgrade.index];
+                }
             this.upgrade = {
                 index: 0,
                 list: ["Wooden bow", "Stone bow",
                     "Iron bow", "Gold bow",
                     "Platinum bow", "Diamond bow"],
-                lessHealthOfMaterials: 1,
-                lessCostOfUpgrades: 1,
-                moreDamageFromLevels: 1,
-            },
+                getLessHealthOfMaterials: function () {
+                    return this.index / 10 + 1
+                },
+                getMoreDamageFromLevels: function () {
+                    return this.index * 3 / 10 + 1
+                },
+                getBonusDrop: function () {
+                    return this.index
+                }
+            }
             this.xp = {
                 level: 1,
                 tier: 1,
                 currentXp: 0,
-                neededXp: 1,
+                neededXp: 20,
                 totalXP: 0,
-                initialNeededXp: 1,
-                neededXpOnLevel: 1,
-                bonusXpFromTier: 1,
-            },
+                initialNeededXp: 20,
+                neededXpOnLevel: 20,
+                getBonusXpFromTier: function () {
+                    return 0.9 + this.tier / 10
+                },
+                getBonusDamageFromTier: function () {
+                    return 0.9 + this.tier / 10
+                }
+            }
             this.damage = {
-                power: 100,
-                initialPower: 100,
+                power: 10,
+                initialPower: 10,
                 powerOnLevel: 2,
                 initialPowerOnLevel: 2,
                 powerFromLevels: 0,
                 powerFromUpgrades: 0,
                 bonusDmgFromTier: 1,
             },
-            this.aps = 2_00,
-            this.lookingForTime = 2_00,
-            this.chanceForDoubleMaterial = 0,
+                this.aps = 1_000
+            this.lookingForTime = 10_000
+            this.chanceForDoubleMaterial = 0
             this.getPower = function () {
-                return (this.damage.power +
-                    this.damage.powerFromLevels +
+                return Math.floor((this.damage.power +
+                    this.damage.powerFromLevels *
+                    this.upgrade.getMoreDamageFromLevels() +
                     this.damage.powerFromUpgrades) *
-                    this.xp.tier;
+                    this.xp.getBonusDamageFromTier());
             }
         },
     },
 }
 
 let materials = {
-    miningMaterials: {
-        stone: (chance) => createMaterial(index = 0, health = 20, xp = 1, chance = chance),
-        ironOre: (chance) => createMaterial(index = 1, health = 50, xp = 3, chance = chance),
-        copper: (chance) => createMaterial(index = 2, health = 40, xp = 2, chance = chance),
-        silver: (chance) => createMaterial(index = 3, health = 100, xp = 5, chance = chance),
-        gold: (chance) => createMaterial(index = 4, health = 200, xp = 20, chance = chance),
-        platinum: (chance) => createMaterial(index = 5, health = 300, xp = 50, chance = chance),
-        lead: (chance) => createMaterial(index = 6, health = 500, xp = 100, chance = chance),
-        titanium: (chance) => createMaterial(index = 7, health = 800, xp = 175, chance = chance),
-        diamond: (chance) => createMaterial(index = 8, health = 1000, xp = 250, chance = chance),
-
-        bronze: (chance) => createMaterial(index = 9, health = 400, xp = 65, chance = chance),
-        chromite: (chance) => createMaterial(index = 10, health = 500, xp = 80, chance = chance),
-        cobalt: (chance) => createMaterial(index = 11, health = 450, xp = 75, chance = chance),
-        lithium: (chance) => createMaterial(index = 12, health = 700, xp = 110, chance = chance),
-        manganese: (chance) => createMaterial(index = 13, health = 300, xp = 40, chance = chance),
-        nickel: (chance) => createMaterial(index = 14, health = 900, xp = 300, chance = chance),
-        quartz: (chance) => createMaterial(index = 15, health = 900, xp = 300, chance = chance),
-        zinc: (chance) => createMaterial(index = 16, health = 900, xp = 300, chance = chance),
-        perlite: (chance) => createMaterial(index = 17, health = 900, xp = 300, chance = chance),
-        pyrite: (chance) => createMaterial(index = 18, health = 900, xp = 300, chance = chance),
-        obsidian: (chance) => createMaterial(index = 19, health = 900, xp = 300, chance = chance),
-        azurite: (chance) => createMaterial(index = 20, health = 900, xp = 300, chance = chance),
-        amethyst: (chance) => createMaterial(index = 21, health = 900, xp = 300, chance = chance),
-        ruby: (chance) => createMaterial(index = 22, health = 900, xp = 300, chance = chance),
-        sapphire: (chance) => createMaterial(index = 23, health = 900, xp = 300, chance = chance),
-        emerald: (chance) => createMaterial(index = 24, health = 900, xp = 300, chance = chance),
-        amber: (chance) => createMaterial(index = 25, health = 900, xp = 300, chance = chance),
-        citrine: (chance) => createMaterial(index = 26, health = 900, xp = 300, chance = chance),
-        turquoise: (chance) => createMaterial(index = 27, health = 900, xp = 300, chance = chance),
-        topaz: (chance) => createMaterial(index = 28, health = 900, xp = 300, chance = chance),
-        aquamarine: (chance) => createMaterial(index = 29, health = 900, xp = 300, chance = chance),
-        sunstone: (chance) => createMaterial(index = 30, health = 900, xp = 300, chance = chance),
-        moonstone: (chance) => createMaterial(index = 31, health = 900, xp = 300, chance = chance),
-        bloodstone: (chance) => createMaterial(index = 32, health = 900, xp = 300, chance = chance),
-        onyx: (chance) => createMaterial(index = 33, health = 900, xp = 300, chance = chance),
-        sulfur: (chance) => createMaterial(index = 34, health = 900, xp = 300, chance = chance),
-        
-            // Uranium
-            // Zeolite
-            // Lapis Lazuli
-            // Cavansite
-            // Garnet
-            // Howlite
-            // Zircon
-            // Tanzanite
-            // Black Star Diopside
-    },
-    woodcuttingMaterials: {
-        stick: (chance) => createMaterial(index = 0, health = 20, xp = 1, chance = chance),
-        oakWood: (chance) => createMaterial(index = 1, health = 20, xp = 1, chance = chance),
-        mapleWood: (chance) => createMaterial(index = 2, health = 20, xp = 1, chance = chance),
-        mahagonyWood: (chance) => createMaterial(index = 3, health = 20, xp = 1, chance = chance),
-        birchWood: (chance) => createMaterial(index = 4, health = 20, xp = 1, chance = chance),
-
-
+    mining: {
+        stone             : (c) => createMaterial(index = 0  , health = 20   , xp = 1   , chance = c),
+        ironOre           : (c) => createMaterial(index = 1  , health = 50   , xp = 3   , chance = c),
+        copper            : (c) => createMaterial(index = 2  , health = 40   , xp = 2   , chance = c),
+        silver            : (c) => createMaterial(index = 3  , health = 100  , xp = 5   , chance = c),
+        gold              : (c) => createMaterial(index = 4  , health = 200  , xp = 20  , chance = c),
+        platinum          : (c) => createMaterial(index = 5  , health = 300  , xp = 50  , chance = c),
+        lead              : (c) => createMaterial(index = 6  , health = 500  , xp = 100 , chance = c),
+        titanium          : (c) => createMaterial(index = 7  , health = 800  , xp = 175 , chance = c),
+        diamond           : (c) => createMaterial(index = 8  , health = 1000 , xp = 250 , chance = c),
+        bronze            : (c) => createMaterial(index = 9  , health = 400  , xp = 65  , chance = c),
+        chromite          : (c) => createMaterial(index = 10 , health = 500  , xp = 80  , chance = c),
+        cobalt            : (c) => createMaterial(index = 11 , health = 450  , xp = 75  , chance = c),
+        lithium           : (c) => createMaterial(index = 12 , health = 700  , xp = 110 , chance = c),
+        manganese         : (c) => createMaterial(index = 13 , health = 300  , xp = 40  , chance = c),
+        nickel            : (c) => createMaterial(index = 14 , health = 900  , xp = 300 , chance = c),
+        quartz            : (c) => createMaterial(index = 15 , health = 900  , xp = 300 , chance = c),
+        zinc              : (c) => createMaterial(index = 16 , health = 900  , xp = 300 , chance = c),
+        perlite           : (c) => createMaterial(index = 17 , health = 900  , xp = 300 , chance = c),
+        pyrite            : (c) => createMaterial(index = 18 , health = 900  , xp = 300 , chance = c),
+        obsidian          : (c) => createMaterial(index = 19 , health = 900  , xp = 300 , chance = c),
+        azurite           : (c) => createMaterial(index = 20 , health = 900  , xp = 300 , chance = c),
+        amethyst          : (c) => createMaterial(index = 21 , health = 900  , xp = 300 , chance = c),
+        ruby              : (c) => createMaterial(index = 22 , health = 900  , xp = 300 , chance = c),
+        sapphire          : (c) => createMaterial(index = 23 , health = 900  , xp = 300 , chance = c),
+        emerald           : (c) => createMaterial(index = 24 , health = 900  , xp = 300 , chance = c),
+        amber             : (c) => createMaterial(index = 25 , health = 900  , xp = 300 , chance = c),
+        citrine           : (c) => createMaterial(index = 26 , health = 900  , xp = 300 , chance = c),
+        turquoise         : (c) => createMaterial(index = 27 , health = 900  , xp = 300 , chance = c),
+        topaz             : (c) => createMaterial(index = 28 , health = 900  , xp = 300 , chance = c),
+        aquamarine        : (c) => createMaterial(index = 29 , health = 900  , xp = 300 , chance = c),
+        sunstone          : (c) => createMaterial(index = 30 , health = 900  , xp = 300 , chance = c),
+        moonstone         : (c) => createMaterial(index = 31 , health = 900  , xp = 300 , chance = c),
+        bloodstone        : (c) => createMaterial(index = 32 , health = 900  , xp = 300 , chance = c),
+        onyx              : (c) => createMaterial(index = 33 , health = 900  , xp = 300 , chance = c),
+        sulfur            : (c) => createMaterial(index = 34 , health = 900  , xp = 300 , chance = c),
+        uranium           : (c) => createMaterial(index = 35 , health = 900  , xp = 300 , chance = c),
+        zeolite           : (c) => createMaterial(index = 36 , health = 900  , xp = 300 , chance = c),
+        lapisLazuli       : (c) => createMaterial(index = 37 , health = 900  , xp = 300 , chance = c),
+        cavansite         : (c) => createMaterial(index = 38 , health = 900  , xp = 300 , chance = c),
+        garnet            : (c) => createMaterial(index = 39 , health = 900  , xp = 300 , chance = c),
+        howlite           : (c) => createMaterial(index = 40 , health = 900  , xp = 300 , chance = c),
+        zircon            : (c) => createMaterial(index = 41 , health = 900  , xp = 300 , chance = c),
+        tanzanite         : (c) => createMaterial(index = 42 , health = 900  , xp = 300 , chance = c),
+        blackStarDiopside : (c) => createMaterial(index = 43 , health = 900  , xp = 300 , chance = c),
 
     },
-    huntingMaterials: {
-        rabbitLeg: (chance) => createMaterial(index = 0, health = 20, xp = 1, chance = chance),
+    woodcutting: {
+        stick       : (c) => createMaterial(index = 0 , health = 20, xp = 1, chance = c),
+        oakWood     : (c) => createMaterial(index = 1 , health = 20, xp = 1, chance = c),
+        mapleWood   : (c) => createMaterial(index = 2 , health = 20, xp = 1, chance = c),
+        mahagonyWood: (c) => createMaterial(index = 3 , health = 20, xp = 1, chance = c),
+        birchWood   : (c) => createMaterial(index = 4 , health = 20, xp = 1, chance = c),
+        beechWood   : (c) => createMaterial(index = 5 , health = 20, xp = 1, chance = c),
+        elmWood     : (c) => createMaterial(index = 6 , health = 20, xp = 1, chance = c),
+        willowWood  : (c) => createMaterial(index = 7 , health = 20, xp = 1, chance = c),
+        hickoryWood : (c) => createMaterial(index = 8 , health = 20, xp = 1, chance = c),
+        cedarWood   : (c) => createMaterial(index = 9 , health = 20, xp = 1, chance = c),
+        pineWood    : (c) => createMaterial(index = 10, health = 20, xp = 1, chance = c),
+        spruceWood  : (c) => createMaterial(index = 11, health = 20, xp = 1, chance = c),
+        redWood     : (c) => createMaterial(index = 12, health = 20, xp = 1, chance = c),
+        firWood     : (c) => createMaterial(index = 13, health = 20, xp = 1, chance = c),
+        ghostedWood : (c) => createMaterial(index = 14, health = 20, xp = 1, chance = c),
+        blackWood   : (c) => createMaterial(index = 15, health = 20, xp = 1, chance = c),
+        shinyWood   : (c) => createMaterial(index = 16, health = 20, xp = 1, chance = c),
+        sparklyWood : (c) => createMaterial(index = 17, health = 20, xp = 1, chance = c),
+        cursedWood  : (c) => createMaterial(index = 18, health = 20, xp = 1, chance = c),
+        treeOfLife  : (c) => createMaterial(index = 19, health = 20, xp = 1, chance = c),
+
+
+    },
+    hunting: {
+        beetle     : (c) => createMaterial(index = 0 , health = 20, xp = 1, chance = c),
+        rabbit     : (c) => createMaterial(index = 1 , health = 20, xp = 1, chance = c),
+        frog       : (c) => createMaterial(index = 2 , health = 20, xp = 1, chance = c),
+        chicken    : (c) => createMaterial(index = 3 , health = 20, xp = 1, chance = c),
+        bat        : (c) => createMaterial(index = 4 , health = 20, xp = 1, chance = c),
+        pigeon     : (c) => createMaterial(index = 5 , health = 20, xp = 1, chance = c),
+        turtle     : (c) => createMaterial(index = 6 , health = 20, xp = 1, chance = c),
+        crab       : (c) => createMaterial(index = 7 , health = 20, xp = 1, chance = c),
+        rat        : (c) => createMaterial(index = 8 , health = 20, xp = 1, chance = c),
+        beaver     : (c) => createMaterial(index = 9 , health = 20, xp = 1, chance = c),
+        owl        : (c) => createMaterial(index = 10, health = 20, xp = 1, chance = c),
+        fox        : (c) => createMaterial(index = 11, health = 20, xp = 1, chance = c),
+        honeyBadger: (c) => createMaterial(index = 12, health = 20, xp = 1, chance = c),
+        cow        : (c) => createMaterial(index = 13, health = 20, xp = 1, chance = c),
+        wolf       : (c) => createMaterial(index = 14, health = 20, xp = 1, chance = c),
+        deer       : (c) => createMaterial(index = 15, health = 20, xp = 1, chance = c),
+        bear       : (c) => createMaterial(index = 16, health = 20, xp = 1, chance = c),
+        camel      : (c) => createMaterial(index = 17, health = 20, xp = 1, chance = c),
+        lizard     : (c) => createMaterial(index = 18, health = 20, xp = 1, chance = c),
+        antelope   : (c) => createMaterial(index = 19, health = 20, xp = 1, chance = c),
+        armadillo  : (c) => createMaterial(index = 20, health = 20, xp = 1, chance = c),
+        penguin    : (c) => createMaterial(index = 21, health = 20, xp = 1, chance = c),
+        panda      : (c) => createMaterial(index = 22, health = 20, xp = 1, chance = c),
+        ape        : (c) => createMaterial(index = 23, health = 20, xp = 1, chance = c),
+        leopard    : (c) => createMaterial(index = 24, health = 20, xp = 1, chance = c),
+        elephant   : (c) => createMaterial(index = 25, health = 20, xp = 1, chance = c),
+        crocodile  : (c) => createMaterial(index = 26, health = 20, xp = 1, chance = c),
+        lion       : (c) => createMaterial(index = 27, health = 20, xp = 1, chance = c),
+        bison      : (c) => createMaterial(index = 28, health = 20, xp = 1, chance = c),
+        rhino      : (c) => createMaterial(index = 29, health = 20, xp = 1, chance = c),
+        ghost      : (c) => createMaterial(index = 30, health = 20, xp = 1, chance = c),
+
     }
 }
 
 
 let areas = {
-    miningAreas: {
+    mining: {
         area1: {
             reset: function () {
                 this.materials = {
-                    stone: materials.miningMaterials.stone(1000),
-                    ironOre: materials.miningMaterials.ironOre(300),
-                    copper: materials.miningMaterials.copper(200),
-                    silver: materials.miningMaterials.silver(100),
-                    gold: materials.miningMaterials.gold(50),
-                    platinum: materials.miningMaterials.platinum(25),
+                    stone: materials.mining.stone(1000),
+                    ironOre: materials.mining.ironOre(300),
+                    copper: materials.mining.copper(200),
+                    silver: materials.mining.silver(100),
+                    gold: materials.mining.gold(50),
+                    platinum: materials.mining.platinum(25),
 
-                    lead: materials.miningMaterials.lead(10),
-                    titanium: materials.miningMaterials.titanium(5),
-                    diamond: materials.miningMaterials.diamond(1),
+                    lead: materials.mining.lead(10),
+                    titanium: materials.mining.titanium(5),
+                    diamond: materials.mining.diamond(1),
                 };
                 this.name = 'Iron mine';
                 this.index = 0;
@@ -264,7 +316,7 @@ let areas = {
         area2: {
             reset: function () {
                 this.materials = {
-                    stone: materials.miningMaterials.stone(100),
+                    stone: materials.mining.stone(100),
                 }
                 this.name = 'Platinum mine'
                 this.index = 1
@@ -272,7 +324,7 @@ let areas = {
                 this.totalLevel = 1
                 this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
-                this.requiredMaterialsForNextLevel = 6
+                this.requiredMaterialsForNextLevel = 40
                 this.unlocked = false
             }
 
@@ -282,12 +334,7 @@ let areas = {
             reset: function () {
 
                 this.materials = {
-                    stone: createMaterial(1, 10, 1, 1, 1, 1000, 0),
-                    ironOre: createMaterial(2, 30, 3, 3, 1, 400, 0),
-                    copper: createMaterial(3, 20, 2, 2, 1, 250, 0),
-                    silver: createMaterial(4, 40, 4, 4, 1, 100, 0),
-                    gold: createMaterial(5, 50, 5, 5, 1, 50, 0),
-                    platinum: createMaterial(6, 100, 10, 10, 1, 40, 0),
+
                 }
                 this.name = 'Gold mine'
                 this.index = 2
@@ -295,7 +342,7 @@ let areas = {
                 this.totalLevel = 1
                 this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
-                this.requiredMaterialsForNextLevel = 5
+                this.requiredMaterialsForNextLevel = 40
                 this.unlocked = false
             }
 
@@ -305,12 +352,7 @@ let areas = {
         area4: {
             reset: function () {
                 this.materials = {
-                    stone: createMaterial(1, 10, 1, 1, 1, 1000, 0),
-                    ironOre: createMaterial(2, 30, 3, 3, 1, 400, 0),
-                    copper: createMaterial(3, 20, 2, 2, 1, 250, 0),
-                    silver: createMaterial(4, 40, 4, 4, 1, 100, 0),
-                    gold: createMaterial(5, 50, 5, 5, 1, 50, 0),
-                    platinum: createMaterial(6, 100, 10, 10, 1, 40, 0),
+
                 }
                 this.name = 'Bingham Canyon mine'
                 this.index = 3
@@ -325,22 +367,21 @@ let areas = {
 
         },
     },
-    woodcuttingAreas: {
+    woodcutting: {
         area1: {
             reset: function () {
-
                 this.materials = {
-                    stick: createMaterial(1, 20, 1, 10, 100),
-                    oakWood: createMaterial(2, 20, 1, 10, 150),
-                    mapleWood: createMaterial(3, 20, 1, 10, 200),
-                    mahoganyWood: createMaterial(4, 20, 1, 10, 250),
-                    birchWood: createMaterial(5, 20, 1, 10, 300),
+                    stick: materials.woodcutting.stick(1000),
+                    oakWood: materials.woodcutting.oakWood(100),
+                    mapleWood: materials.woodcutting.mapleWood(100),
+                    mahagonyWood: materials.woodcutting.mahagonyWood(100),
+                    birchWood: materials.woodcutting.birchWood(100),
+                    cedarWood: materials.woodcutting.cedarWood(100),
                 }
-                this.name = 'w0'
+                this.name = 'Tropical Forest'
                 this.index = 0
                 this.level = 1
                 this.totalLevel = 1
-                this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
                 this.requiredMaterialsForNextLevel = 5
                 this.unlocked = true
@@ -348,15 +389,16 @@ let areas = {
         },
         area2: {
             reset: function () {
-
                 this.materials = {
-                    stick: createMaterial(1, 20, 1, 10, 100),
-                    oakWood: createMaterial(2, 20, 1, 10, 150),
-                    mapleWood: createMaterial(3, 20, 1, 10, 200),
-                    mahoganyWood: createMaterial(4, 20, 1, 10, 250),
-                    birchWood: createMaterial(5, 20, 1, 10, 300),
+                    stick: materials.woodcutting.stick(1000),
+                    mapleWood: materials.woodcutting.mapleWood(1000),
+                    beechWood: materials.woodcutting.beechWood(1000),
+                    elmWood: materials.woodcutting.elmWood(1000),
+                    willowWood: materials.woodcutting.willowWood(1000),
+                    redWood: materials.woodcutting.redWood(1000),
+
                 }
-                this.name = 'w1'
+                this.name = 'Temperate Forest'
                 this.index = 1
                 this.level = 1
                 this.totalLevel = 1
@@ -370,58 +412,69 @@ let areas = {
             reset: function () {
 
                 this.materials = {
-                    stick: createMaterial(1, 20, 1, 10, 100),
-                    oakWood: createMaterial(2, 20, 1, 10, 150),
-                    mapleWood: createMaterial(3, 20, 1, 10, 200),
-                    mahoganyWood: createMaterial(4, 20, 1, 10, 250),
-                    birchWood: createMaterial(5, 20, 1, 10, 300),
+                    stick: materials.woodcutting.stick(1000),
+                    hickoryWood: materials.woodcutting.hickoryWood(1000),
+                    cedarWood: materials.woodcutting.cedarWood(1000),
+                    pineWood: materials.woodcutting.pineWood(1000),
+                    spruceWood: materials.woodcutting.spruceWood(1000),
+                    firWood: materials.woodcutting.firWood(1000),
                 }
-                this.name = 'w2'
+                this.name = 'Boreal Forest'
                 this.index = 2
                 this.level = 1
                 this.totalLevel = 1
                 this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
                 this.requiredMaterialsForNextLevel = 5
-                this.unlocked = true
+                this.unlocked = false
             }
         },
         area4: {
             reset: function () {
 
                 this.materials = {
-                    stick: createMaterial(1, 20, 1, 10, 100),
-                    oakWood: createMaterial(2, 20, 1, 10, 150),
-                    mapleWood: createMaterial(3, 20, 1, 10, 200),
-                    mahoganyWood: createMaterial(4, 20, 1, 10, 250),
-                    birchWood: createMaterial(5, 20, 1, 10, 300),
+                    stick: materials.woodcutting.stick(1000),
+                    ghostedWood: materials.woodcutting.ghostedWood(1000),
+                    blackWood: materials.woodcutting.blackWood(1000),
+                    shinyWood: materials.woodcutting.shinyWood(1000),
+                    sparklyWood: materials.woodcutting.sparklyWood(1000),
+                    cursedWood: materials.woodcutting.cursedWood(1000),
+                    treeOfLife: materials.woodcutting.treeOfLife(1000),
                 }
-                this.name = 'w3'
+                this.name = 'Magic Forest'
                 this.index = 3
                 this.level = 1
                 this.totalLevel = 1
                 this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
                 this.requiredMaterialsForNextLevel = 5
-                this.unlocked = true
+                this.unlocked = false
             }
         },
     },
-    huntingAreas: {
+    hunting: {
         area1: {
             reset: function () {
                 this.materials = {
-                    rabbitLeg: createMaterial(1, 20, 1, 10, 100),
-                    deerHorns: createMaterial(2, 20, 1, 10, 150),
-                    deerSkin: createMaterial(3, 20, 1, 10, 200),
-                    foxSkin: createMaterial(4, 20, 1, 10, 250),
-                    buckSteak: createMaterial(5, 20, 1, 10, 300),
+                    beetle: materials.hunting.beetle(1000),
+                    rabbit: materials.hunting.rabbit(1000),
+                    frog: materials.hunting.frog(1000),
+                    chicken: materials.hunting.chicken(1000),
+                    bat: materials.hunting.bat(1000),
+                    pigeon: materials.hunting.pigeon(1000),
+                    turtle: materials.hunting.turtle(1000),
+                    rat: materials.hunting.rat(1000),
+                    beaver: materials.hunting.beaver(1000),
+                    owl: materials.hunting.owl(1000),
+                    fox: materials.hunting.fox(1000),
+                    wolf: materials.hunting.wolf(1000),
+                    bear: materials.hunting.bear(1000),
+
                 }
                 this.name = 'Forest'
                 this.index = 0
                 this.level = 1
                 this.totalLevel = 1
-                this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
                 this.requiredMaterialsForNextLevel = 5
                 this.unlocked = true
@@ -430,11 +483,13 @@ let areas = {
         area2: {
             reset: function () {
                 this.materials = {
-                    rabbitLeg: createMaterial(1, 20, 1, 10, 100),
-                    deerHorns: createMaterial(2, 20, 1, 10, 150),
-                    deerSkin: createMaterial(3, 20, 1, 10, 200),
-                    foxSkin: createMaterial(4, 20, 1, 10, 250),
-                    buckSteak: createMaterial(5, 20, 1, 10, 300),
+                    beetle: materials.hunting.beetle(1000),
+                    bat: materials.hunting.bat(1000),
+                    crab: materials.hunting.crab(1000),
+                    camel: materials.hunting.camel(1000),
+                    lizard: materials.hunting.lizard(1000),
+                    crocodile: materials.hunting.crocodile(1000),
+
                 }
                 this.name = 'Desert'
                 this.index = 1
@@ -443,17 +498,22 @@ let areas = {
                 this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
                 this.requiredMaterialsForNextLevel = 5
-                this.unlocked = true
+                this.unlocked = false
             }
         },
         area3: {
             reset: function () {
                 this.materials = {
-                    rabbitLeg: createMaterial(1, 20, 1, 10, 100),
-                    deerHorns: createMaterial(2, 20, 1, 10, 150),
-                    deerSkin: createMaterial(3, 20, 1, 10, 200),
-                    foxSkin: createMaterial(4, 20, 1, 10, 250),
-                    buckSteak: createMaterial(5, 20, 1, 10, 300),
+                    honeyBadger: materials.hunting.honeyBadger(1000),
+                    cow: materials.hunting.cow(1000),
+                    wolf: materials.hunting.wolf(1000),
+                    deer: materials.hunting.deer(1000),
+                    lizard: materials.hunting.lizard(1000),
+                    antelope: materials.hunting.antelope(1000),
+                    armadillo: materials.hunting.armadillo(1000),
+                    panda: materials.hunting.panda(1000),
+                    ape: materials.hunting.ape(1000),
+                    leopard: materials.hunting.leopard(1000),
                 }
                 this.name = 'Mountain'
                 this.index = 2
@@ -462,17 +522,20 @@ let areas = {
                 this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
                 this.requiredMaterialsForNextLevel = 5
-                this.unlocked = true
+                this.unlocked = false
             }
         },
         area4: {
             reset: function () {
                 this.materials = {
-                    rabbitLeg: createMaterial(1, 20, 1, 10, 100),
-                    deerHorns: createMaterial(2, 20, 1, 10, 150),
-                    deerSkin: createMaterial(3, 20, 1, 10, 200),
-                    foxSkin: createMaterial(4, 20, 1, 10, 250),
-                    buckSteak: createMaterial(5, 20, 1, 10, 300),
+                    penguin: materials.hunting.penguin(1000),
+                    ape: materials.hunting.ape(1000),
+                    elephant: materials.hunting.elephant(1000),
+                    crocodile: materials.hunting.crocodile(1000),
+                    lion: materials.hunting.lion(1000),
+                    bison: materials.hunting.bison(1000),
+                    rhino: materials.hunting.rhino(1000),
+                    ghost: materials.hunting.ghost(1),
                 }
                 this.name = 'Jungle'
                 this.index = 3
@@ -481,14 +544,14 @@ let areas = {
                 this.previousAreaLevelRequired = 50;
                 this.materialsDropped = 0
                 this.requiredMaterialsForNextLevel = 5
-                this.unlocked = true
+                this.unlocked = false
             }
         },
     },
 }
 
 let upgrades = {
-    miningUpgrades: {
+    mining: {
         increasePickaxePower: {
             reset: function () {
                 this.level = 0
@@ -496,26 +559,10 @@ let upgrades = {
                 this.bonusOnLevel = 2
                 this.value = "flat"
                 this.requiredMaterials = {
-                    stone: {
-                        required: 10,
-                        initialRequired: 10,
-                        requiredOnLevel: 5
-                    },
-                    copper: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1
-                    },
-                    ironOre: {
-                        required: 3,
-                        initialRequired: 3,
-                        requiredOnLevel: 1
-                    },
-                    stick: {
-                        required: 5,
-                        initialRequired: 5,
-                        requiredOnLevel: 1
-                    }
+                    stone: requiredMaterial(10, 5),
+                    copper: requiredMaterial(1, 1),
+                    ironOre: requiredMaterial(3, 1),
+                    stick: requiredMaterial(5, 1),
                 }
             }
         },
@@ -526,11 +573,7 @@ let upgrades = {
                 this.bonusOnLevel = .01
                 this.value = "percent"
                 this.requiredMaterials = {
-                    copper: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1,
-                    },
+                    copper: requiredMaterial(1, 1),
                 }
             }
         },
@@ -553,11 +596,7 @@ let upgrades = {
                 this.bonusOnLevel = .01
                 this.value = "percent"
                 this.requiredMaterials = {
-                    copper: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1,
-                    }
+                    copper: requiredMaterial(1, 1)
                 }
             }
         },
@@ -580,11 +619,7 @@ let upgrades = {
                 this.bonusOnLevel = 1
                 this.value = "flat"
                 this.requiredMaterials = {
-                    stone: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1,
-                    }
+                    stone: requiredMaterial(10, 5),
                 }
             }
         },
@@ -595,11 +630,7 @@ let upgrades = {
                 this.bonusOnLevel = 1
                 this.value = "flat"
                 this.requiredMaterials = {
-                    stone: {
-                        required: 100,
-                        initialRequired: 100,
-                        requiredOnLevel: 100,
-                    },
+                    stone: requiredMaterial(100, 100),
                 }
             }
         },
@@ -610,11 +641,7 @@ let upgrades = {
                 this.bonusOnLevel = 1
                 this.value = "flat"
                 this.requiredMaterials = {
-                    ironOre: {
-                        required: 100,
-                        initialRequired: 100,
-                        requiredOnLevel: 100,
-                    },
+                    ironOre: requiredMaterial(100, 100),
                 }
             }
         },
@@ -625,11 +652,7 @@ let upgrades = {
                 this.bonusOnLevel = 1
                 this.value = "flat"
                 this.requiredMaterials = {
-                    copper: {
-                        required: 100,
-                        initialRequired: 100,
-                        requiredOnLevel: 100,
-                    },
+                    copper: requiredMaterial(100, 100),
                 }
             }
         },
@@ -640,11 +663,7 @@ let upgrades = {
                 this.bonusOnLevel = 1
                 this.value = "flat"
                 this.requiredMaterials = {
-                    silver: {
-                        required: 100,
-                        initialRequired: 100,
-                        requiredOnLevel: 100,
-                    },
+                    silver: requiredMaterial(100, 100),
                 }
             }
         },
@@ -655,11 +674,7 @@ let upgrades = {
                 this.bonusOnLevel = 1
                 this.value = "flat"
                 this.requiredMaterials = {
-                    gold: {
-                        required: 100,
-                        initialRequired: 100,
-                        requiredOnLevel: 100,
-                    },
+                    gold: requiredMaterial(100, 100),
                 }
             }
         },
@@ -670,11 +685,7 @@ let upgrades = {
                 this.bonusOnLevel = 1
                 this.value = "flat"
                 this.requiredMaterials = {
-                    platinum: {
-                        required: 100,
-                        initialRequired: 100,
-                        requiredOnLevel: 100,
-                    },
+                    platinum: requiredMaterial(100, 100),
                 }
             }
         },
@@ -685,42 +696,26 @@ let upgrades = {
                 this.bonusOnLevel = 0.05
                 this.value = "percent"
                 this.requiredMaterials = {
-                    silver: {
-                        required: 50,
-                        initialRequired: 50,
-                        requiredOnLevel: 50,
-                    },
-                    gold: {
-                        required: 50,
-                        initialRequired: 50,
-                        requiredOnLevel: 50,
-                    },
-                    platinum: {
-                        required: 50,
-                        initialRequired: 50,
-                        requiredOnLevel: 50,
-                    },
-                    diamond: {
-                        required: 5,
-                        initialRequired: 5,
-                        requiredOnLevel: 5,
-                    },
+                    silver: requiredMaterial(50, 50),
+                    gold: requiredMaterial(50, 50),
+                    platinum: requiredMaterial(50, 50),
+                    diamond: requiredMaterial(5, 5),
                 }
             }
         },
         increaseChanceToFindAzurite: {
-            reset: function() {
+            reset: function () {
                 this.level = 0
                 this.currentBonus = 0
                 this.bonusOnLevel = 0.05
                 this.value = "percent"
                 this.requiredMaterials = {
-                    
+
                 }
             }
         },
         increaseChanceToFindOnyx: {
-            reset: function() {
+            reset: function () {
 
                 this.level = 0
                 this.currentBonus = 0
@@ -732,57 +727,41 @@ let upgrades = {
             }
         },
         increaseChanceToFindBlackStarDiopside: {
-            reset: function() {
+            reset: function () {
                 this.level = 0
                 this.currentBonus = 0
                 this.bonusOnLevel = 0.05
                 this.value = "percent"
                 this.requiredMaterials = {
-                    
+
                 }
             }
         },
     },
-    woodcuttingUpgrades: {
+    woodcutting: {
         increaseAxePower: {
-            reset: function() {
+            reset: function () {
                 this.level = 0
                 this.currentBonus = 0
                 this.bonusOnLevel = 2
                 this.value = "flat"
                 this.requiredMaterials = {
-                    stone: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1,
-                    },
-                    stick: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1,
-                    },
+                    stone: requiredMaterial(1, 1),
+                    stick: requiredMaterial(1, 1),
                 }
             }
         },
     },
-    huntingUpgrades: {
+    hunting: {
         increaseWeaponPower: {
-            reset: function() {
+            reset: function () {
                 this.level = 0
                 this.currentBonus = 0
                 this.bonusOnLevel = 2
                 this.value = "flat"
                 this.requiredMaterials = {
-                    stone: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1,
-                    },
-                    stick: {
-                        required: 1,
-                        initialRequired: 1,
-                        requiredOnLevel: 1,
-                    },
+                    stone: requiredMaterial(1, 1),
+                    stick: requiredMaterial(1, 1),
                 }
             }
         },
@@ -803,20 +782,19 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        area: areas.miningAreas.area1,
-        inventory: function() {
-            return inventoryMaterials[this.itemGroup]
+        area: areas.mining.area1,
+        inventory: function () {
+            return inventory[this.itemGroup]
         },
-        getTool: function() {
-            return tools.miningTool
+        getTool: function () {
+            return tools.mining
         },
         breakingTime: undefined,
         timeout: undefined,
-        itemGroup: 'miningMaterials',
-        areaGroup: 'miningAreas',
-        reset: function() {
+        type: 'mining',
+        reset: function () {
             this.clicked = false;
-            this.area = areas.miningAreas.area1
+            this.area = areas.mining.area1
             clearInterval(this.breakingTime);
             clearTimeout(this.timeout)
         }
@@ -827,20 +805,20 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        area: areas.woodcuttingAreas.area1,
-        inventory: function() {
-            return inventoryMaterials[this.itemGroup]
+        area: areas.woodcutting.area1,
+        inventory: function () {
+            return inventory[this.itemGroup]
         },
-        getTool: function() {
-            return tools.woodcuttingTool
+        getTool: function () {
+            return tools.woodcutting
         },
         breakingTime: undefined,
         timeout: undefined,
         itemGroup: 'woodcuttingMaterials',
         areaGroup: 'woodcuttingAreas',
-        reset: function() {
+        reset: function () {
             this.clicked = false;
-            this.area = areas.woodcuttingAreas.area1
+            this.area = areas.woodcutting.area1
         }
     },
     hunting: {
@@ -849,20 +827,20 @@ let main = {
         material: undefined,
         currentHP: undefined,
         totalHP: undefined,
-        area: areas.huntingAreas.area1,
-        inventory: function() {
-            return inventoryMaterials[this.itemGroup]
+        area: areas.hunting.area1,
+        inventory: function () {
+            return inventory[this.itemGroup]
         },
-        getTool: function() {
+        getTool: function () {
             return tools.huntingTool
         },
         breakingTime: undefined,
         timeout: undefined,
         itemGroup: 'huntingMaterials',
         areaGroup: 'huntingAreas',
-        reset: function() {
+        reset: function () {
             this.clicked = false;
-            this.area = areas.huntingAreas.area1
+            this.area = areas.hunting.area1
         }
     },
 }

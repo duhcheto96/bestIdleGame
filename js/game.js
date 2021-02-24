@@ -1,7 +1,16 @@
 "use strict"
-// resetProgress();
-updateEverything();
 
+if (!played) {
+    played = true
+    updateLocalStorage()
+} else {
+    inventory = JSON.parse(localStorage.getItem("inventoryMaterials"))
+    tools = JSON.parse(localStorage.getItem("tools"))
+    areas = JSON.parse(localStorage.getItem("areas"))
+    main = JSON.parse(localStorage.getItem("main"))
+}
+
+updateEverything();
 
 // START MINING
 sa('.material')[0].childNodes[0].addEventListener('click', () => {
@@ -76,18 +85,20 @@ sa('.material')[0].childNodes[2].addEventListener('click', () => {
 
 
 let mainMaterialGatheringFunction = (mainType) => {
+    let lookingFor = ''
+    lookingFor = mainType.itemGroup === 'huntingMaterials' ? 'Looking for animal' : "Looking for material"
 
-    if (mainType.material === "Looking for material") {
+    if (mainType.material === lookingFor) {
         mainType.material = getRandomElement(mainType.area.materials);
     } else {
-        mainType.material = "Looking for material";
+        mainType.material = lookingFor;
     }
     
     updateEverything();
     
     materialColor(sa('.material')[mainType.index], mainType.material);
 
-    if (mainType.material === "Looking for material") {
+    if (mainType.material === lookingFor) {
         
         mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), mainType.getTool().lookingForTime);
     } else {

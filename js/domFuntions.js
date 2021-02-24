@@ -55,8 +55,8 @@ function addNewItemToInventory(mainType) {
     itemGroup = mainType.itemGroup;
     areaGroup = mainType.areaGroup;
     list = sa('.itemsList')[mainType.index];
-    if (inventoryMaterials[itemGroup][itemName] == undefined) {
-        inventoryMaterials[itemGroup][itemName] = 0;
+    if (inventory[itemGroup][itemName] == undefined) {
+        inventory[itemGroup][itemName] = 0;
     }
 
     const item = createDiv('invItem');
@@ -65,7 +65,7 @@ function addNewItemToInventory(mainType) {
 
     invItemName.textContent = camelCaseToNormal(itemName);
     invItemName.dataset.name = itemName;
-    invItemQuantity.textContent = inventoryMaterials[itemGroup][itemName];
+    invItemQuantity.textContent = inventory[itemGroup][itemName];
 
     item.appendChild(invItemName);
     item.appendChild(invItemQuantity);
@@ -434,9 +434,9 @@ function updateInventory() {
 
     invItems.forEach((item, i, list) => {
         let name = item.childNodes[0].dataset.name;
-        for (let itemGroup in inventoryMaterials) {
-            if (inventoryMaterials[itemGroup][name] !== undefined) {
-                quantity = inventoryMaterials[itemGroup][name];
+        for (let itemGroup in inventory) {
+            if (inventory[itemGroup][name] !== undefined) {
+                quantity = inventory[itemGroup][name];
             }
         }
         item.childNodes[1].textContent = quantity;
@@ -521,13 +521,14 @@ function updateMaterialLevels() {
 }
 
 function updateEverything() {
-    updateInventory();
+    updateInventory()
     removeMissingItems()
-    updateToolStats();
-    updateUpgrades();
-    markUpgradesBuyable();
-    unlockAreas();
-    updateAreas();
+    updateToolStats()
+    updateUpgrades()
+    markUpgradesBuyable()
+    unlockAreas()
+    updateAreas()
+    updateLocalStorage()
 }
 
 // END OF UPDATES

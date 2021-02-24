@@ -53,8 +53,8 @@ function areUpgradeMaterialsAvailable(upgradeName) {
     let found = 0;
 
     for (let mat in reqMats) {
-        for (let group in inventoryMaterials) {
-            if (inventoryMaterials[group].hasOwnProperty(mat)) {
+        for (let group in inventory) {
+            if (inventory[group].hasOwnProperty(mat)) {
                 found++;
             }
         }
@@ -66,9 +66,9 @@ function areUpgradeMaterialsAvailable(upgradeName) {
     }
 
     for (let mat in reqMats) {
-        for (let group in inventoryMaterials) {
-            if (inventoryMaterials[group].hasOwnProperty(mat)) {
-                if (inventoryMaterials[group][mat] < reqMats[mat].required) {
+        for (let group in inventory) {
+            if (inventory[group].hasOwnProperty(mat)) {
+                if (inventory[group][mat] < reqMats[mat].required) {
                     return false;
                 }
             }
@@ -100,11 +100,11 @@ function areUpgradeRequirementsMet(upgradeName) {
     }
     if (t == 'miningUpgrades') {
         if (reqLevel != undefined) {
-            if (tools.miningTool.xp.level < reqLevel) {
+            if (tools.mining.xp.level < reqLevel) {
                 return false
             }
         } else if (reqTier != undefined) {
-            if (tools.miningTool.xp.tier < reqTier) {
+            if (tools.mining.xp.tier < reqTier) {
                 return false
             }
         }
@@ -121,9 +121,9 @@ function removeUpgradeMaterials(upgradeName) {
     }
 
     for (let mat in reqMats) {
-        for (let group in inventoryMaterials) {
-            if (inventoryMaterials[group].hasOwnProperty(mat)) {
-                inventoryMaterials[group][mat] -= reqMats[mat].required;
+        for (let group in inventory) {
+            if (inventory[group].hasOwnProperty(mat)) {
+                inventory[group][mat] -= reqMats[mat].required;
             }
         }
     }
@@ -156,15 +156,15 @@ function removeUpgradeLevelsOrTier(upgradeName) {
 
 
     if (t == 'miningUpgrades') {
-        if (tools.miningTool.xp.level >= reqLevel) {
-            tools.miningTool.xp.level = 1;
-            tools.miningTool.xp.neededXp = tools.miningTool.xp.initialNeededXp;
-            tools.miningTool.xp.currentXp = 0;
-            tools.miningTool.xp.totalXP = 0;
-            tools.miningTool.damage.powerFromLevels = 0;
+        if (tools.mining.xp.level >= reqLevel) {
+            tools.mining.xp.level = 1;
+            tools.mining.xp.neededXp = tools.mining.xp.initialNeededXp;
+            tools.mining.xp.currentXp = 0;
+            tools.mining.xp.totalXP = 0;
+            tools.mining.damage.powerFromLevels = 0;
         }
-        if (tools.miningTool.xp.tier >= reqTier) {
-            tools.miningTool.xp.tier = 1;
+        if (tools.mining.xp.tier >= reqTier) {
+            tools.mining.xp.tier = 1;
         }
     } else if (t == 'woodcuttingUpgrades') {
 
@@ -208,7 +208,7 @@ function addUpgradeBonus(upgradeName) {
 
 
 function addMiningUpgradeBonus(upgradeName, bonus) {
-    const tool = tools.miningTool;
+    const tool = tools.mining;
     if (upgradeName == "increasePickaxePower") {
         tool.damage.powerFromUpgrades += bonus;
     } else if (upgradeName == "increasePickaxeAtackSpeed") {
@@ -239,13 +239,13 @@ function addMiningUpgradeBonus(upgradeName, bonus) {
     if (upgradeName == 'increasePlatinumDrop') increaseDrop('platinum')
 
     if (upgradeName == 'increaseChanceToFindDiamond') {
-        areas.miningAreas.area1['diamond'].chance += areas.miningAreas.area1['diamond'].chance * bonus;
+        areas.mining.area1['diamond'].chance += areas.mining.area1['diamond'].chance * bonus;
     } else if (upgradeName == 'increaseChanceToFindAzurite') {
-        areas.miningAreas.area2['azurite'].chance += areas.miningAreas.area1['azurite'].chance * bonus;
+        areas.mining.area2['azurite'].chance += areas.mining.area1['azurite'].chance * bonus;
     } else if (upgradeName == 'increaseChanceToFindOnyx') {
-        areas.miningAreas.area3['onyx'].chance += areas.miningAreas.area1['onyx'].chance * bonus;
+        areas.mining.area3['onyx'].chance += areas.mining.area1['onyx'].chance * bonus;
     } else if (upgradeName == 'increaseChanceToFindBlackStarDiopside') {
-        areas.miningAreas.area4['blackStarDiopside'].chance += areas.miningAreas.area1['blackStarDiopside'].chance * bonus;
+        areas.mining.area4['blackStarDiopside'].chance += areas.mining.area1['blackStarDiopside'].chance * bonus;
     }
 }
 
@@ -310,6 +310,13 @@ function createMaterial(index, health, xp, chance, drop = 1, totalDropped = 0) {
     }
 }
 
+let requiredMaterial = function(required, requiredOnLevel) {
+    return {
+        required: required,
+        initialRequired: required,
+        requiredOnLevel: requiredOnLevel,
+    }
+}
 
 function logElementColor(e, mat) {
     if (mat == "dirt") e.style.color = "gold";
@@ -326,14 +333,14 @@ function materialColor(e, mat) {
 
 /// UPDATE ( NOT USED NOW )
 function addAllElementsToInventory() {
-    for(let mats in inventoryMaterials) {
+    for(let mats in inventory) {
         let index;
         for (let type in main) {
             if (main[type].itemGroup == mats) {
                 index = main[type].index
             }
         }
-        for(let mat in inventoryMaterials[mats]) {
+        for(let mat in inventory[mats]) {
             addNewItemToInventory(mat, mats, sa('.itemsList')[index])
         }
     }
@@ -345,6 +352,9 @@ function getMaterialHealth(mainType) {
     mainType.area.level / 
     mainType.getTool().upgrade.getLessHealthOfMaterials();
 }
+
+
+
 
 
 // update level *** 
@@ -370,6 +380,7 @@ let resetProgress = function() {
     resetAreas()
     resetInventory()
     resetHPandMatAll()
+    updateLocalStorage()
 }
 
 let resetMain = function() {
@@ -410,8 +421,8 @@ let resetDomInventory = function() {
 }
 
 let resetInventory = function() {
-    Object.keys(inventoryMaterials).forEach(type => {
-        inventoryMaterials.miningMaterials = {};
+    Object.keys(inventory).forEach(type => {
+        inventory.mining = {};
     })
     resetDomInventory()
 }
@@ -437,3 +448,61 @@ let camelCaseToNormal = function(str) {
     }
     return output;
 }
+
+
+let updateLocalStorage = function() {
+    localStorage.setItem('inventoryMaterials', JSON.stringify(inventory))
+    localStorage.setItem('tools', JSON.stringify(tools))
+    localStorage.setItem('areas', JSON.stringify(areas))
+    localStorage.setItem('upgrades', JSON.stringify(upgrades))
+    localStorage.setItem('main', JSON.stringify(main))
+    localStorage.setItem('played', JSON.stringify(played))
+    console.log(inventory);
+}
+
+// EXTRACTED FUNCTIONS FROM OBJECTS
+
+
+let getLessHealthOfMaterials = (mainType) => {
+    let tool = tools[mainType.type]
+    return tool.upgrade.index / 10 + 1
+}
+
+let getMoreDamageFromLevels = (mainType) => {
+    let tool = tools[mainType.type]
+    return tool.upgrade.index * 3 / 10 + 1
+}
+
+let getBonusDrop = () => {
+    let tool = tools[mainType.type]
+    return tool.upgrade.index
+}
+
+let getBonusXpFromTier = () => {
+    let tool = tools[mainType.type]
+    return 0.9 + tool.xp.tier / 10
+}
+
+let getBonusDamageFromTier = () => {
+    let tool = tools[mainType.type]
+    return 0.9 + tool.xp.tier / 10
+}
+
+let getToolPower = () => {
+    let tool = tools[mainType.type]
+    return Math.floor((tool.damage.power +
+        tool.damage.powerFromLevels *
+        tool.upgrade.getMoreDamageFromLevels() +
+        tool.damage.powerFromUpgrades) *
+        tool.xp.getBonusDamageFromTier());
+    }
+    
+let getToolName = (mainType) => {
+    let tool = tools[mainType.type]
+    return tool.upgrade.list[tool.upgrade.index];
+}
+
+let getInventory = (mainType) => {
+    return inventory[mainType.type]
+}
+
