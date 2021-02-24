@@ -1,14 +1,20 @@
 "use strict"
 
+if (localStorage.getItem('played') !== null) {
+    played = Boolean(localStorage.getItem('played'));
+}
+
 if (!played) {
     played = true
     updateLocalStorage()
 } else {
-    inventory = JSON.parse(localStorage.getItem("inventoryMaterials"))
+    inventory = JSON.parse(localStorage.getItem("inventory"))
     tools = JSON.parse(localStorage.getItem("tools"))
     upgrades = JSON.parse(localStorage.getItem("upgrades"))
     areas = JSON.parse(localStorage.getItem("areas"))
     main = JSON.parse(localStorage.getItem("main"))
+    
+    addAllElementsToDomInventory();
 }
 
 updateEverything();
@@ -123,13 +129,13 @@ let breakBlock = (mainType) => {
 
     if (mainType.currentHP == 0) {
         if (getInventory(mainType)[mainType.material] === undefined ||
-         mainType.inventory()[mainType.material] === 0) {
+         getInventory(mainType)[mainType.material] === 0) {
             addNewItemToInventory(mainType);
         }
 
         let drop = getDropQuantity(mainType);
         
-        mainType.inventory()[mainType.material] += drop;
+        getInventory(mainType)[mainType.material] += drop;
         mainType.area.materials[mainType.material].totalDropped += drop;
 
         // add drop if on the last level
@@ -149,7 +155,7 @@ let breakBlock = (mainType) => {
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
         let xp = (mainType.area.materials[mainType.material].xp 
         + (mainType.area.level - 1) * mainType.area.materials[mainType.material].xp)
-        * getTool(mainType).xp.getBonusXpFromTier();
+        * getToolBonusXpFromTier(getTool(mainType));
 
         xp = Math.floor(xp);
 
@@ -227,8 +233,6 @@ document.addEventListener('keydown', (key) => {
     }
 });
 
-// add all items to inventory on next log in 
-// addAllElementsToInventory();
 
 updateEverything();
 
@@ -246,6 +250,7 @@ sa(".fieldTab")[5].appendChild(createDiv('asd'))
 
 sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
     resetProgress()
+    updateLocalStorage()
     updateEverything()
 })
 

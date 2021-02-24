@@ -550,9 +550,9 @@ let generateMain = () => {
     }
 }
 
-var multiplier = 1;
-var played = false;
-var scroll = true;
+let multiplier = 1;
+let played = false;
+let scroll = true;
 
 let materials = {
     mining: {

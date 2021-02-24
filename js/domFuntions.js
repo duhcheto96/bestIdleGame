@@ -53,7 +53,7 @@ function expandCollapseUpgrades(e, type) {
 function addNewItemToInventory(mainType) {
     let itemName = mainType.material;
     let type = mainType.type;
-    
+
     list = sa('.itemsList')[mainType.index];
     if (inventory[type][itemName] == undefined) {
         inventory[type][itemName] = 0;

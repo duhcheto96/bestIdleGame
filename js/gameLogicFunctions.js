@@ -332,16 +332,16 @@ function materialColor(e, mat) {
 }
 
 /// UPDATE ( NOT USED NOW )
-function addAllElementsToInventory() {
-    for(let mats in inventory) {
+function addAllElementsToDomInventory() {
+    for(let type in inventory) {
         let index;
         for (let type in main) {
-            if (main[type].itemGroup == mats) {
+            if (main[type].itemGroup == type) {
                 index = main[type].index
             }
         }
-        for(let mat in inventory[mats]) {
-            addNewItemToInventory(mat, mats, sa('.itemsList')[index])
+        for(let mat in inventory[type]) {
+            addNewItemToInventory(main[type])
         }
     }
     updateInventory();
@@ -382,7 +382,6 @@ let resetProgress = function() {
     resetIntervals()
     clearLogs()
     resetHPandMatAll()
-    updateLocalStorage()
 }
 
 let resetIntervals = () => {
@@ -421,7 +420,7 @@ let camelCaseToNormal = function(str) {
 
 
 let updateLocalStorage = function() {
-    localStorage.setItem('inventoryMaterials', JSON.stringify(inventory))
+    localStorage.setItem('inventory', JSON.stringify(inventory))
     localStorage.setItem('tools', JSON.stringify(tools))
     localStorage.setItem('areas', JSON.stringify(areas))
     localStorage.setItem('upgrades', JSON.stringify(upgrades))
