@@ -13,7 +13,7 @@ if (!played) {
     upgrades = JSON.parse(localStorage.getItem("upgrades"))
     areas = JSON.parse(localStorage.getItem("areas"))
     main = JSON.parse(localStorage.getItem("main"))
-    
+
     addAllElementsToDomInventory();
 }
 
@@ -100,18 +100,18 @@ let mainMaterialGatheringFunction = (mainType) => {
     } else {
         mainType.material = lookingFor;
     }
-    
+
     updateEverything();
-    
+
     materialColor(sa('.material')[mainType.index], mainType.material);
 
     if (mainType.material === lookingFor) {
-        
+
         mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), getTool(mainType).lookingForTime);
     } else {
         mainType.currentHP = getMaterialHealth(mainType);
         mainType.totalHP = getMaterialHealth(mainType);
-        
+
         setHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
         mainType.breakingTime = setInterval(breakBlock.bind(null, mainType), getTool(mainType).aps);
@@ -122,19 +122,19 @@ let mainMaterialGatheringFunction = (mainType) => {
 let breakBlock = (mainType) => {
 
     mainType.currentHP -= getToolPower(getTool(mainType));
-    
+
     if (mainType.currentHP < 0) mainType.currentHP = 0;
-    
+
     updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
     if (mainType.currentHP == 0) {
         if (getInventory(mainType)[mainType.material] === undefined ||
-         getInventory(mainType)[mainType.material] === 0) {
+            getInventory(mainType)[mainType.material] === 0) {
             addNewItemToInventory(mainType);
         }
 
         let drop = getDropQuantity(mainType);
-        
+
         getInventory(mainType)[mainType.material] += drop;
         mainType.area.materials[mainType.material].totalDropped += drop;
 
@@ -149,13 +149,13 @@ let breakBlock = (mainType) => {
                 }
             }
         }
-        
+
         markUpgradesBuyable();
 
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
-        let xp = (mainType.area.materials[mainType.material].xp 
-        + (mainType.area.level - 1) * mainType.area.materials[mainType.material].xp)
-        * getToolBonusXpFromTier(getTool(mainType));
+        let xp = (mainType.area.materials[mainType.material].xp
+            + (mainType.area.level - 1) * mainType.area.materials[mainType.material].xp)
+            * getToolBonusXpFromTier(getTool(mainType));
 
         xp = Math.floor(xp);
 
@@ -183,11 +183,11 @@ let breakBlock = (mainType) => {
 
 // Start and stop scrolling of the log, depending on scroll variable
 sa('.log').forEach(x => {
-    x.addEventListener("mouseenter", function() {
-        scroll=false;
+    x.addEventListener("mouseenter", function () {
+        scroll = false;
     });
-    x.addEventListener("mouseleave", function() {
-        scroll=true;
+    x.addEventListener("mouseleave", function () {
+        scroll = true;
     });
 
     // add logic for Clear log button
@@ -198,10 +198,10 @@ sa('.log').forEach(x => {
 
 // Add event listeners to every upgrade button, based on name
 sa('.upgrade').forEach(element => {
-    
+
     let upgName = element.childNodes[1].dataset.name;
     let lvlUpButton = element.childNodes[2];
-    
+
     lvlUpButton.addEventListener("click", () => {
 
         if (!areUpgradeMaterialsAvailable(upgName)) return;
@@ -211,7 +211,7 @@ sa('.upgrade').forEach(element => {
         removeUpgradeLevelsOrTier(upgName);
 
         addUpgradeBonus(upgName);
-        
+
         updateEverything();
     });
 });
@@ -258,8 +258,4 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 
 
 // make gold like currency and it gives no xp, then shop for exchanging gold  for almost any other material
-
-
-
-
 
