@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Idle craft 1.0</title>
-        <link rel="shortcut icon" href="#" />
-    </head>
+
+<head>
+  <title>Idle craft 1.0</title>
+  <link rel="shortcut icon" href="#" />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93254230-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-93254230-1');
+  </script>
+
+</head>
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/game.css">
 <link rel="stylesheet" href="css/InventoryAndUpgrades.css">
@@ -15,81 +26,82 @@
 <link rel="stylesheet" href="css/shared.css">
 <link rel="stylesheet" href="css/toggleClasses.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <body>
 
-<div id="container">
+  <div id="container">
     <div id="menu">
-        <div class="menuItem activeMenu">
-            <span>Inventory & upgrades</span>
-        </div>
-        <div class="menuItem">
-            <span>Mining</span>
-        </div>
-        <div class="menuItem">
-            <span>Wood Cutting</span>
-        </div>
-        <div class="menuItem">
-            <span>Hunting</span>
-        </div>
-        <div class="menuItem">
-            <span>Shop</span>
-        </div>
-        <div class="menuItem">
-            <span>Statistics</span>
-        </div>
+      <div class="menuItem activeMenu">
+        <span>Inventory & upgrades</span>
+      </div>
+      <div class="menuItem">
+        <span>Mining</span>
+      </div>
+      <div class="menuItem">
+        <span>Wood Cutting</span>
+      </div>
+      <div class="menuItem">
+        <span>Hunting</span>
+      </div>
+      <div class="menuItem">
+        <span>Shop</span>
+      </div>
+      <div class="menuItem">
+        <span>Statistics</span>
+      </div>
     </div>
 
     <div id="field">
-        <div class="fieldTab activeTab">
-            <div class="fInv">
-                <div class="invTitle">Inventory</div>
-                <div class="invContent">
+      <div class="fieldTab activeTab">
+        <div class="fInv">
+          <div class="invTitle">Inventory</div>
+          <div class="invContent">
 
-                    <div class="expandable">mining</div>
-                        <div class="itemsList expanded"></div>
-                        
-
-                    <div class="expandable">woodcutting</div>
-                        <div class="itemsList expanded"></div>
+            <div class="expandable">mining</div>
+            <div class="itemsList expanded"></div>
 
 
-                    <div class="expandable">hunting</div>
-                        <div class="itemsList expanded"></div>
+            <div class="expandable">woodcutting</div>
+            <div class="itemsList expanded"></div>
 
-                </div>
-            </div>
-            <div class="fUpg">
-                <div class="upgTitle">Upgrades</div>
-                <div class="upgContent">
 
-                    <div class="expandable">
-                      <div class="expandCollapseAllUpg" data-type=".miningUpgradesList">Expand/Collapse all</div>
-                      Mining
-                    </div>
-                        <div class="miningUpgradesList expanded"></div>
-                        
-                    <div class="expandable">
-                      <div class="expandCollapseAllUpg" data-type=".woodcuttingUpgradesList">Expand/Collapse all</div>
-                      Woodcutting
-                    </div>
-                        <div class="woodcuttingUpgradesList expanded"></div>
-                    
-                    <div class="expandable">
-                      <div class="expandCollapseAllUpg" data-type=".huntingUpgradesList">Expand/Collapse all</div>
-                      Hunting
-                    </div>
-                        <div class="huntingUpgradesList expanded"></div>
+            <div class="expandable">hunting</div>
+            <div class="itemsList expanded"></div>
 
-                </div>
-            </div>
+          </div>
         </div>
-        <div class="fieldTab"></div>
-        <div class="fieldTab"></div>
-        <div class="fieldTab"></div>
-        <div class="fieldTab"></div>
-        <div class="fieldTab">
+        <div class="fUpg">
+          <div class="upgTitle">Upgrades</div>
+          <div class="upgContent">
 
-            <!-- <div id="smart-button-container">
+            <div class="expandable">
+              <div class="expandCollapseAllUpg" data-type=".miningUpgradesList">Expand/Collapse all</div>
+              Mining
+            </div>
+            <div class="miningUpgradesList expanded"></div>
+
+            <div class="expandable">
+              <div class="expandCollapseAllUpg" data-type=".woodcuttingUpgradesList">Expand/Collapse all</div>
+              Woodcutting
+            </div>
+            <div class="woodcuttingUpgradesList expanded"></div>
+
+            <div class="expandable">
+              <div class="expandCollapseAllUpg" data-type=".huntingUpgradesList">Expand/Collapse all</div>
+              Hunting
+            </div>
+            <div class="huntingUpgradesList expanded"></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="fieldTab"></div>
+      <div class="fieldTab"></div>
+      <div class="fieldTab"></div>
+      <div class="fieldTab"></div>
+      <div class="fieldTab">
+
+        <!-- <div id="smart-button-container">
                 <div style="text-align: center;">
                   <div id="paypal-button-container"></div>
                 </div>
@@ -126,10 +138,10 @@
               initPayPalButton();
             </script> -->
 
-        </div>
+      </div>
     </div>
 
-</div>
+  </div>
 
 </body>
 <script src="js/domFuntions.js"></script>
@@ -140,22 +152,3 @@
 <script src="js/game.js"></script>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
