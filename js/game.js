@@ -259,3 +259,4 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 
 // make gold like currency and it gives no xp, then shop for exchanging gold  for almost any other material
 
+
