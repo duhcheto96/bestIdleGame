@@ -29,18 +29,8 @@ sa('.areas').forEach((domAreas, tabIndex) => {
     domAreas.childNodes.forEach((area, index) => {
         area.addEventListener('click', (e) => {
 
-            let type;
-            if (tabIndex == 0) {
-                type = 'mining';
-            }
-            if (tabIndex == 1) {
-                type = 'woodcutting';
-            }
-            if (tabIndex == 2) {
-                type = 'hunting';
-            }
-
-            let nextArea = areas[`${type}Areas`][`area${index + 1}`];
+            let type = domAreas.dataset.type;
+            let nextArea = areas[type][`area${index + 1}`];
 
             unlockAreas();
 

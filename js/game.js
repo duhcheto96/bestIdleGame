@@ -96,7 +96,7 @@ let mainMaterialGatheringFunction = (mainType) => {
     lookingFor = mainType.itemGroup === 'huntingMaterials' ? 'Looking for animal' : "Looking for material"
 
     if (mainType.material === lookingFor) {
-        mainType.material = getRandomElement(mainType.area.materials);
+        mainType.material = getRandomElement(getArea(mainType).materials);
     } else {
         mainType.material = lookingFor;
     }
@@ -132,19 +132,22 @@ let breakBlock = (mainType) => {
                 inventory[mainType.type][mainType.material] = 0;
         }
 
+        let area = getArea(mainType);
+
         let drop = getDropQuantity(mainType);
 
         getInventory(mainType)[mainType.material] += drop;
-        mainType.area.materials[mainType.material].totalDropped += drop;
+        area.materials[mainType.material].totalDropped += drop;
+
 
         // add drop if on the last level
-        if (mainType.area.level == mainType.area.totalLevel) {
+        if (area.level == area.totalLevel) {
             // limit to the maximum
-            if (mainType.area.materialsDropped < mainType.area.requiredMaterialsForNextLevel) {
-                if (mainType.area.materialsDropped + drop > mainType.area.requiredMaterialsForNextLevel) {
-                    mainType.area.materialsDropped = mainType.area.requiredMaterialsForNextLevel
+            if (area.materialsDropped < area.requiredMaterialsForNextLevel) {
+                if (area.materialsDropped + drop > area.requiredMaterialsForNextLevel) {
+                    area.materialsDropped = area.requiredMaterialsForNextLevel
                 } else {
-                    mainType.area.materialsDropped += drop;
+                    area.materialsDropped += drop;
                 }
             }
         }
@@ -152,15 +155,15 @@ let breakBlock = (mainType) => {
         markUpgradesBuyable();
 
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
-        let xp = (mainType.area.materials[mainType.material].xp
-            + (mainType.area.level - 1) * mainType.area.materials[mainType.material].xp)
+        let xp = (area.materials[mainType.material].xp
+            + (area.level - 1) * area.materials[mainType.material].xp)
             * getToolBonusXpFromTier(getTool(mainType));
 
         xp = Math.floor(xp);
 
         increaseToolXP(getTool(mainType), xp);
 
-        const logSpan = addSpan(`You have obtained ${mainType.area.materials[mainType.material]['drop']} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
+        const logSpan = addSpan(`You have obtained ${area.materials[mainType.material]['drop']} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
 
         logElementColor(logSpan, mainType.material);
 

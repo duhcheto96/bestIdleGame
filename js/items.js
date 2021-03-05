@@ -67,7 +67,7 @@ let generateTools = () => {
             lookingForTime : 2_000,
             chanceForDoubleMaterial : 0,
         },
-        huntingTool : {
+        hunting : {
             index : 2,
             upgrade : {
                 index: 0,
@@ -103,7 +103,7 @@ let generateTools = () => {
 let generateAreas = () => {
     return {
         mining: {
-            area1: {
+            0: {
                 materials: {
                     stone: materials.mining.stone(1000),
                     ironOre: materials.mining.ironOre(300),
@@ -124,7 +124,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 40,
                 unlocked : true,
             },
-            area2: {
+            1: {
                 materials : {
                     stone: materials.mining.stone(100),
                 },
@@ -137,7 +137,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 40,
                 unlocked : false,
             },
-            area3: {
+            2: {
                 materials : {
                     stone: materials.mining.stone(100),
                 },
@@ -150,7 +150,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 40,
                 unlocked : false,
             },
-            area4: {
+            3: {
                 materials : {
                     stone: materials.mining.stone(100),
                 },
@@ -165,7 +165,7 @@ let generateAreas = () => {
             }
         },
         woodcutting : {
-            area1: {
+            0: {
                 materials : {
                     stick: materials.woodcutting.stick(1000),
                     oakWood: materials.woodcutting.oakWood(100),
@@ -182,7 +182,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : true,
             },
-            area2: {
+            1: {
                 materials : {
                     stick: materials.woodcutting.stick(1000),
                     mapleWood: materials.woodcutting.mapleWood(1000),
@@ -201,7 +201,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
             },
-            area3: {
+            2: {
                 materials : {
                     stick: materials.woodcutting.stick(1000),
                     hickoryWood: materials.woodcutting.hickoryWood(1000),
@@ -219,7 +219,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
             },
-            area4: {
+            3: {
                 materials : {
                     stick: materials.woodcutting.stick(1000),
                     ghostedWood: materials.woodcutting.ghostedWood(1000),
@@ -240,7 +240,7 @@ let generateAreas = () => {
             },
         },
         hunting : {
-            area1: {
+            0: {
                 materials : {
                     beetle: materials.hunting.beetle(1000),
                     rabbit: materials.hunting.rabbit(1000),
@@ -264,7 +264,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : true,
             },
-            area2: {
+            1: {
                 materials : {
                     beetle: materials.hunting.beetle(1000),
                     bat: materials.hunting.bat(1000),
@@ -282,7 +282,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
             },
-            area3: {
+            2: {
                 materials : {
                     honeyBadger: materials.hunting.honeyBadger(1000),
                     cow: materials.hunting.cow(1000),
@@ -304,7 +304,7 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
             },
-            area4: {
+            3: {
                 materials : {
                     penguin: materials.hunting.penguin(1000),
                     ape: materials.hunting.ape(1000),
@@ -520,7 +520,7 @@ let generateMain = () => {
             material: undefined,
             currentHP: undefined,
             totalHP: undefined,
-            area: areas.mining.area1,
+            area: 0,
             breakingTime: undefined,
             timeout: undefined,
             type: 'mining',
@@ -531,7 +531,7 @@ let generateMain = () => {
             material: undefined,
             currentHP: undefined,
             totalHP: undefined,
-            area: areas.woodcutting.area1,
+            area: 0,
             breakingTime: undefined,
             timeout: undefined,
             type: 'woodcutting',
@@ -542,7 +542,7 @@ let generateMain = () => {
             material: undefined,
             currentHP: undefined,
             totalHP: undefined,
-            area: areas.hunting.area1,
+            area: 0,
             breakingTime: undefined,
             timeout: undefined,
             type: 'hunting',
@@ -665,4 +665,12 @@ let areas = generateAreas()
 let main = generateMain()
 
 
+let getArea = (mainType) => {
+    return areas[mainType.type][`${mainType.area}`]
+}
 
+
+let greenColor = 'rgba(0, 200, 0, 0.5)'
+let redColor = 'rgb(192, 206, 195)'
+
+localStorage.clear()

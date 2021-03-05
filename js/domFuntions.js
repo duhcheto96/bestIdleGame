@@ -51,6 +51,9 @@ function expandCollapseUpgrades(e, type) {
 }
 
 function addAllElementsToDomInventory() {
+    // POSSIBLE TO ADD THEM ONCE ACQUIRED, but it is easier that way, 
+    // if there are performance issues, thats going to be changed
+    removeAllItemsFromInventory()
     Object.keys(inventory).forEach((type, index) => {
         let list = sa('.itemsList')[index];
         // possible to delete all inventory materials here, but not needed as of now
@@ -171,11 +174,11 @@ function markUpgradesBuyable() {
 
         if (areUpgradeMaterialsAvailable(nameElement.dataset.name) &&
             areUpgradeRequirementsMet(nameElement.dataset.name)) {
-            levelElement.style.backgroundColor = 'rgba(0, 200, 0, 0.5)';
-            nameElement.style.backgroundColor = 'rgba(0, 200, 0, 0.5)';
+            levelElement.style.backgroundColor =  greenColor;
+            nameElement.style.backgroundColor = greenColor;
         } else {
-            levelElement.style.backgroundColor = 'rgb(192, 206, 195)';
-            nameElement.style.backgroundColor = 'rgb(192, 206, 195)';
+            levelElement.style.backgroundColor = redColor;
+            nameElement.style.backgroundColor = redColor;
         }
     });
 }
@@ -358,6 +361,8 @@ function updateHPbar(el, curHP, totalHP) {
     el.childNodes[1].style.width = `${width}%`;
 }
 
+
+// FIX COLORS
 function updateAreas() {
     sa('.areas').forEach((domAreas, tabIndex) => {
         domAreas.childNodes.forEach((area, index) => {
@@ -369,8 +374,7 @@ function updateAreas() {
             let progress = area.childNodes[4];
             let areaHover = area.childNodes[5];
 
-
-            let currentArea = areas[`${domAreas.dataset.type}`][`area${index + 1}`];
+            let currentArea = areas[`${domAreas.dataset.type}`][`${index}`];
 
             name.textContent = currentArea.name;
             currentLevel.textContent = `current level: ${currentArea.level}`;
@@ -380,11 +384,13 @@ function updateAreas() {
                 unlocked.style.backgroundColor = 'rgb(12, 242, 58)';
                 unlocked.style.color = 'rgb(11, 55, 3)';
             } else {
-                let previousArea = areas[`${domAreas.dataset.type}`][`area${index}`];
+                let previousArea = areas[`${domAreas.dataset.type}`][`${index - 1}`];
                 unlocked.textContent = `Area locked. Need lvl ${currentArea.previousAreaLevelRequired} ${previousArea.name}.`;
                 unlocked.style.backgroundColor = 'rgb(184, 29, 50)';
                 unlocked.style.color = 'rgb(44, 22, 33)';
             }
+
+            
             if (currentArea.level < currentArea.totalLevel) {
                 progress.textContent = '';
             } else {
@@ -521,6 +527,7 @@ function updateMaterialLevels() {
 }
 
 function updateEverything() {
+    addAllElementsToDomInventory()
     updateInventory()
     removeMissingItems()
     updateToolStats()

@@ -98,7 +98,8 @@ let areUpgradeRequirementsMet = (upgradeName) => {
             }
         }
     }
-    if (t == 'miningUpgrades') {
+    
+    if (t == 'mining') {
         if (reqLevel != undefined) {
             if (tools.mining.xp.level < reqLevel) {
                 return false
@@ -287,7 +288,7 @@ function increaseUpgradeRequirements(requiredMaterials) {
 }
 
 let getDropQuantity = function(mainType) {
-    let drop = mainType.area.materials[mainType.material].drop;
+    let drop = getArea(mainType).materials[mainType.material].drop;
     let rand = Math.floor(Math.random() * 100) + 1;
 
     if (getTool(mainType).chanceForDoubleMaterial >= rand) {
@@ -333,8 +334,8 @@ function materialColor(e, mat) {
 
 
 function getMaterialHealth(mainType) {
-    return mainType.area.materials[mainType.material].health *
-    mainType.area.level / 
+    return getArea(mainType).materials[mainType.material].health *
+    getArea(mainType).level / 
     getToolLessHealthOfMaterials(getTool(mainType));
 }
 
@@ -358,7 +359,7 @@ function unlockAreas() {
 
 
 let resetProgress = function() {
-    resetDomInventory()
+    removeAllItemsFromInventory()
     resetIntervals()
     clearLogs()
     resetHPandMatAll()
@@ -376,7 +377,7 @@ let resetIntervals = () => {
     })
 }
 
-let resetDomInventory = function() {
+let removeAllItemsFromInventory = function() {
     sa('.invItem').forEach(x => {
         x.remove()
     })
