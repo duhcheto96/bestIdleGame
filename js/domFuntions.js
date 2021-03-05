@@ -53,6 +53,7 @@ function expandCollapseUpgrades(e, type) {
 function addAllElementsToDomInventory() {
     Object.keys(inventory).forEach((type, index) => {
         let list = sa('.itemsList')[index];
+        // possible to delete all inventory materials here, but not needed as of now
 
         Object.keys(inventory[type]).forEach((material) => {
             let materialIndex = materials[type][material]().index
@@ -84,13 +85,8 @@ function addAllElementsToDomInventory() {
                 list.appendChild(item);
             }
         })
-
-        console.log("Materials of type added");
     })
-    
-    console.log("All addded");
     updateInventory();
-
 }
 
 function generateDomUpgrade(type, name) {

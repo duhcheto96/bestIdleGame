@@ -12,8 +12,7 @@ if (!played) {
     upgrades = JSON.parse(localStorage.getItem("upgrades"))
     areas = JSON.parse(localStorage.getItem("areas"))
     // main = JSON.parse(localStorage.getItem("main"))
-    // KEEP ONLY AREA
-
+    // KEEP ONLY AREA (might skip it, not important)
 
     addAllElementsToDomInventory();
 }
@@ -115,7 +114,7 @@ let mainMaterialGatheringFunction = (mainType) => {
 
         setHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
-        mainType.breakingTime = setInterval(breakBlock.bind(null, mainType), getTool(mainType).aps);
+        mainType.breakingTime = setInterval(() => breakBlock(mainType), getTool(mainType).aps);
     }
 }
 
@@ -227,16 +226,12 @@ document.addEventListener('keydown', (key) => {
         else if (multiplier == 25) multiplier = 50;
         else if (multiplier == 50) multiplier = 1;
 
-        updateUpgrades();
-
         updateEverything();
     }
 });
 
-
-updateEverything();
-
-resetHPandMatAll()
+// not used
+// resetHPandMatAll()
 
 
 // upgrade -> -10% health of mats, 30% dmg from levels, 100% drop
@@ -245,9 +240,12 @@ resetHPandMatAll()
 
 // reset game at start and make a variable TRUE ( as the game started ), then next time do not reset
 
+
 // reset button / fix later 
 sa(".fieldTab")[5].appendChild(createDiv('asd'))
 
+
+// reset progress
 sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
     resetProgress()
     updateEverything()

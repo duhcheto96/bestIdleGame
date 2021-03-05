@@ -190,9 +190,9 @@ let addUpgradeBonus = (upgradeName) => {
     let requiredMaterials = upgrades[type][upgradeName].requiredMaterials;
     
     for (let i = 0; i < multiplier; i++) {
-        if (type == 'miningUpgrades') addMiningUpgradeBonus(upgradeName, bonus);
-        if (type == 'woodcuttingUpgrades') addWoodcuttingUpgradeBonus(upgradeName, bonus);
-        if (type == 'huntingUpgrades') addHuntingUpgradeBonus(upgradeName, bonus);
+        if (type == 'mining') addMiningUpgradeBonus(upgradeName, bonus);
+        if (type == 'woodcutting') addWoodcuttingUpgradeBonus(upgradeName, bonus);
+        if (type == 'hunting') addHuntingUpgradeBonus(upgradeName, bonus);
         
         increaseUpgradeRequirements(requiredMaterials);
         
@@ -358,15 +358,15 @@ function unlockAreas() {
 
 
 let resetProgress = function() {
+    resetDomInventory()
+    resetIntervals()
+    clearLogs()
+    resetHPandMatAll()
     main = generateMain()
     inventory = generateInventory()
     tools = generateTools()
     areas = generateAreas()
     upgrades = generateUpgrades()
-    resetDomInventory()
-    resetIntervals()
-    clearLogs()
-    resetHPandMatAll()
 }
 
 let resetIntervals = () => {
@@ -409,7 +409,7 @@ let updateLocalStorage = function() {
     localStorage.setItem('tools', JSON.stringify(tools))
     localStorage.setItem('areas', JSON.stringify(areas))
     localStorage.setItem('upgrades', JSON.stringify(upgrades))
-    localStorage.setItem('main', JSON.stringify(main))
+    localStorage.setItem('main', JSON.stringify(main)) // NOT USED CURRENTLY
     localStorage.setItem('played', JSON.stringify(played))
 }
 
