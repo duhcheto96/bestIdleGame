@@ -50,44 +50,47 @@ function expandCollapseUpgrades(e, type) {
     }
 }
 
-function addNewItemToInventory(mainType) {
-    let itemName = mainType.material;
-    let type = mainType.type;
+function addAllElementsToDomInventory() {
+    Object.keys(inventory).forEach((type, index) => {
+        let list = sa('.itemsList')[index];
 
-    list = sa('.itemsList')[mainType.index];
-    if (inventory[type][itemName] == undefined) {
-        inventory[type][itemName] = 0;
-    }
+        Object.keys(inventory[type]).forEach((material) => {
+            let materialIndex = materials[type][material]().index
 
-    const item = createDiv('invItem');
-    const invItemName = createDiv('invItemName');
-    const invItemQuantity = createDiv('invItemQuantity');
+            const item = createDiv('invItem');
+            const invItemName = createDiv('invItemName');
+            const invItemQuantity = createDiv('invItemQuantity');
+        
+            invItemName.textContent = camelCaseToNormal(material);
+            invItemName.dataset.name = material;
+            invItemQuantity.textContent = inventory[type][material];
 
-    invItemName.textContent = camelCaseToNormal(itemName);
-    invItemName.dataset.name = itemName;
-    invItemQuantity.textContent = inventory[type][itemName];
+            item.appendChild(invItemName);
+            item.appendChild(invItemQuantity);
+            let added = false;
 
-    item.appendChild(invItemName);
-    item.appendChild(invItemQuantity);
+            for (let c = 0; c < list.childNodes.length; c++) {
+                let curItem = list.childNodes[c];
+                let currentMaterialName = curItem.childNodes[0].dataset.name;
+                let curIndex = materials[type][currentMaterialName]().index;
+        
+                if (materialIndex < curIndex) {
+                    list.insertBefore(item, curItem);
+                    added = true;
+                    break;
+                }
+            }
+            if (!added) {
+                list.appendChild(item);
+            }
+        })
 
-    let added = false;
+        console.log("Materials of type added");
+    })
     
-    for (let c = 0; c < list.childNodes.length; c++) {
-        let itemIndex = mainType.area.materials[itemName].index;
+    console.log("All addded");
+    updateInventory();
 
-        let curItem = list.childNodes[c];
-        let curName = curItem.childNodes[0].dataset.name;
-        let curIndex = mainType.area.materials[curName].index;
-
-        if (itemIndex < curIndex) {
-            list.insertBefore(item, curItem);
-            added = true;
-            break;
-        }
-    }
-    if (!added) {
-        list.appendChild(item);
-    }
 }
 
 function generateDomUpgrade(type, name) {
@@ -529,7 +532,6 @@ function updateEverything() {
     markUpgradesBuyable()
     unlockAreas()
     updateAreas()
-    updateLocalStorage()
 }
 
 // END OF UPDATES

@@ -6,13 +6,14 @@ if (localStorage.getItem('played') !== null) {
 
 if (!played) {
     played = true
-    updateLocalStorage()
 } else {
     inventory = JSON.parse(localStorage.getItem("inventory"))
     tools = JSON.parse(localStorage.getItem("tools"))
     upgrades = JSON.parse(localStorage.getItem("upgrades"))
     areas = JSON.parse(localStorage.getItem("areas"))
-    main = JSON.parse(localStorage.getItem("main"))
+    // main = JSON.parse(localStorage.getItem("main"))
+    // KEEP ONLY AREA
+
 
     addAllElementsToDomInventory();
 }
@@ -128,9 +129,8 @@ let breakBlock = (mainType) => {
     updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
     if (mainType.currentHP == 0) {
-        if (getInventory(mainType)[mainType.material] === undefined ||
-            getInventory(mainType)[mainType.material] === 0) {
-            addNewItemToInventory(mainType);
+        if (getInventory(mainType)[mainType.material] === undefined) {
+                inventory[mainType.type][mainType.material] = 0;
         }
 
         let drop = getDropQuantity(mainType);
@@ -250,13 +250,26 @@ sa(".fieldTab")[5].appendChild(createDiv('asd'))
 
 sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
     resetProgress()
-    updateLocalStorage()
     updateEverything()
 })
 
 
 
 
-// make gold like currency and it gives no xp, then shop for exchanging gold  for almost any other material
+// make gold(another one) like currency and it gives no xp, then shop for exchanging gold  for almost any other material
+
+
+window.onbeforeunload = () => {
+    updateLocalStorage()
+}
+
+
+
+
+
+
+
+
+
 
 

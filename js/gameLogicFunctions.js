@@ -1,4 +1,4 @@
-function increaseToolXP(tool, xp) {
+let increaseToolXP = (tool, xp) => {
 
     // xp = Math.round(xp + xp * tool.bonusXPfromTier * tool.tier);
     tool.xp.currentXp += xp;
@@ -11,7 +11,7 @@ function increaseToolXP(tool, xp) {
     }
 }
 
-function getRandomElement(mats) {
+let getRandomElement = (mats) => {
     let items = Object.keys(mats);
     let chances = [];
     
@@ -26,7 +26,7 @@ function getRandomElement(mats) {
     return material
 }
 
-function getDropChance(mats) {
+let getDropChance = (mats) => {
     
     let chances = [];
     for (let key in mats) chances.push(mats[key].chance);
@@ -42,7 +42,7 @@ function getDropChance(mats) {
 }
 
 //increase pickaxe power = upgradeName
-function areUpgradeMaterialsAvailable(upgradeName) {
+let areUpgradeMaterialsAvailable = (upgradeName) => {
     let reqMats;
     for (let type in upgrades) {
         if (upgrades[type].hasOwnProperty(upgradeName)) {
@@ -78,7 +78,7 @@ function areUpgradeMaterialsAvailable(upgradeName) {
     return true;
 }
 
-function areUpgradeRequirementsMet(upgradeName) {
+let areUpgradeRequirementsMet = (upgradeName) => {
     let t;
     let reqLevel;
     let reqTier;
@@ -112,7 +112,7 @@ function areUpgradeRequirementsMet(upgradeName) {
     return true
 }
 
-function removeUpgradeMaterials(upgradeName) {
+let removeUpgradeMaterials = (upgradeName) => {
     let reqMats;
     for (let type in upgrades) {
         if (upgrades[type].hasOwnProperty(upgradeName)) {
@@ -133,7 +133,7 @@ function removeUpgradeMaterials(upgradeName) {
 
 }
 
-function removeUpgradeLevelsOrTier(upgradeName) {
+let removeUpgradeLevelsOrTier = (upgradeName) => {
     let t;
     let reqLevel;
     let reqTier;
@@ -174,7 +174,7 @@ function removeUpgradeLevelsOrTier(upgradeName) {
 
 }
 
-function addUpgradeBonus(upgradeName) {
+let addUpgradeBonus = (upgradeName) => {
 
     let bonus;
     let type;
@@ -331,21 +331,6 @@ function materialColor(e, mat) {
     // add colors to other materials
 }
 
-/// UPDATE ( NOT USED NOW )
-function addAllElementsToDomInventory() {
-    for(let type in inventory) {
-        let index;
-        for (let type in main) {
-            if (main[type].itemGroup == type) {
-                index = main[type].index
-            }
-        }
-        for(let mat in inventory[type]) {
-            addNewItemToInventory(main[type])
-        }
-    }
-    updateInventory();
-}
 
 function getMaterialHealth(mainType) {
     return mainType.area.materials[mainType.material].health *
@@ -471,3 +456,4 @@ let getTool = (mainType) => {
     let tool = tools[mainType.type]
     return tool
 }
+
