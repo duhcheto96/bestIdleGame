@@ -1,21 +1,6 @@
 "use strict"
 
-if (localStorage.getItem('played') !== null) {
-    played = Boolean(localStorage.getItem('played'));
-}
-
-if (!played) {
-    played = true
-} else {
-    inventory = JSON.parse(localStorage.getItem("inventory"))
-    tools = JSON.parse(localStorage.getItem("tools"))
-    upgrades = JSON.parse(localStorage.getItem("upgrades"))
-    areas = JSON.parse(localStorage.getItem("areas"))
-    // main = JSON.parse(localStorage.getItem("main"))
-    // KEEP ONLY AREA (might skip it, not important)
-
-    addAllElementsToDomInventory();
-}
+addAllElementsToDomInventory();
 
 updateEverything();
 
@@ -60,34 +45,39 @@ sa('.material')[2].addEventListener('click', () => {
 
 
 
-// increase area level
-sa('.material')[0].childNodes[3].addEventListener('click', () => {
-    if (main.mining.area.materialsDropped >= main.mining.area.requiredMaterialsForNextLevel) {
-        if (main.mining.area.level == main.mining.area.totalLevel) {
-            main.mining.area.totalLevel++;
-            main.mining.area.materialsDropped = 0;
+sa('.fieldTab').forEach(tab => {
+    if (tab.dataset.sort != 'farming') {
+        return
+    }
+    let type = tab.dataset.type
+    let area = getArea(main[type])
+
+    let leftArrowImage = tab.querySelectorAll('.arrowImg')[0]
+    leftArrowImage.addEventListener('click', (e) => {
+        if (area.level > 1) {
+            area.level--;
         }
-        main.mining.area.level++;
-    } else if (main.mining.area.totalLevel > main.mining.area.level) {
-        main.mining.area.level++;
-    }
-    unlockAreas();
-    updateAreas();
-    updateMaterialLevels();
-});
-// decrease area level
-sa('.material')[0].childNodes[2].addEventListener('click', () => {
-    if (main.mining.area.level > 1) {
-        main.mining.area.level--;
-    }
-    unlockAreas();
-    updateAreas();
-    updateMaterialLevels();
-});
-
-
-
-
+        unlockAreas();
+        updateAreas();
+        updateMaterialLevels();
+    })
+    
+    let rightArrowImage = tab.querySelectorAll('.arrowImg')[1]
+    rightArrowImage.addEventListener('click', (e) => {
+        if (area.materialsDropped >= area.requiredMaterialsForNextLevel) {
+            if (area.level == area.totalLevel) {
+                area.totalLevel++;
+                area.materialsDropped = 0;
+            }
+            area.level++;
+        } else if (area.totalLevel > area.level) {
+            area.level++;
+        }
+        unlockAreas();
+        updateAreas();
+        updateMaterialLevels();
+    })
+})
 
 
 

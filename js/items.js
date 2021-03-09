@@ -1,108 +1,26 @@
-
-let generateInventory = () => {
-    return {
-        mining: {},
-        woodcutting: {},
-        hunting: {},
+class Areas {
+    constructor(...areas) {
+        this.generateAreas()
+        this.initAreas(...areas)
     }
-}
 
-let generateTools = () => {
-    return {
-        mining : {
-            index : 0,
-            upgrade : {
-                index: 0,
-                list: ["Wooden pickaxe", "Stone pickaxe",
-                    "Iron pickaxe", "Gold pickaxe",
-                    "Platinum pickaxe", "Diamond pickaxe"],
-            },
-            xp : {
-                level: 1,
-                tier: 1,
-                currentXp: 0,
-                neededXp: 20,
-                totalXP: 0,
-                initialNeededXp: 20,
-                neededXpOnLevel: 20,
-            },
-            damage : {
-                power: 5,
-                initialPower: 5,
-                powerOnLevel: 1,
-                initialPowerOnLevel: 1,
-                powerFromLevels: 0,
-                powerFromUpgrades: 0,
-            },
-            aps : 2_000,
-            lookingForTime : 2_000,
-            chanceForDoubleMaterial : 0,
-        },
-        woodcutting : {
-            index : 1,
-            upgrade : {
-                index: 0,
-                list: ["Wooden axe", "Stone axe",
-                    "Iron axe", "Gold axe",
-                    "Platinum axe", "Diamond axe"],
-            },
-            xp : {
-                level: 1,
-                tier: 1,
-                currentXp: 0,
-                neededXp: 1,
-                totalXP: 0,
-                initialNeededXp: 1,
-                neededXpOnLevel: 1,
-            },
-            damage : {
-                power: 5,
-                initialPower: 5,
-                powerOnLevel: 1,
-                initialPowerOnLevel: 2,
-                powerFromLevels: 0,
-                powerFromUpgrades: 0,
-            },
-            aps : 2_000,
-            lookingForTime : 2_000,
-            chanceForDoubleMaterial : 0,
-        },
-        hunting : {
-            index : 2,
-            upgrade : {
-                index: 0,
-                list: ["Wooden bow", "Stone bow",
-                    "Iron bow", "Gold bow",
-                    "Platinum bow", "Diamond bow"],
-            },
-            xp : {
-                level: 1,
-                tier: 1,
-                currentXp: 0,
-                neededXp: 20,
-                totalXP: 0,
-                initialNeededXp: 20,
-                neededXpOnLevel: 20,
-            },
-            damage : {
-                power: 10,
-                initialPower: 10,
-                powerOnLevel: 2,
-                initialPowerOnLevel: 2,
-                powerFromLevels: 0,
-                powerFromUpgrades: 0,
-                bonusDmgFromTier: 1,
-            },
-            aps : 1_000,
-            lookingForTime : 10_000,
-            chanceForDoubleMaterial : 0,
+    initAreas(...areas) {
+        if (areas[0] !== null && areas[0] !== undefined) {
+            this.mining = areas[0].mining
+            this.woodcutting = areas[0].woodcutting
+            this.hunting = areas[0].hunting
         }
+        Object.keys(this).forEach(type => {
+            let newAreas = {
+                ...this[type],
+                // ADD METHODS IF ANY
+                
+            }
+            this[type] = newAreas
+        })
     }
-}
-
-let generateAreas = () => {
-    return {
-        mining: {
+    generateAreas() {
+        this.mining = {
             0: {
                 materials: {
                     stone: materials.mining.stone(1000),
@@ -163,8 +81,8 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
             }
-        },
-        woodcutting : {
+        }
+        this.woodcutting = {
             0: {
                 materials : {
                     stick: materials.woodcutting.stick(1000),
@@ -238,8 +156,8 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
             },
-        },
-        hunting : {
+        }
+        this.hunting = {
             0: {
                 materials : {
                     beetle: materials.hunting.beetle(1000),
@@ -324,13 +242,269 @@ let generateAreas = () => {
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
             },
-        },
+        }
     }
 }
 
-let generateUpgrades = () => {
-    return {
-        mining: {
+
+
+
+class Main {
+    constructor(...main) {
+        this.generateMain()
+        this.initMain(...main)
+    }
+
+    initMain(...main) {
+        if (main[0] !== null && main[0] !== undefined) {
+            this.mining.area = main[0].mining.area
+            this.woodcutting.area = main[0].woodcutting.area
+            this.hunting.area = main[0].hunting.area
+        }
+        Object.keys(this).forEach(type => {
+            let newMain = {
+                ...this[type],
+                // ADD METHODS IF ANY
+                
+            }
+            this[type] = newMain
+        })
+    }
+    generateMain() {
+        this.mining = {
+            index: 0,
+            clicked: false,
+            material: undefined,
+            currentHP: undefined,
+            totalHP: undefined,
+            area: 0,
+            breakingTime: undefined,
+            timeout: undefined,
+            type: 'mining',
+        }
+        this.woodcutting = {
+            index: 1,
+            clicked: false,
+            material: undefined,
+            currentHP: undefined,
+            totalHP: undefined,
+            area: 0,
+            breakingTime: undefined,
+            timeout: undefined,
+            type: 'woodcutting',
+        }
+        this.hunting = {
+            index: 2,
+            clicked: false,
+            material: undefined,
+            currentHP: undefined,
+            totalHP: undefined,
+            area: 0,
+            breakingTime: undefined,
+            timeout: undefined,
+            type: 'hunting',
+        }
+    }
+}
+
+
+
+
+class Inventory {
+    constructor(...inventory) {
+        this.generateInventory()
+        this.initInventory(...inventory)
+    }
+
+    initInventory(...inventory) {
+        if (inventory[0] !== null && inventory[0] !== undefined) {
+            this.mining = inventory[0].mining
+            this.woodcutting = inventory[0].woodcutting
+            this.hunting = inventory[0].hunting
+        }
+        Object.keys(this).forEach(type => {
+            let newInventory = {
+                ...this[type],
+                // ADD METHODS IF ANY
+                // ADD MATERIAL? 
+            }
+            this[type] = newInventory
+        })
+    }
+    generateInventory() {
+        this.mining = {}
+        this.woodcutting = {}
+        this.hunting = {}
+    }
+}
+
+
+
+
+class Tools {
+    constructor(...tools) {
+        this.generateTools()
+        this.initTools(...tools)
+    }
+    initTools(...tools) {
+        if (tools[0] !== null && tools[0] !== undefined) {
+            this.mining = tools[0].mining
+            this.woodcutting = tools[0].woodcutting
+            this.hunting = tools[0].hunting
+        }
+
+        Object.keys(this).forEach(tool => {
+            let newTool = {
+                ...this[tool],
+                get toolName() {
+                    return this.upgrade.list[this.upgrade.index]
+                },
+                upgradeTool() {
+                    this.upgrade.index++
+                },
+                get power() {
+                    let damageFromUpgrades = () => this.upgrade.index * 3 / 10 + 1
+                    let damageFromTier = () => 0.9 + this.xp.tier / 10
+    
+                    // upgrades give % bonus to powerFromLevels
+                    // tier gives total % bonus
+                    return Math.floor((
+                        this.damage.power +
+                        this.damage.powerFromLevels * damageFromUpgrades() +
+                        this.damage.powerFromUpgrades)
+                        * damageFromTier());
+                },
+                get lowerMaterialHealth() {
+                    return this.upgrade.index / 10 + 1
+                },
+                get bonusDrop() {
+                    return this.upgrade.index
+                },
+                get bonusXPfromTier() {
+                    return 0.9 + this.xp.tier / 10
+                }
+            }
+            this[tool] = newTool
+        });
+    }
+
+    generateTools() {
+        this.mining = {
+            index : 0,
+            upgrade : {
+                index: 0,
+                list: ["Wooden pickaxe", "Stone pickaxe",
+                    "Iron pickaxe", "Gold pickaxe",
+                    "Platinum pickaxe", "Diamond pickaxe"],
+            },
+            xp : {
+                level: 1,
+                tier: 1,
+                currentXp: 0,
+                neededXp: 20,
+                totalXP: 0,
+                initialNeededXp: 20,
+                neededXpOnLevel: 20,
+            },
+            damage : {
+                power: 5,
+                initialPower: 5,
+                powerOnLevel: 1,
+                initialPowerOnLevel: 1,
+                powerFromLevels: 0,
+                powerFromUpgrades: 0,
+            },
+            aps : 2_000,
+            lookingForTime : 2_000,
+            chanceForDoubleMaterial : 0,
+        }
+        this.woodcutting = {
+            index : 1,
+            upgrade : {
+                index: 0,
+                list: ["Wooden axe", "Stone axe",
+                    "Iron axe", "Gold axe",
+                    "Platinum axe", "Diamond axe"],
+            },
+            xp : {
+                level: 1,
+                tier: 1,
+                currentXp: 0,
+                neededXp: 1,
+                totalXP: 0,
+                initialNeededXp: 1,
+                neededXpOnLevel: 1,
+            },
+            damage : {
+                power: 5,
+                initialPower: 5,
+                powerOnLevel: 1,
+                initialPowerOnLevel: 2,
+                powerFromLevels: 0,
+                powerFromUpgrades: 0,
+            },
+            aps : 2_000,
+            lookingForTime : 2_000,
+            chanceForDoubleMaterial : 0,
+        }
+        this.hunting = {
+            index : 2,
+            upgrade : {
+                index: 0,
+                list: ["Wooden bow", "Stone bow",
+                    "Iron bow", "Gold bow",
+                    "Platinum bow", "Diamond bow"],
+            },
+            xp : {
+                level: 1,
+                tier: 1,
+                currentXp: 0,
+                neededXp: 20,
+                totalXP: 0,
+                initialNeededXp: 20,
+                neededXpOnLevel: 20,
+            },
+            damage : {
+                power: 10,
+                initialPower: 10,
+                powerOnLevel: 2,
+                initialPowerOnLevel: 2,
+                powerFromLevels: 0,
+                powerFromUpgrades: 0,
+                bonusDmgFromTier: 1,
+            },
+            aps : 1_000,
+            lookingForTime : 10_000,
+            chanceForDoubleMaterial : 0,
+        }
+    }
+}
+
+
+
+
+class Upgrades {
+    constructor(...upgrades) {
+        this.generateUpgrades()
+        this.initUpgrades(...upgrades)
+    }
+
+    initUpgrades(...upgrades) {
+        if (upgrades[0] !== null && upgrades[0] !== undefined) {
+            this.mining = upgrades[0].mining
+            this.woodcutting = upgrades[0].woodcutting
+            this.hunting = upgrades[0].hunting
+        }
+        Object.keys(this).forEach(type => {
+            let newUpgrades = {
+                ...this[type],
+                
+            }
+            this[type] = newUpgrades
+        })
+    }
+    generateUpgrades() {
+        this.mining = {
             increasePickaxePower: {
                 level : 0,
                 currentBonus : 0,
@@ -484,8 +658,8 @@ let generateUpgrades = () => {
 
                 }
             },
-        },
-        woodcutting: {
+        }
+        this.woodcutting = {
             increaseAxePower: {
                 level : 0,
                 currentBonus : 0,
@@ -496,8 +670,8 @@ let generateUpgrades = () => {
                     stick: requiredMaterial(1, 1),
                 },
             },
-        },
-        hunting: {
+        }
+        this.hunting = {
             increaseWeaponPower: {
                 level : 0,
                 currentBonus : 0,
@@ -508,51 +682,12 @@ let generateUpgrades = () => {
                     stick: requiredMaterial(1, 1),
                 },
             },
-        },
+        }
     }
 }
 
-let generateMain = () => {
-    return {
-        mining: {
-            index: 0,
-            clicked: false,
-            material: undefined,
-            currentHP: undefined,
-            totalHP: undefined,
-            area: 0,
-            breakingTime: undefined,
-            timeout: undefined,
-            type: 'mining',
-        },
-        woodcutting: {
-            index: 1,
-            clicked: false,
-            material: undefined,
-            currentHP: undefined,
-            totalHP: undefined,
-            area: 0,
-            breakingTime: undefined,
-            timeout: undefined,
-            type: 'woodcutting',
-        },
-        hunting: {
-            index: 2,
-            clicked: false,
-            material: undefined,
-            currentHP: undefined,
-            totalHP: undefined,
-            area: 0,
-            breakingTime: undefined,
-            timeout: undefined,
-            type: 'hunting',
-        },
-    }
-}
 
-let multiplier = 1;
-let played = false;
-let scroll = true;
+
 
 let materials = {
     mining: {
@@ -658,19 +793,16 @@ let materials = {
     }
 }
 
-let inventory = generateInventory()
-let tools = generateTools()
-let upgrades = generateUpgrades()
-let areas = generateAreas()
-let main = generateMain()
-
-
-let getArea = (mainType) => {
-    return areas[mainType.type][`${mainType.area}`]
-}
-
+let multiplier = 1;
+let scroll = true;
 
 let greenColor = 'rgba(0, 200, 0, 0.5)'
 let redColor = 'rgb(192, 206, 195)'
+
+let inventory = new Inventory(JSON.parse(localStorage.getItem("inventory")))
+let tools = new Tools(JSON.parse(localStorage.getItem("tools")))
+let upgrades = new Upgrades(JSON.parse(localStorage.getItem("upgrades")))
+let areas = new Areas(JSON.parse(localStorage.getItem("areas")))
+let main = new Main(JSON.parse(localStorage.getItem("main")))
 
 localStorage.clear()

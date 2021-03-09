@@ -184,7 +184,8 @@ function markUpgradesBuyable() {
 }
 
 function generateMaterialGatheringTab(tab, type) {
-    tab.dataset.type = 'farming'
+    tab.dataset.sort = 'farming'
+    tab.dataset.type = type
     let toolName = createDiv("toolName");
     let toolTier = createDiv("toolTier");
     appendMoreChilds(toolTier, addSpan("Tier:"), addBR(), addBR(), addSpan("1"));
@@ -296,7 +297,7 @@ function resetHPandMat(tab) {
 
 let resetHPandMatAll = function () {
     sa('.fieldTab').forEach(tab => {
-        if (tab.dataset.type === "farming") {
+        if (tab.dataset.sort === "farming") {
             resetHPandMat(tab);
         }
     })

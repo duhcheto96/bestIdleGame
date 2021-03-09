@@ -412,39 +412,40 @@ let updateLocalStorage = function() {
     localStorage.setItem('upgrades', JSON.stringify(upgrades))
     localStorage.setItem('main', JSON.stringify(main)) // NOT USED CURRENTLY
     localStorage.setItem('played', JSON.stringify(played))
+    
 }
 
 // EXTRACTED FUNCTIONS FROM OBJECTS
 
-
+// INCLUDED AS lowerMaterialHealth
 let getToolLessHealthOfMaterials = (tool) => {
     return tool.upgrade.index / 10 + 1
 }
-
+// INCLUDED
 let getToolMoreDamageFromLevels = (tool) => {
     return tool.upgrade.index * 3 / 10 + 1
 }
-
+// INCLUDED 
 let getToolBonusDrop = (tool) => {
     return tool.upgrade.index
 }
-
+// INCLUDED
 let getToolBonusXpFromTier = (tool) => {
     return 0.9 + tool.xp.tier / 10
 }
-
+// INCLUDED
 let getToolBonusDamageFromTier = (tool) => {
     return 0.9 + tool.xp.tier / 10
 }
-
+// INCLUDED
 let getToolPower = (tool) => {
     return Math.floor((tool.damage.power +
         tool.damage.powerFromLevels *
         getToolMoreDamageFromLevels(tool) +
         tool.damage.powerFromUpgrades) *
         getToolBonusDamageFromTier(tool));
-    }
-    
+}
+// INCLUDED 
 let getToolName = (tool) => {
     return tool.upgrade.list[tool.upgrade.index];
 }
@@ -458,3 +459,6 @@ let getTool = (mainType) => {
     return tool
 }
 
+let getArea = (mainType) => {
+    return areas[mainType.type][`${mainType.area}`]
+}
