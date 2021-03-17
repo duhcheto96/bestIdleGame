@@ -1,0 +1,70 @@
+.fieldTab:nth-of-type(5) {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 10% 80% 10%;
+    height: 700px;
+    background-color: red;
+}
+
+.shopMenu {
+    display: grid;
+    grid-column: 1 / span 2;
+    background-color: green;
+    align-items: center;
+}
+
+.shopItem div {
+    display: inline-block;
+}
+
+.shopItem :nth-child(1) {
+    width: 120px;
+}
+
+.shopItem :nth-child(2) {
+    background-color: rgb(119, 119, 240);
+    width: 100px;
+}
+
+.sellDiv {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+    background-color: blueviolet;
+}
+
+.sellList {
+    background: white;
+}
+
+.sellButton {
+    background: yellow;
+    display: grid;
+    align-items: center;
+    text-align: center;
+}
+
+.buyButton {
+    background: greenyellow;
+    display: grid;
+    align-items: center;
+    text-align: center;
+
+}
+
+.buyDiv {
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+    background-color: rgb(91, 11, 167);
+}
+
+.buyList {
+    background: white;
+}
+
+.coins {
+    display: grid;
+    background-color: azure;
+    width: 200px;
+    height: 60px;
+    align-items: center;
+    text-align: center;
+}

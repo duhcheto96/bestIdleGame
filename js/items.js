@@ -257,27 +257,37 @@ class Main {
 
     initMain(...main) {
         if (main[0] !== null && main[0] !== undefined) {
+            this.coins = main[0].coins
             this.mining.area = main[0].mining.area
             this.woodcutting.area = main[0].woodcutting.area
             this.hunting.area = main[0].hunting.area
         }
         Object.keys(this).forEach(type => {
+            if (type === 'coins') return
             let newMain = {
                 ...this[type],
-                // ADD METHODS IF ANY
-                
+                get inventory() {
+                    return inventory[this.type]
+                },
+                get tool() {
+                    return tools[this.type]
+                },
+                get area() {
+                    return areas[this.type][this.areaIndex]
+                },
             }
             this[type] = newMain
         })
     }
     generateMain() {
+        this.coins = 10;
         this.mining = {
             index: 0,
             clicked: false,
             material: undefined,
             currentHP: undefined,
             totalHP: undefined,
-            area: 0,
+            areaIndex: 0,
             breakingTime: undefined,
             timeout: undefined,
             type: 'mining',
@@ -288,7 +298,7 @@ class Main {
             material: undefined,
             currentHP: undefined,
             totalHP: undefined,
-            area: 0,
+            areaIndex: 0,
             breakingTime: undefined,
             timeout: undefined,
             type: 'woodcutting',
@@ -299,7 +309,7 @@ class Main {
             material: undefined,
             currentHP: undefined,
             totalHP: undefined,
-            area: 0,
+            areaIndex: 0,
             breakingTime: undefined,
             timeout: undefined,
             type: 'hunting',
@@ -332,9 +342,9 @@ class Inventory {
         })
     }
     generateInventory() {
-        this.mining = {}
-        this.woodcutting = {}
-        this.hunting = {}
+        this.mining = {stone: 1}
+        this.woodcutting = {stick: 1}
+        this.hunting = {rabbit: 1}
     }
 }
 
@@ -356,7 +366,7 @@ class Tools {
         Object.keys(this).forEach(tool => {
             let newTool = {
                 ...this[tool],
-                get toolName() {
+                get name() {
                     return this.upgrade.list[this.upgrade.index]
                 },
                 upgradeTool() {
@@ -380,7 +390,7 @@ class Tools {
                 get bonusDrop() {
                     return this.upgrade.index
                 },
-                get bonusXPfromTier() {
+                get bonusXpFromTier() {
                     return 0.9 + this.xp.tier / 10
                 }
             }
@@ -805,4 +815,3 @@ let upgrades = new Upgrades(JSON.parse(localStorage.getItem("upgrades")))
 let areas = new Areas(JSON.parse(localStorage.getItem("areas")))
 let main = new Main(JSON.parse(localStorage.getItem("main")))
 
-localStorage.clear()

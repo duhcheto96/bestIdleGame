@@ -425,11 +425,11 @@ function updateToolStats() {
         const toolTier = elements[1].childNodes;
         const toolBonuses = elements[2].childNodes;
 
-        toolName.textContent = getToolName(tool);
+        toolName.textContent = tool.name;
         toolTier[3].textContent = tool.xp.tier;
         toolBonuses[0].textContent = "Level : " + tool.xp.level;
         toolBonuses[2].textContent = "XP : " + tool.xp.currentXp + "/" + tool.xp.neededXp + " (" + tool.xp.totalXP + ")";
-        toolBonuses[4].textContent = "Power : " + Math.floor(getToolPower(tool));
+        toolBonuses[4].textContent = "Power : " + Math.floor(tool.power);
         toolBonuses[6].textContent = "Atacks per second : " + (1000 / tool.aps).toFixed(2);
     }
 }
@@ -556,7 +556,80 @@ let clearLogs = function () {
 
 
 
+let generateShop = () => {
+    let tab = sa('.fieldTab')[4]
 
+
+    let shopMenu = createDiv('shopMenu')
+
+    let coins = createDiv('coins')
+    coins.textContent = main.coins
+
+    shopMenu.appendChild(coins)
+
+
+
+    // SELL
+    let sellDiv = createDiv('sellDiv')
+
+    Object.keys(inventory).forEach(type => {
+        let sellType = createDiv('expandable')
+        sellType.textContent = type
+        let sellList = createDiv('sellList')
+
+        // TEMP
+        Object.keys(inventory[type]).forEach(item => {
+            let shopItem = createDiv('shopItem')
+
+            let name = createDiv('itemName')
+            name.textContent = camelCaseToNormal(item)
+
+            let quantity = createDiv('itemQuantity')
+            quantity.textContent = inventory[type][item]
+
+            let price = createDiv('itemPrice')
+            price.textContent = `Sell price: ${materials[type][item]().index}`
+
+            let sellQuantity = document.createElement('input');
+            sellQuantity.style.margin = '10px'
+
+
+            appendMoreChilds(shopItem, name, quantity, price, sellQuantity)
+            sellList.appendChild(shopItem)
+        })
+
+
+
+        appendMoreChilds(sellDiv, sellType, sellList)
+    })
+
+    let sellButton = createDiv('sellButton')
+    sellButton.innerHTML = 'SELL <br> '
+
+    // ADD BOTH TOGETHER, FIX LATER
+    // BUY
+    let buyDiv = createDiv('buyDiv')
+
+    Object.keys(inventory).forEach(type => {
+        let buyType = createDiv('expandable')
+        buyType.textContent = type
+        let buyList = createDiv('buyList')
+
+        // TEMP
+        Object.keys(inventory[type]).forEach(item => {
+            let invItem = createDiv()
+            invItem.textContent = item
+            buyList.appendChild(invItem)
+        })
+
+        appendMoreChilds(buyDiv, buyType, buyList)
+    })
+
+    let buyButton = createDiv('buyButton')
+
+
+    appendMoreChilds(tab, shopMenu, sellDiv, buyDiv, sellButton, buyButton)
+}
 
 
 

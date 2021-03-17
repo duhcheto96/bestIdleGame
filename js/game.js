@@ -1,5 +1,7 @@
 "use strict"
 
+localStorage.clear()
+
 addAllElementsToDomInventory();
 
 updateEverything();
@@ -18,7 +20,7 @@ sa('.material')[0].childNodes[0].addEventListener('click', () => {
 });
 
 // START WOODCUTTING
-sa('.material')[1].addEventListener('click', () => {
+sa('.material')[1].childNodes[0].addEventListener('click', () => {
     if (main.woodcutting.clicked) {
         clearInterval(main.woodcutting.breakingTime);
         clearTimeout(main.woodcutting.timeout);
@@ -31,7 +33,7 @@ sa('.material')[1].addEventListener('click', () => {
 });
 
 // START HUNTING
-sa('.material')[2].addEventListener('click', () => {
+sa('.material')[2].childNodes[0].addEventListener('click', () => {
     if (main.hunting.clicked) {
         clearInterval(main.hunting.breakingTime);
         clearTimeout(main.hunting.timeout);
@@ -44,13 +46,13 @@ sa('.material')[2].addEventListener('click', () => {
 });
 
 
-
+// AREA LEVEL INCREASE / DECREASE
 sa('.fieldTab').forEach(tab => {
     if (tab.dataset.sort != 'farming') {
         return
     }
     let type = tab.dataset.type
-    let area = getArea(main[type])
+    let area = main[type].area
 
     let leftArrowImage = tab.querySelectorAll('.arrowImg')[0]
     leftArrowImage.addEventListener('click', (e) => {
@@ -83,10 +85,10 @@ sa('.fieldTab').forEach(tab => {
 
 let mainMaterialGatheringFunction = (mainType) => {
     let lookingFor = ''
-    lookingFor = mainType.itemGroup === 'huntingMaterials' ? 'Looking for animal' : "Looking for material"
+    lookingFor = mainType.type === 'hunting' ? 'Looking for animal' : "Looking for material"
 
     if (mainType.material === lookingFor) {
-        mainType.material = getRandomElement(getArea(mainType).materials);
+        mainType.material = getRandomElement(mainType.area.materials);
     } else {
         mainType.material = lookingFor;
     }
@@ -97,36 +99,36 @@ let mainMaterialGatheringFunction = (mainType) => {
 
     if (mainType.material === lookingFor) {
 
-        mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), getTool(mainType).lookingForTime);
+        mainType.timeout = setTimeout(mainMaterialGatheringFunction.bind(null, mainType), mainType.tool.lookingForTime);
     } else {
         mainType.currentHP = getMaterialHealth(mainType);
         mainType.totalHP = getMaterialHealth(mainType);
 
         setHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
-
-        mainType.breakingTime = setInterval(() => breakBlock(mainType), getTool(mainType).aps);
+        
+        mainType.breakingTime = setInterval(() => breakBlock(mainType), mainType.tool.aps);
     }
 }
 
 
 let breakBlock = (mainType) => {
 
-    mainType.currentHP -= getToolPower(getTool(mainType));
+    mainType.currentHP -= mainType.tool.power;
 
     if (mainType.currentHP < 0) mainType.currentHP = 0;
 
     updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
     if (mainType.currentHP == 0) {
-        if (getInventory(mainType)[mainType.material] === undefined) {
+        if (mainType.inventory[mainType.material] === undefined) {
                 inventory[mainType.type][mainType.material] = 0;
         }
 
-        let area = getArea(mainType);
+        let area = mainType.area;
 
         let drop = getDropQuantity(mainType);
 
-        getInventory(mainType)[mainType.material] += drop;
+        mainType.inventory[mainType.material] += drop;
         area.materials[mainType.material].totalDropped += drop;
 
 
@@ -147,11 +149,11 @@ let breakBlock = (mainType) => {
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
         let xp = (area.materials[mainType.material].xp
             + (area.level - 1) * area.materials[mainType.material].xp)
-            * getToolBonusXpFromTier(getTool(mainType));
+            * mainType.tool.bonusXpFromTier;
 
         xp = Math.floor(xp);
 
-        increaseToolXP(getTool(mainType), xp);
+        increaseToolXP(mainType.tool, xp);
 
         const logSpan = addSpan(`You have obtained ${area.materials[mainType.material]['drop']} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
 
@@ -223,15 +225,8 @@ document.addEventListener('keydown', (key) => {
     }
 });
 
-// not used
-// resetHPandMatAll()
-
-
 // upgrade -> -10% health of mats, 30% dmg from levels, 100% drop
 // tier -> 10% more dmg, 10% more xp, 
-
-
-// reset game at start and make a variable TRUE ( as the game started ), then next time do not reset
 
 
 // reset button / fix later 
@@ -247,7 +242,12 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 
 
 
-// make gold(another one) like currency and it gives no xp, then shop for exchanging gold  for almost any other material
+
+
+
+
+
+
 
 
 window.onbeforeunload = () => {
@@ -256,7 +256,7 @@ window.onbeforeunload = () => {
 
 
 
-
+generateShop()
 
 
 

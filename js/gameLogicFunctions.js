@@ -288,14 +288,14 @@ function increaseUpgradeRequirements(requiredMaterials) {
 }
 
 let getDropQuantity = function(mainType) {
-    let drop = getArea(mainType).materials[mainType.material].drop;
+    let drop = mainType.area.materials[mainType.material].drop;
     let rand = Math.floor(Math.random() * 100) + 1;
 
-    if (getTool(mainType).chanceForDoubleMaterial >= rand) {
+    if (mainType.tool.chanceForDoubleMaterial >= rand) {
         drop *= 2;
     }
 
-    drop = drop + drop * getToolBonusDrop(getTool(mainType));
+    drop += drop * mainType.tool.bonusDrop;
     return drop;
 }
 
@@ -334,9 +334,9 @@ function materialColor(e, mat) {
 
 
 function getMaterialHealth(mainType) {
-    return getArea(mainType).materials[mainType.material].health *
-    getArea(mainType).level / 
-    getToolLessHealthOfMaterials(getTool(mainType));
+    return mainType.area.materials[mainType.material].health *
+    mainType.area.level / 
+    mainType.tool.lowerMaterialHealth;
 }
 
 
@@ -411,54 +411,5 @@ let updateLocalStorage = function() {
     localStorage.setItem('areas', JSON.stringify(areas))
     localStorage.setItem('upgrades', JSON.stringify(upgrades))
     localStorage.setItem('main', JSON.stringify(main)) // NOT USED CURRENTLY
-    localStorage.setItem('played', JSON.stringify(played))
     
-}
-
-// EXTRACTED FUNCTIONS FROM OBJECTS
-
-// INCLUDED AS lowerMaterialHealth
-let getToolLessHealthOfMaterials = (tool) => {
-    return tool.upgrade.index / 10 + 1
-}
-// INCLUDED
-let getToolMoreDamageFromLevels = (tool) => {
-    return tool.upgrade.index * 3 / 10 + 1
-}
-// INCLUDED 
-let getToolBonusDrop = (tool) => {
-    return tool.upgrade.index
-}
-// INCLUDED
-let getToolBonusXpFromTier = (tool) => {
-    return 0.9 + tool.xp.tier / 10
-}
-// INCLUDED
-let getToolBonusDamageFromTier = (tool) => {
-    return 0.9 + tool.xp.tier / 10
-}
-// INCLUDED
-let getToolPower = (tool) => {
-    return Math.floor((tool.damage.power +
-        tool.damage.powerFromLevels *
-        getToolMoreDamageFromLevels(tool) +
-        tool.damage.powerFromUpgrades) *
-        getToolBonusDamageFromTier(tool));
-}
-// INCLUDED 
-let getToolName = (tool) => {
-    return tool.upgrade.list[tool.upgrade.index];
-}
-
-let getInventory = (mainType) => {
-    return inventory[mainType.type]
-}
-
-let getTool = (mainType) => {
-    let tool = tools[mainType.type]
-    return tool
-}
-
-let getArea = (mainType) => {
-    return areas[mainType.type][`${mainType.area}`]
 }
