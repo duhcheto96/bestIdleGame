@@ -527,6 +527,12 @@ function updateMaterialLevels() {
     //toDo add the other tabs
 }
 
+let updateShop = () => {
+    let tab = sa('.fieldTab')[4]
+    let coins = tab.childNodes[0].childNodes[0]
+    coins.textContent = main.coins
+}
+
 function updateEverything() {
     addAllElementsToDomInventory()
     updateInventory()
@@ -536,6 +542,7 @@ function updateEverything() {
     markUpgradesBuyable()
     unlockAreas()
     updateAreas()
+    updateShop()
 }
 
 // END OF UPDATES
@@ -580,6 +587,7 @@ let generateShop = () => {
         // TEMP
         Object.keys(inventory[type]).forEach(item => {
             let shopItem = createDiv('shopItem')
+            shopItem.dataset.itemName = item
 
             let name = createDiv('itemName')
             name.textContent = camelCaseToNormal(item)

@@ -300,14 +300,19 @@ let getDropQuantity = function(mainType) {
 }
 
 
-function createMaterial(index, health, xp, chance, drop = 1, totalDropped = 0) {
+function createMaterial(x) {
+    if(x.drop == undefined) x.drop = 1;
+    if(x.sellPrice == undefined) x.sellPrice = x.xp; // CHANGE
+
     return {
-        index: index,
-        health: health,
-        xp: xp,
-        chance: chance,
-        drop: drop,
-        totalDropped: totalDropped,
+        drop: x.drop,
+        quantity: 0,
+        totalDropped: 0,
+        sellPrice: x.sellPrice,
+        index: x.index,
+        health: x.health,
+        xp: x.xp,
+        chance: x.chance,
     }
 }
 
@@ -339,7 +344,15 @@ function getMaterialHealth(mainType) {
     mainType.tool.lowerMaterialHealth;
 }
 
-
+let getSellPrice = (name) => {
+    for (let type in materials) {
+        for (let item in materials[type]) {
+            if (item.toLowerCase() == name.toLowerCase()) {
+                return materials[type][item]().sellPrice
+            }
+        }
+    }
+}
 
 
 
@@ -363,11 +376,11 @@ let resetProgress = function() {
     resetIntervals()
     clearLogs()
     resetHPandMatAll()
-    main = generateMain()
-    inventory = generateInventory()
-    tools = generateTools()
-    areas = generateAreas()
-    upgrades = generateUpgrades()
+    inventory = new Inventory()
+    tools = new Tools()
+    upgrades = new Upgrades()
+    areas = new Areas()
+    main = new Main()
 }
 
 let resetIntervals = () => {

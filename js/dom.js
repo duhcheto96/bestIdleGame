@@ -84,4 +84,5 @@ sa('.upgrade').forEach((upgrade, num) => {
 });
 
 
+generateShop()
 

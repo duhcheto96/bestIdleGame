@@ -242,11 +242,34 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 
 
 
+// SELL BUTTON CLICKED
+s('.sellButton').addEventListener('click', () => {
 
+    let totalValue = 0;
 
+    sa('div.sellDiv > div > div.shopItem').forEach(x => {
+        let [value, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        
+        // IGNORE FIELDS WITH 0 or no value
+        if (value.trim() === "") return
 
+        console.log(value, shopItemName);
 
+        for (let type in inventory) {
+            for (let item in inventory[type]) {
+                if (shopItemName == item) {
 
+                    // check if items exist in that amount
+                    
+                    totalValue += getSellPrice(item) * value
+                }
+            }
+        }
+    })
+
+    main.coins += totalValue;
+    updateEverything()
+})
 
 
 
@@ -256,7 +279,7 @@ window.onbeforeunload = () => {
 
 
 
-generateShop()
+updateShop()
 
 
 
