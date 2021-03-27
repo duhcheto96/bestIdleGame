@@ -41,34 +41,29 @@ let getDropChance = (mats) => {
     return materialChanceArr;
 }
 
-//increase pickaxe power = upgradeName
-let areUpgradeMaterialsAvailable = (upgradeName) => {
-    let reqMats;
-    for (let type in upgrades) {
-        if (upgrades[type].hasOwnProperty(upgradeName)) {
-            reqMats = upgrades[type][upgradeName].requiredMaterials;
-        }
-    }
+let areUpgradeMaterialsAvailable = (requiredMaterials) => {
 
-    let found = 0;
+    // let found = 0;
 
-    for (let mat in reqMats) {
-        for (let group in inventory) {
-            if (inventory[group].hasOwnProperty(mat)) {
-                found++;
-            }
-        }
-    }
+    // for (let mat in requiredMaterials) {
+    //     for (let group in inventory) {
+    //         if (inventory[group].hasOwnProperty(mat)) {
+    //             found++;
+    //         }
+    //     }
+    // }
 
     // if materials found are less than required, return
-    if(found < Object.keys(reqMats).length) {
-        return false;
-    }
-
-    for (let mat in reqMats) {
-        for (let group in inventory) {
-            if (inventory[group].hasOwnProperty(mat)) {
-                if (inventory[group][mat] < reqMats[mat].required) {
+    // if(found < Object.keys(requiredMaterials).length) {
+    //     return false;
+    // }
+    
+    // debugger
+    
+    for (let mat in requiredMaterials) {
+        for (let type in materials) {
+            if (materials[type].hasOwnProperty(mat)) {
+                if (materials[type][mat].quantity < requiredMaterials[mat].required) {
                     return false;
                 }
             }
@@ -114,23 +109,23 @@ let areUpgradeRequirementsMet = (upgradeName) => {
 }
 
 let removeUpgradeMaterials = (upgradeName) => {
-    let reqMats;
+    let reqMats
     for (let type in upgrades) {
         if (upgrades[type].hasOwnProperty(upgradeName)) {
-            reqMats = upgrades[type][upgradeName].requiredMaterials;
+            reqMats = upgrades[type][upgradeName].requiredMaterials
         }
     }
 
     for (let mat in reqMats) {
-        for (let group in inventory) {
-            if (inventory[group].hasOwnProperty(mat)) {
-                inventory[group][mat] -= reqMats[mat].required;
+        for (let type in materials) {
+            if (materials[type].hasOwnProperty(mat)) {
+                materials[type][mat].quantity -= reqMats[mat].required
             }
         }
     }
 
-    updateInventory();
-    return true;
+    updateInventory()
+    return true
 
 }
 
@@ -288,7 +283,7 @@ function increaseUpgradeRequirements(requiredMaterials) {
 }
 
 let getDropQuantity = function(mainType) {
-    let drop = mainType.area.materials[mainType.material].drop;
+    let drop = mainType.materials[mainType.material].drop;
     let rand = Math.floor(Math.random() * 100) + 1;
 
     if (mainType.tool.chanceForDoubleMaterial >= rand) {
@@ -300,21 +295,7 @@ let getDropQuantity = function(mainType) {
 }
 
 
-function createMaterial(x) {
-    if(x.drop == undefined) x.drop = 1;
-    if(x.sellPrice == undefined) x.sellPrice = x.xp; // CHANGE
 
-    return {
-        drop: x.drop,
-        quantity: 0,
-        totalDropped: 0,
-        sellPrice: x.sellPrice,
-        index: x.index,
-        health: x.health,
-        xp: x.xp,
-        chance: x.chance,
-    }
-}
 
 let requiredMaterial = function(required, requiredOnLevel) {
     return {
@@ -339,22 +320,10 @@ function materialColor(e, mat) {
 
 
 function getMaterialHealth(mainType) {
-    return mainType.area.materials[mainType.material].health *
+    return mainType.materials[mainType.material].health *
     mainType.area.level / 
     mainType.tool.lowerMaterialHealth;
 }
-
-let getSellPrice = (name) => {
-    for (let type in materials) {
-        for (let item in materials[type]) {
-            if (item.toLowerCase() == name.toLowerCase()) {
-                return materials[type][item]().sellPrice
-            }
-        }
-    }
-}
-
-
 
 // update level *** 
 function unlockAreas() {
@@ -390,11 +359,6 @@ let resetIntervals = () => {
     })
 }
 
-let removeAllItemsFromInventory = function() {
-    sa('.invItem').forEach(x => {
-        x.remove()
-    })
-}
 
 let removeMissingItems = function() {
     sa('.invItem').forEach(x => {
@@ -419,10 +383,9 @@ let camelCaseToNormal = function(str) {
 
 
 let updateLocalStorage = function() {
-    localStorage.setItem('inventory', JSON.stringify(inventory))
+    localStorage.setItem('materials', JSON.stringify(materials))
     localStorage.setItem('tools', JSON.stringify(tools))
     localStorage.setItem('areas', JSON.stringify(areas))
     localStorage.setItem('upgrades', JSON.stringify(upgrades))
-    localStorage.setItem('main', JSON.stringify(main)) // NOT USED CURRENTLY
-    
+    localStorage.setItem('main', JSON.stringify(main))
 }

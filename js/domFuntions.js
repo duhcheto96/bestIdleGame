@@ -54,12 +54,13 @@ function addAllElementsToDomInventory() {
     // POSSIBLE TO ADD THEM ONCE ACQUIRED, but it is easier that way, 
     // if there are performance issues, thats going to be changed
     removeAllItemsFromInventory()
-    Object.keys(inventory).forEach((type, index) => {
+
+    Object.keys(materials).forEach((type, index) => {
         let list = sa('.itemsList')[index];
         // possible to delete all inventory materials here, but not needed as of now
 
-        Object.keys(inventory[type]).forEach((material) => {
-            let materialIndex = materials[type][material]().index
+        Object.keys(materials[type]).forEach((material) => {
+            let materialIndex = materials[type][material].index
 
             const item = createDiv('invItem');
             const invItemName = createDiv('invItemName');
@@ -67,7 +68,8 @@ function addAllElementsToDomInventory() {
         
             invItemName.textContent = camelCaseToNormal(material);
             invItemName.dataset.name = material;
-            invItemQuantity.textContent = inventory[type][material];
+            
+            invItemQuantity.textContent = materials[type][material].quantity;
 
             item.appendChild(invItemName);
             item.appendChild(invItemQuantity);
@@ -76,7 +78,7 @@ function addAllElementsToDomInventory() {
             for (let c = 0; c < list.childNodes.length; c++) {
                 let curItem = list.childNodes[c];
                 let currentMaterialName = curItem.childNodes[0].dataset.name;
-                let curIndex = materials[type][currentMaterialName]().index;
+                let curIndex = materials[type][currentMaterialName].index;
         
                 if (materialIndex < curIndex) {
                     list.insertBefore(item, curItem);
@@ -92,8 +94,15 @@ function addAllElementsToDomInventory() {
     updateInventory();
 }
 
+let removeAllItemsFromInventory = function() {
+    sa('.invItem').forEach(x => {
+        x.remove()
+    })
+}
+
 function generateDomUpgrade(type, name) {
     const upgrade = createDiv(`upgrade`);
+    upgrade.dataset.type = type;
 
     const upgLevel = createDiv(`upgradeLevel`);
 
@@ -172,7 +181,12 @@ function markUpgradesBuyable() {
         let levelElement = element.childNodes[0];
         let nameElement = element.childNodes[1];
 
-        if (areUpgradeMaterialsAvailable(nameElement.dataset.name) &&
+        let type = element.dataset.type
+        let upgName = nameElement.dataset.name
+        let requiredMaterials = upgrades[type][upgName].requiredMaterials
+        let requiredLevelTier = upgrades[type][upgName].requiredLevel
+
+        if (areUpgradeMaterialsAvailable(requiredMaterials) &&
             areUpgradeRequirementsMet(nameElement.dataset.name)) {
             levelElement.style.backgroundColor =  greenColor;
             nameElement.style.backgroundColor = greenColor;
@@ -441,9 +455,9 @@ function updateInventory() {
 
     invItems.forEach((item, i, list) => {
         let name = item.childNodes[0].dataset.name;
-        for (let itemGroup in inventory) {
-            if (inventory[itemGroup][name] !== undefined) {
-                quantity = inventory[itemGroup][name];
+        for (let itemGroup in materials) {
+            if (materials[itemGroup][name] !== undefined) {
+                quantity = materials[itemGroup][name].quantity;
             }
         }
         item.childNodes[1].textContent = quantity;
@@ -579,13 +593,13 @@ let generateShop = () => {
     // SELL
     let sellDiv = createDiv('sellDiv')
 
-    Object.keys(inventory).forEach(type => {
+    Object.keys(materials).forEach(type => {
         let sellType = createDiv('expandable')
         sellType.textContent = type
         let sellList = createDiv('sellList')
 
         // TEMP
-        Object.keys(inventory[type]).forEach(item => {
+        Object.keys(materials[type]).forEach(item => {
             let shopItem = createDiv('shopItem')
             shopItem.dataset.itemName = item
 
@@ -593,10 +607,10 @@ let generateShop = () => {
             name.textContent = camelCaseToNormal(item)
 
             let quantity = createDiv('itemQuantity')
-            quantity.textContent = inventory[type][item]
+            quantity.textContent = materials[type][item].quantity
 
             let price = createDiv('itemPrice')
-            price.textContent = `Sell price: ${materials[type][item]().index}`
+            price.textContent = `Sell price: ${materials[type][item].sellPrice}`
 
             let sellQuantity = document.createElement('input');
             sellQuantity.style.margin = '10px'
@@ -615,25 +629,44 @@ let generateShop = () => {
     sellButton.innerHTML = 'SELL <br> '
 
     // ADD BOTH TOGETHER, FIX LATER
+
     // BUY
     let buyDiv = createDiv('buyDiv')
 
-    Object.keys(inventory).forEach(type => {
+    Object.keys(materials).forEach(type => {
         let buyType = createDiv('expandable')
         buyType.textContent = type
         let buyList = createDiv('buyList')
 
         // TEMP
-        Object.keys(inventory[type]).forEach(item => {
-            let invItem = createDiv()
-            invItem.textContent = item
-            buyList.appendChild(invItem)
+        Object.keys(materials[type]).forEach(item => {
+            let shopItem = createDiv('shopItem')
+            shopItem.dataset.itemName = item
+
+            let name = createDiv('itemName')
+            name.textContent = camelCaseToNormal(item)
+
+            let quantity = createDiv('itemQuantity')
+            quantity.textContent = materials[type][item].quantity
+
+            let price = createDiv('itemPrice')
+            price.textContent = `Buy price: ${materials[type][item].buyPrice}`
+
+            let buyQuantity = document.createElement('input');
+            buyQuantity.style.margin = '10px'
+
+
+            appendMoreChilds(shopItem, name, quantity, price, buyQuantity)
+            buyList.appendChild(shopItem)
         })
+
+
 
         appendMoreChilds(buyDiv, buyType, buyList)
     })
 
     let buyButton = createDiv('buyButton')
+    buyButton.innerHTML = 'BUY <br> '
 
 
     appendMoreChilds(tab, shopMenu, sellDiv, buyDiv, sellButton, buyButton)

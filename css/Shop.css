@@ -29,6 +29,7 @@
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
     background-color: blueviolet;
+    overflow: auto;
 }
 
 .sellList {
@@ -54,6 +55,7 @@
     grid-column: 2 / span 1;
     grid-row: 2 / span 1;
     background-color: rgb(91, 11, 167);
+    overflow: auto;
 }
 
 .buyList {

@@ -23,16 +23,15 @@ class Areas {
         this.mining = {
             0: {
                 materials: {
-                    stone: materials.mining.stone(1000),
-                    ironOre: materials.mining.ironOre(300),
-                    copper: materials.mining.copper(200),
-                    silver: materials.mining.silver(100),
-                    gold: materials.mining.gold(50),
-                    platinum: materials.mining.platinum(25),
-
-                    lead: materials.mining.lead(10),
-                    titanium: materials.mining.titanium(5),
-                    diamond: materials.mining.diamond(1),
+                    stone: {material: materials.mining.stone, chance: 1000},
+                    ironOre: {material: materials.mining.ironOre, chance: 300},
+                    copper: {material: materials.mining.copper, chance: 200},
+                    silver: {material: materials.mining.silver, chance: 100},
+                    gold: {material: materials.mining.gold, chance: 50},
+                    platinum: {material: materials.mining.platinum, chance: 25},
+                    lead: {material: materials.mining.lead, chance: 10},
+                    titanium: {material: materials.mining.titanium, chance: 5},
+                    diamond: {material: materials.mining.diamond, chance: 1},
                 },
                 name: 'Iron mine',
                 index: 0,
@@ -44,7 +43,7 @@ class Areas {
             },
             1: {
                 materials : {
-                    stone: materials.mining.stone(100),
+                    stone: {material: materials.mining.stone, chance: 1000},
                 },
                 name : 'Platinum mine',
                 index : 1,
@@ -57,7 +56,7 @@ class Areas {
             },
             2: {
                 materials : {
-                    stone: materials.mining.stone(100),
+                    stone: {material: materials.mining.stone, chance: 1000},
                 },
                 name : 'Gold mine',
                 index : 2,
@@ -70,7 +69,7 @@ class Areas {
             },
             3: {
                 materials : {
-                    stone: materials.mining.stone(100),
+                    stone: {material: materials.mining.stone, chance: 1000},
                 },
                 name : 'Bingham Canyon mine',
                 index : 3,
@@ -85,12 +84,12 @@ class Areas {
         this.woodcutting = {
             0: {
                 materials : {
-                    stick: materials.woodcutting.stick(1000),
-                    oakWood: materials.woodcutting.oakWood(100),
-                    mapleWood: materials.woodcutting.mapleWood(100),
-                    mahagonyWood: materials.woodcutting.mahagonyWood(100),
-                    birchWood: materials.woodcutting.birchWood(100),
-                    cedarWood: materials.woodcutting.cedarWood(100),
+                    stick: {material: materials.woodcutting.stick, chance: 1000},
+                    oakWood: {material: materials.woodcutting.oakWood, chance: 100},
+                    mapleWood: {material: materials.woodcutting.mapleWood, chance: 100},
+                    mahagonyWood: {material: materials.woodcutting.mahagonyWood, chance: 100},
+                    birchWood: {material: materials.woodcutting.birchWood, chance: 100},
+                    cedarWood: {material: materials.woodcutting.cedarWood, chance: 100},
                 },
                 name : 'Tropical Forest',
                 index : 0,
@@ -102,12 +101,12 @@ class Areas {
             },
             1: {
                 materials : {
-                    stick: materials.woodcutting.stick(1000),
-                    mapleWood: materials.woodcutting.mapleWood(1000),
-                    beechWood: materials.woodcutting.beechWood(1000),
-                    elmWood: materials.woodcutting.elmWood(1000),
-                    willowWood: materials.woodcutting.willowWood(1000),
-                    redWood: materials.woodcutting.redWood(1000),
+                    stick: {material: materials.woodcutting.stick, chance: 1000},
+                    mapleWood: {material: materials.woodcutting.mapleWood, chance: 1000},
+                    beechWood: {material: materials.woodcutting.beechWood, chance: 1000},
+                    elmWood: {material: materials.woodcutting.elmWood, chance: 1000},
+                    willowWood: {material: materials.woodcutting.willowWood, chance: 1000},
+                    redWood: {material: materials.woodcutting.redWood, chance: 1000},
 
                 },
                 name : 'Temperate Forest',
@@ -121,12 +120,12 @@ class Areas {
             },
             2: {
                 materials : {
-                    stick: materials.woodcutting.stick(1000),
-                    hickoryWood: materials.woodcutting.hickoryWood(1000),
-                    cedarWood: materials.woodcutting.cedarWood(1000),
-                    pineWood: materials.woodcutting.pineWood(1000),
-                    spruceWood: materials.woodcutting.spruceWood(1000),
-                    firWood: materials.woodcutting.firWood(1000),
+                    stick: {material: materials.woodcutting.stick, chance: 1000},
+                    hickoryWood: {material: materials.woodcutting.hickoryWood, chance: 1000},
+                    cedarWood: {material: materials.woodcutting.cedarWood, chance: 1000},
+                    pineWood: {material: materials.woodcutting.pineWood, chance: 1000},
+                    spruceWood: {material: materials.woodcutting.spruceWood, chance: 1000},
+                    firWood: {material: materials.woodcutting.firWood, chance: 1000},
                 },
                 name : 'Boreal Forest',
                 index : 2,
@@ -139,13 +138,13 @@ class Areas {
             },
             3: {
                 materials : {
-                    stick: materials.woodcutting.stick(1000),
-                    ghostedWood: materials.woodcutting.ghostedWood(1000),
-                    blackWood: materials.woodcutting.blackWood(1000),
-                    shinyWood: materials.woodcutting.shinyWood(1000),
-                    sparklyWood: materials.woodcutting.sparklyWood(1000),
-                    cursedWood: materials.woodcutting.cursedWood(1000),
-                    treeOfLife: materials.woodcutting.treeOfLife(1000),
+                    stick: {material: materials.woodcutting.stick, chance: 1000},
+                    ghostedWood: {material: materials.woodcutting.ghostedWood, chance: 1000},
+                    blackWood: {material: materials.woodcutting.blackWood, chance: 1000},
+                    shinyWood: {material: materials.woodcutting.shinyWood, chance: 1000},
+                    sparklyWood: {material: materials.woodcutting.sparklyWood, chance: 1000},
+                    cursedWood: {material: materials.woodcutting.cursedWood, chance: 1000},
+                    treeOfLife: {material: materials.woodcutting.treeOfLife, chance: 1000},
                 },
                 name : 'Magic Forest',
                 index : 3,
@@ -160,19 +159,19 @@ class Areas {
         this.hunting = {
             0: {
                 materials : {
-                    beetle: materials.hunting.beetle(1000),
-                    rabbit: materials.hunting.rabbit(1000),
-                    frog: materials.hunting.frog(1000),
-                    chicken: materials.hunting.chicken(1000),
-                    bat: materials.hunting.bat(1000),
-                    pigeon: materials.hunting.pigeon(1000),
-                    turtle: materials.hunting.turtle(1000),
-                    rat: materials.hunting.rat(1000),
-                    beaver: materials.hunting.beaver(1000),
-                    owl: materials.hunting.owl(1000),
-                    fox: materials.hunting.fox(1000),
-                    wolf: materials.hunting.wolf(1000),
-                    bear: materials.hunting.bear(1000),
+                    beetle: {material: materials.hunting.beetle, chance: 1000},
+                    rabbit: {material: materials.hunting.rabbit, chance: 1000},
+                    frog: {material: materials.hunting.frog, chance: 1000},
+                    chicken: {material: materials.hunting.chicken, chance: 1000},
+                    bat: {material: materials.hunting.bat, chance: 1000},
+                    pigeon: {material: materials.hunting.pigeon, chance: 1000},
+                    turtle: {material: materials.hunting.turtle, chance: 1000},
+                    rat: {material: materials.hunting.rat, chance: 1000},
+                    beaver: {material: materials.hunting.beaver, chance: 1000},
+                    owl: {material: materials.hunting.owl, chance: 1000},
+                    fox: {material: materials.hunting.fox, chance: 1000},
+                    wolf: {material: materials.hunting.wolf, chance: 1000},
+                    bear: {material: materials.hunting.bear, chance: 1000},
                 },
                 name : 'Forest',
                 index : 0,
@@ -184,12 +183,12 @@ class Areas {
             },
             1: {
                 materials : {
-                    beetle: materials.hunting.beetle(1000),
-                    bat: materials.hunting.bat(1000),
-                    crab: materials.hunting.crab(1000),
-                    camel: materials.hunting.camel(1000),
-                    lizard: materials.hunting.lizard(1000),
-                    crocodile: materials.hunting.crocodile(1000),
+                    beetle: {material: materials.hunting.beetle, chance: 1000},
+                    bat: {material: materials.hunting.bat, chance: 1000},
+                    crab: {material: materials.hunting.crab, chance: 1000},
+                    camel: {material: materials.hunting.camel, chance: 1000},
+                    lizard: {material: materials.hunting.lizard, chance: 1000},
+                    crocodile: {material: materials.hunting.crocodile, chance: 1000},
                 },
                 name : 'Desert',
                 index : 1,
@@ -202,16 +201,16 @@ class Areas {
             },
             2: {
                 materials : {
-                    honeyBadger: materials.hunting.honeyBadger(1000),
-                    cow: materials.hunting.cow(1000),
-                    wolf: materials.hunting.wolf(1000),
-                    deer: materials.hunting.deer(1000),
-                    lizard: materials.hunting.lizard(1000),
-                    antelope: materials.hunting.antelope(1000),
-                    armadillo: materials.hunting.armadillo(1000),
-                    panda: materials.hunting.panda(1000),
-                    ape: materials.hunting.ape(1000),
-                    leopard: materials.hunting.leopard(1000),
+                    honeyBadger: {material: materials.hunting.honeyBadger, chance: 1000},
+                    cow: {material: materials.hunting.cow, chance: 1000},
+                    wolf: {material: materials.hunting.wolf, chance: 1000},
+                    deer: {material: materials.hunting.deer, chance: 1000},
+                    lizard: {material: materials.hunting.lizard, chance: 1000},
+                    antelope: {material: materials.hunting.antelope, chance: 1000},
+                    armadillo: {material: materials.hunting.armadillo, chance: 1000},
+                    panda: {material: materials.hunting.panda, chance: 1000},
+                    ape: {material: materials.hunting.ape, chance: 1000},
+                    leopard: {material: materials.hunting.leopard, chance: 1000},
                 },
                 name : 'Mountain',
                 index : 2,
@@ -224,14 +223,14 @@ class Areas {
             },
             3: {
                 materials : {
-                    penguin: materials.hunting.penguin(1000),
-                    ape: materials.hunting.ape(1000),
-                    elephant: materials.hunting.elephant(1000),
-                    crocodile: materials.hunting.crocodile(1000),
-                    lion: materials.hunting.lion(1000),
-                    bison: materials.hunting.bison(1000),
-                    rhino: materials.hunting.rhino(1000),
-                    ghost: materials.hunting.ghost(1),
+                    penguin: {material: materials.hunting.penguin, chance: 1000},
+                    ape: {material: materials.hunting.ape, chance: 1000},
+                    elephant: {material: materials.hunting.elephant, chance: 1000},
+                    crocodile: {material: materials.hunting.crocodile, chance: 1000},
+                    lion: {material: materials.hunting.lion, chance: 1000},
+                    bison: {material: materials.hunting.bison, chance: 1000},
+                    rhino: {material: materials.hunting.rhino, chance: 1000},
+                    ghost: {material: materials.hunting.ghost, chance: 1000},
                 },
                 name : 'Jungle',
                 index : 3,
@@ -245,8 +244,6 @@ class Areas {
         }
     }
 }
-
-
 
 
 class Main {
@@ -266,8 +263,8 @@ class Main {
             if (type === 'coins') return
             let newMain = {
                 ...this[type],
-                get inventory() {
-                    return inventory[this.type]
+                get materials() {
+                    return materials[this.type]
                 },
                 get tool() {
                     return tools[this.type]
@@ -318,37 +315,152 @@ class Main {
 }
 
 
-
-
-class Inventory {
-    constructor(...inventory) {
-        this.generateInventory()
-        this.initInventory(...inventory)
+class Materials {
+    constructor(...materials) {
+        this.generateMaterials()
+        this.initMaterials(...materials)
     }
 
-    initInventory(...inventory) {
-        if (inventory[0] !== null && inventory[0] !== undefined) {
-            this.mining = inventory[0].mining
-            this.woodcutting = inventory[0].woodcutting
-            this.hunting = inventory[0].hunting
+    initMaterials(...materials) {
+        if (materials[0] !== null && materials[0] !== undefined) {
+            this.mining = materials[0].mining
+            this.woodcutting = materials[0].woodcutting
+            this.hunting = materials[0].hunting
         }
         Object.keys(this).forEach(type => {
-            let newInventory = {
+            let newMaterials = {
                 ...this[type],
                 // ADD METHODS IF ANY
                 // ADD MATERIAL? 
             }
-            this[type] = newInventory
+            this[type] = newMaterials
         })
     }
-    generateInventory() {
-        this.mining = {stone: 1}
-        this.woodcutting = {stick: 1}
-        this.hunting = {rabbit: 1}
+
+    newMat(props) {
+        if(props.drop == undefined) props.drop = 1;
+    
+        return {
+            drop: props.drop, // Could add a materials that drops 2+
+            quantity: 10,
+            totalDropped: 0,
+            sellPrice: props.sp,
+            buyPrice: props.bp,
+            index: props.i,
+            health: props.hp,
+            xp: props.xp,
+        }
+    }
+
+    generateMaterials() {
+        // i -> index
+        // hp -> health points
+        // xp -> experience points
+        // sp -> sell price
+        // bp -> buy price
+        this.mining = {
+            stone             : this.newMat({i:0  , hp: 20   , xp: 1   , sp: 5, bp: 1 }),
+            ironOre           : this.newMat({i:1  , hp: 50   , xp: 3   , sp: 1, bp: 1 }),
+            copper            : this.newMat({i:2  , hp: 40   , xp: 2   , sp: 1, bp: 1 }),
+            silver            : this.newMat({i:3  , hp: 100  , xp: 5   , sp: 1, bp: 1 }),
+            gold              : this.newMat({i:4  , hp: 200  , xp: 20  , sp: 1, bp: 1 }),
+            platinum          : this.newMat({i:5  , hp: 300  , xp: 50  , sp: 1, bp: 1 }),
+            lead              : this.newMat({i:6  , hp: 500  , xp: 100 , sp: 1, bp: 1 }),
+            titanium          : this.newMat({i:7  , hp: 800  , xp: 175 , sp: 1, bp: 1 }),
+            diamond           : this.newMat({i:8  , hp: 1000 , xp: 250 , sp: 1, bp: 1 }),
+            bronze            : this.newMat({i:9  , hp: 400  , xp: 65  , sp: 1, bp: 1 }),
+            chromite          : this.newMat({i:10 , hp: 500  , xp: 80  , sp: 1, bp: 1 }),
+            cobalt            : this.newMat({i:11 , hp: 450  , xp: 75  , sp: 1, bp: 1 }),
+            lithium           : this.newMat({i:12 , hp: 700  , xp: 110 , sp: 1, bp: 1 }),
+            manganese         : this.newMat({i:13 , hp: 300  , xp: 40  , sp: 1, bp: 1 }),
+            nickel            : this.newMat({i:14 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            quartz            : this.newMat({i:15 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            zinc              : this.newMat({i:16 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            perlite           : this.newMat({i:17 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            pyrite            : this.newMat({i:18 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            obsidian          : this.newMat({i:19 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            azurite           : this.newMat({i:20 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            amethyst          : this.newMat({i:21 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            ruby              : this.newMat({i:22 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            sapphire          : this.newMat({i:23 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            emerald           : this.newMat({i:24 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            amber             : this.newMat({i:25 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            citrine           : this.newMat({i:26 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            turquoise         : this.newMat({i:27 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            topaz             : this.newMat({i:28 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            aquamarine        : this.newMat({i:29 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            sunstone          : this.newMat({i:30 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            moonstone         : this.newMat({i:31 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            bloodstone        : this.newMat({i:32 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            onyx              : this.newMat({i:33 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            sulfur            : this.newMat({i:34 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            uranium           : this.newMat({i:35 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            zeolite           : this.newMat({i:36 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            lapisLazuli       : this.newMat({i:37 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            cavansite         : this.newMat({i:38 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            garnet            : this.newMat({i:39 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            howlite           : this.newMat({i:40 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            zircon            : this.newMat({i:41 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            tanzanite         : this.newMat({i:42 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            blackStarDiopside : this.newMat({i:43 , hp: 900  , xp: 300 , sp: 1, bp: 1 }),
+            },
+        this.woodcutting = {
+            stick        : this.newMat({i: 0  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            oakWood      : this.newMat({i: 1  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            mapleWood    : this.newMat({i: 2  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            mahagonyWood : this.newMat({i: 3  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            birchWood    : this.newMat({i: 4  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            beechWood    : this.newMat({i: 5  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            elmWood      : this.newMat({i: 6  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            willowWood   : this.newMat({i: 7  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            hickoryWood  : this.newMat({i: 8  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            cedarWood    : this.newMat({i: 9  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            pineWood     : this.newMat({i: 10 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            spruceWood   : this.newMat({i: 11 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            redWood      : this.newMat({i: 12 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            firWood      : this.newMat({i: 13 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            ghostedWood  : this.newMat({i: 14 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            blackWood    : this.newMat({i: 15 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            shinyWood    : this.newMat({i: 16 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            sparklyWood  : this.newMat({i: 17 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            cursedWood   : this.newMat({i: 18 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            treeOfLife   : this.newMat({i: 19 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            },
+        this.hunting = {
+            beetle      : this.newMat({i: 0  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            rabbit      : this.newMat({i: 1  , hp: 20, xp: 2, sp: 1, bp: 1 }),
+            frog        : this.newMat({i: 2  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            chicken     : this.newMat({i: 3  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            bat         : this.newMat({i: 4  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            pigeon      : this.newMat({i: 5  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            turtle      : this.newMat({i: 6  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            crab        : this.newMat({i: 7  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            rat         : this.newMat({i: 8  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            beaver      : this.newMat({i: 9  , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            owl         : this.newMat({i: 10 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            fox         : this.newMat({i: 11 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            honeyBadger : this.newMat({i: 12 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            cow         : this.newMat({i: 13 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            wolf        : this.newMat({i: 14 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            deer        : this.newMat({i: 15 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            bear        : this.newMat({i: 16 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            camel       : this.newMat({i: 17 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            lizard      : this.newMat({i: 18 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            antelope    : this.newMat({i: 19 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            armadillo   : this.newMat({i: 20 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            penguin     : this.newMat({i: 21 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            panda       : this.newMat({i: 22 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            ape         : this.newMat({i: 23 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            leopard     : this.newMat({i: 24 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            elephant    : this.newMat({i: 25 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            crocodile   : this.newMat({i: 26 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            lion        : this.newMat({i: 27 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            bison       : this.newMat({i: 28 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            rhino       : this.newMat({i: 29 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+            ghost       : this.newMat({i: 30 , hp: 20, xp: 1, sp: 1, bp: 1 }),
+        }
     }
 }
-
-
 
 
 class Tools {
@@ -491,8 +603,6 @@ class Tools {
 }
 
 
-
-
 class Upgrades {
     constructor(...upgrades) {
         this.generateUpgrades()
@@ -521,10 +631,10 @@ class Upgrades {
                 bonusOnLevel : 2,
                 value : "flat",
                 requiredMaterials : {
-                    stone: requiredMaterial(10, 5),
-                    copper: requiredMaterial(1, 1),
-                    ironOre: requiredMaterial(3, 1),
-                    stick: requiredMaterial(5, 1),
+                    stone: requiredMaterial(1, 0),
+                    // copper: requiredMaterial(1, 1),
+                    // ironOre: requiredMaterial(3, 1),
+                    // stick: requiredMaterial(5, 1),
                 },
             },
             increasePickaxeAtackSpeed: {
@@ -697,111 +807,8 @@ class Upgrades {
 }
 
 
+localStorage.clear()
 
-
-let materials = {
-    mining: {
-        stone             : (c) => createMaterial({index:0  , health: 20   , xp: 1   , chance: c}),
-        ironOre           : (c) => createMaterial({index:1  , health: 50   , xp: 3   , chance: c}),
-        copper            : (c) => createMaterial({index:2  , health: 40   , xp: 2   , chance: c}),
-        silver            : (c) => createMaterial({index:3  , health: 100  , xp: 5   , chance: c}),
-        gold              : (c) => createMaterial({index:4  , health: 200  , xp: 20  , chance: c}),
-        platinum          : (c) => createMaterial({index:5  , health: 300  , xp: 50  , chance: c}),
-        lead              : (c) => createMaterial({index:6  , health: 500  , xp: 100 , chance: c}),
-        titanium          : (c) => createMaterial({index:7  , health: 800  , xp: 175 , chance: c}),
-        diamond           : (c) => createMaterial({index:8  , health: 1000 , xp: 250 , chance: c}),
-        bronze            : (c) => createMaterial({index:9  , health: 400  , xp: 65  , chance: c}),
-        chromite          : (c) => createMaterial({index:10 , health: 500  , xp: 80  , chance: c}),
-        cobalt            : (c) => createMaterial({index:11 , health: 450  , xp: 75  , chance: c}),
-        lithium           : (c) => createMaterial({index:12 , health: 700  , xp: 110 , chance: c}),
-        manganese         : (c) => createMaterial({index:13 , health: 300  , xp: 40  , chance: c}),
-        nickel            : (c) => createMaterial({index:14 , health: 900  , xp: 300 , chance: c}),
-        quartz            : (c) => createMaterial({index:15 , health: 900  , xp: 300 , chance: c}),
-        zinc              : (c) => createMaterial({index:16 , health: 900  , xp: 300 , chance: c}),
-        perlite           : (c) => createMaterial({index:17 , health: 900  , xp: 300 , chance: c}),
-        pyrite            : (c) => createMaterial({index:18 , health: 900  , xp: 300 , chance: c}),
-        obsidian          : (c) => createMaterial({index:19 , health: 900  , xp: 300 , chance: c}),
-        azurite           : (c) => createMaterial({index:20 , health: 900  , xp: 300 , chance: c}),
-        amethyst          : (c) => createMaterial({index:21 , health: 900  , xp: 300 , chance: c}),
-        ruby              : (c) => createMaterial({index:22 , health: 900  , xp: 300 , chance: c}),
-        sapphire          : (c) => createMaterial({index:23 , health: 900  , xp: 300 , chance: c}),
-        emerald           : (c) => createMaterial({index:24 , health: 900  , xp: 300 , chance: c}),
-        amber             : (c) => createMaterial({index:25 , health: 900  , xp: 300 , chance: c}),
-        citrine           : (c) => createMaterial({index:26 , health: 900  , xp: 300 , chance: c}),
-        turquoise         : (c) => createMaterial({index:27 , health: 900  , xp: 300 , chance: c}),
-        topaz             : (c) => createMaterial({index:28 , health: 900  , xp: 300 , chance: c}),
-        aquamarine        : (c) => createMaterial({index:29 , health: 900  , xp: 300 , chance: c}),
-        sunstone          : (c) => createMaterial({index:30 , health: 900  , xp: 300 , chance: c}),
-        moonstone         : (c) => createMaterial({index:31 , health: 900  , xp: 300 , chance: c}),
-        bloodstone        : (c) => createMaterial({index:32 , health: 900  , xp: 300 , chance: c}),
-        onyx              : (c) => createMaterial({index:33 , health: 900  , xp: 300 , chance: c}),
-        sulfur            : (c) => createMaterial({index:34 , health: 900  , xp: 300 , chance: c}),
-        uranium           : (c) => createMaterial({index:35 , health: 900  , xp: 300 , chance: c}),
-        zeolite           : (c) => createMaterial({index:36 , health: 900  , xp: 300 , chance: c}),
-        lapisLazuli       : (c) => createMaterial({index:37 , health: 900  , xp: 300 , chance: c}),
-        cavansite         : (c) => createMaterial({index:38 , health: 900  , xp: 300 , chance: c}),
-        garnet            : (c) => createMaterial({index:39 , health: 900  , xp: 300 , chance: c}),
-        howlite           : (c) => createMaterial({index:40 , health: 900  , xp: 300 , chance: c}),
-        zircon            : (c) => createMaterial({index:41 , health: 900  , xp: 300 , chance: c}),
-        tanzanite         : (c) => createMaterial({index:42 , health: 900  , xp: 300 , chance: c}),
-        blackStarDiopside : (c) => createMaterial({index:43 , health: 900  , xp: 300 , chance: c}),
-    },
-    woodcutting: {
-        stick       : (c) => createMaterial({index: 0 , health: 20, xp: 1, chance: c}),
-        oakWood     : (c) => createMaterial({index: 1 , health: 20, xp: 1, chance: c}),
-        mapleWood   : (c) => createMaterial({index: 2 , health: 20, xp: 1, chance: c}),
-        mahagonyWood: (c) => createMaterial({index: 3 , health: 20, xp: 1, chance: c}),
-        birchWood   : (c) => createMaterial({index: 4 , health: 20, xp: 1, chance: c}),
-        beechWood   : (c) => createMaterial({index: 5 , health: 20, xp: 1, chance: c}),
-        elmWood     : (c) => createMaterial({index: 6 , health: 20, xp: 1, chance: c}),
-        willowWood  : (c) => createMaterial({index: 7 , health: 20, xp: 1, chance: c}),
-        hickoryWood : (c) => createMaterial({index: 8 , health: 20, xp: 1, chance: c}),
-        cedarWood   : (c) => createMaterial({index: 9 , health: 20, xp: 1, chance: c}),
-        pineWood    : (c) => createMaterial({index: 10, health: 20, xp: 1, chance: c}),
-        spruceWood  : (c) => createMaterial({index: 11, health: 20, xp: 1, chance: c}),
-        redWood     : (c) => createMaterial({index: 12, health: 20, xp: 1, chance: c}),
-        firWood     : (c) => createMaterial({index: 13, health: 20, xp: 1, chance: c}),
-        ghostedWood : (c) => createMaterial({index: 14, health: 20, xp: 1, chance: c}),
-        blackWood   : (c) => createMaterial({index: 15, health: 20, xp: 1, chance: c}),
-        shinyWood   : (c) => createMaterial({index: 16, health: 20, xp: 1, chance: c}),
-        sparklyWood : (c) => createMaterial({index: 17, health: 20, xp: 1, chance: c}),
-        cursedWood  : (c) => createMaterial({index: 18, health: 20, xp: 1, chance: c}),
-        treeOfLife  : (c) => createMaterial({index: 19, health: 20, xp: 1, chance: c}),
-    },
-    hunting: {
-        beetle     : (c) => createMaterial({index: 0 , health: 20, xp: 1, chance: c}),
-        rabbit     : (c) => createMaterial({index: 1 , health: 20, xp: 1, chance: c}),
-        frog       : (c) => createMaterial({index: 2 , health: 20, xp: 1, chance: c}),
-        chicken    : (c) => createMaterial({index: 3 , health: 20, xp: 1, chance: c}),
-        bat        : (c) => createMaterial({index: 4 , health: 20, xp: 1, chance: c}),
-        pigeon     : (c) => createMaterial({index: 5 , health: 20, xp: 1, chance: c}),
-        turtle     : (c) => createMaterial({index: 6 , health: 20, xp: 1, chance: c}),
-        crab       : (c) => createMaterial({index: 7 , health: 20, xp: 1, chance: c}),
-        rat        : (c) => createMaterial({index: 8 , health: 20, xp: 1, chance: c}),
-        beaver     : (c) => createMaterial({index: 9 , health: 20, xp: 1, chance: c}),
-        owl        : (c) => createMaterial({index: 10, health: 20, xp: 1, chance: c}),
-        fox        : (c) => createMaterial({index: 11, health: 20, xp: 1, chance: c}),
-        honeyBadger: (c) => createMaterial({index: 12, health: 20, xp: 1, chance: c}),
-        cow        : (c) => createMaterial({index: 13, health: 20, xp: 1, chance: c}),
-        wolf       : (c) => createMaterial({index: 14, health: 20, xp: 1, chance: c}),
-        deer       : (c) => createMaterial({index: 15, health: 20, xp: 1, chance: c}),
-        bear       : (c) => createMaterial({index: 16, health: 20, xp: 1, chance: c}),
-        camel      : (c) => createMaterial({index: 17, health: 20, xp: 1, chance: c}),
-        lizard     : (c) => createMaterial({index: 18, health: 20, xp: 1, chance: c}),
-        antelope   : (c) => createMaterial({index: 19, health: 20, xp: 1, chance: c}),
-        armadillo  : (c) => createMaterial({index: 20, health: 20, xp: 1, chance: c}),
-        penguin    : (c) => createMaterial({index: 21, health: 20, xp: 1, chance: c}),
-        panda      : (c) => createMaterial({index: 22, health: 20, xp: 1, chance: c}),
-        ape        : (c) => createMaterial({index: 23, health: 20, xp: 1, chance: c}),
-        leopard    : (c) => createMaterial({index: 24, health: 20, xp: 1, chance: c}),
-        elephant   : (c) => createMaterial({index: 25, health: 20, xp: 1, chance: c}),
-        crocodile  : (c) => createMaterial({index: 26, health: 20, xp: 1, chance: c}),
-        lion       : (c) => createMaterial({index: 27, health: 20, xp: 1, chance: c}),
-        bison      : (c) => createMaterial({index: 28, health: 20, xp: 1, chance: c}),
-        rhino      : (c) => createMaterial({index: 29, health: 20, xp: 1, chance: c}),
-        ghost      : (c) => createMaterial({index: 30, health: 20, xp: 1, chance: c}),
-    }
-}
 
 let multiplier = 1;
 let scroll = true;
@@ -809,7 +816,7 @@ let scroll = true;
 let greenColor = 'rgba(0, 200, 0, 0.5)'
 let redColor = 'rgb(192, 206, 195)'
 
-let inventory = new Inventory(JSON.parse(localStorage.getItem("inventory")))
+let materials = new Materials(JSON.parse(localStorage.getItem("materials")))
 let tools = new Tools(JSON.parse(localStorage.getItem("tools")))
 let upgrades = new Upgrades(JSON.parse(localStorage.getItem("upgrades")))
 let areas = new Areas(JSON.parse(localStorage.getItem("areas")))

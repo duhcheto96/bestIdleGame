@@ -1,7 +1,5 @@
 "use strict"
 
-localStorage.clear()
-
 addAllElementsToDomInventory();
 
 updateEverything();
@@ -120,16 +118,16 @@ let breakBlock = (mainType) => {
     updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
     if (mainType.currentHP == 0) {
-        if (mainType.inventory[mainType.material] === undefined) {
-                inventory[mainType.type][mainType.material] = 0;
-        }
+        // if (mainType.materials[mainType.material] === undefined) {
+        //         materials[mainType.type][mainType.material] = 0;
+        // }
 
         let area = mainType.area;
 
         let drop = getDropQuantity(mainType);
 
-        mainType.inventory[mainType.material] += drop;
-        area.materials[mainType.material].totalDropped += drop;
+        mainType.materials[mainType.material].quantity += drop;
+        mainType.materials[mainType.material].totalDropped += drop;
 
 
         // add drop if on the last level
@@ -147,15 +145,14 @@ let breakBlock = (mainType) => {
         markUpgradesBuyable();
 
         // it is -1 because on lvl 1 there should be no bonus (CHANGEABLE if needed)
-        let xp = (area.materials[mainType.material].xp
-            + (area.level - 1) * area.materials[mainType.material].xp)
-            * mainType.tool.bonusXpFromTier;
+        let xp = Math.floor((mainType.materials[mainType.material].xp
+            + (area.level - 1) * mainType.materials[mainType.material].xp)
+            * mainType.tool.bonusXpFromTier)
 
-        xp = Math.floor(xp);
 
         increaseToolXP(mainType.tool, xp);
 
-        const logSpan = addSpan(`You have obtained ${area.materials[mainType.material]['drop']} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
+        const logSpan = addSpan(`You have obtained ${drop} ${camelCaseToNormal(mainType.material)} (${xp} xp)`);
 
         logElementColor(logSpan, mainType.material);
 
@@ -194,11 +191,12 @@ sa('.log').forEach(x => {
 sa('.upgrade').forEach(element => {
 
     let upgName = element.childNodes[1].dataset.name;
+    let type = element.dataset.type;
+    let requiredMaterials = upgrades[type][upgName].requiredMaterials
+    
     let lvlUpButton = element.childNodes[2];
-
     lvlUpButton.addEventListener("click", () => {
-
-        if (!areUpgradeMaterialsAvailable(upgName)) return;
+        if (!areUpgradeMaterialsAvailable(requiredMaterials)) return;
         if (!areUpgradeRequirementsMet(upgName)) return;
 
         removeUpgradeMaterials(upgName);
@@ -246,28 +244,61 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 s('.sellButton').addEventListener('click', () => {
 
     let totalValue = 0;
+    let missingMaterial = false
 
     sa('div.sellDiv > div > div.shopItem').forEach(x => {
-        let [value, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
         
         // IGNORE FIELDS WITH 0 or no value
-        if (value.trim() === "") return
+        if (quantity.trim() === "") return
 
-        console.log(value, shopItemName);
 
-        for (let type in inventory) {
-            for (let item in inventory[type]) {
+        for (let type in materials) {
+            for (let item in materials[type]) {
                 if (shopItemName == item) {
-
-                    // check if items exist in that amount
-                    
-                    totalValue += getSellPrice(item) * value
+                    if (materials[type][item].quantity >= quantity) {
+                        materials[type][item].quantity -= quantity
+                        totalValue += materials[type][item].sellPrice * quantity
+                    } else {
+                        missingMaterial = true
+                    }
                 }
             }
         }
     })
 
-    main.coins += totalValue;
+    if (!missingMaterial) {
+        main.coins += totalValue;
+    } else {
+        alert("Not enough materials")
+    }
+
+    updateEverything()
+})
+
+
+// BUY BUTTON CLICKED
+s('.buyButton').addEventListener('click', () => {
+
+    let totalCost = 0;
+
+    sa('div.buyDiv > div > div.shopItem').forEach(x => {
+        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        
+        // IGNORE FIELDS WITH 0 or no value
+        if (quantity.trim() === "") return
+
+        for (let type in materials) {
+            for (let item in materials[type]) {
+                if (shopItemName == item) {
+                    materials[type][item].quantity += quantity
+                    totalCost += materials[type][item].buyPrice * quantity
+                }
+            }
+        }
+    })
+
+    main.coins -= totalCost;
     updateEverything()
 })
 
