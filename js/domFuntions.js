@@ -559,6 +559,12 @@ let updateShop = () => {
         let type = list.dataset.type
         addShopItems(list, type)
     })
+
+    sa('.sellDiv > div > .shopItem').forEach(x => {
+        x.childNodes[3].addEventListener('input', () => {
+            toggleSellButton()
+        })
+    })
 }
 
 let toggleSellButton = () => {
