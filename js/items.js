@@ -460,6 +460,8 @@ class Materials {
             ghost       : this.newMat({i: 30 , hp: 20, xp: 1, sp: 1, bp: 1 }),
         }
     }
+
+    
 }
 
 

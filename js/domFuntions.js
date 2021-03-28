@@ -57,7 +57,6 @@ function addAllElementsToDomInventory() {
 
     Object.keys(materials).forEach((type, index) => {
         let list = sa('.itemsList')[index];
-        // possible to delete all inventory materials here, but not needed as of now
 
         Object.keys(materials[type]).forEach((material) => {
             let materialIndex = materials[type][material].index
@@ -91,6 +90,7 @@ function addAllElementsToDomInventory() {
             }
         })
     })
+    // NOT USED ?
     updateInventory();
 }
 
@@ -545,6 +545,53 @@ let updateShop = () => {
     let tab = sa('.fieldTab')[4]
     let coins = tab.childNodes[0].childNodes[0]
     coins.textContent = main.coins
+
+    sa(".shopItem").forEach(x => {
+        x.remove()
+    })
+
+    sa('.sellList').forEach(list => {
+        let type = list.dataset.type
+        addShopItems(list, type)
+    })
+
+    sa('.buyList').forEach(list => {
+        let type = list.dataset.type
+        addShopItems(list, type)
+    })
+}
+
+let toggleSellButton = () => {
+    let totalValue = 0;
+    let missingMaterial = false
+
+    sa('div.sellDiv > div > div.shopItem').forEach(x => {
+        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        
+        // IGNORE FIELDS WITH 0 or no value
+        if (quantity.trim() === "") return
+        quantity = parseInt(quantity)
+
+        for (let type in materials) {
+            for (let item in materials[type]) {
+                if (shopItemName == item) {
+                    if (materials[type][item].quantity >= quantity) {
+                        totalValue += materials[type][item].sellPrice * quantity
+                    } else {
+                        missingMaterial = true
+                    }
+                }
+            }
+        }
+    })
+
+    if (!missingMaterial && totalValue != 0) {
+        s('.sellButton').style.background = 'green'
+        s('.sellButton').addEventListener('click', sell)
+    } else {
+        s('.sellButton').style.background = 'red'
+        s('.sellButton').removeEventListener('click', sell)
+    }
 }
 
 function updateEverything() {
@@ -579,16 +626,10 @@ let clearLogs = function () {
 
 let generateShop = () => {
     let tab = sa('.fieldTab')[4]
-
-
     let shopMenu = createDiv('shopMenu')
-
     let coins = createDiv('coins')
     coins.textContent = main.coins
-
     shopMenu.appendChild(coins)
-
-
 
     // SELL
     let sellDiv = createDiv('sellDiv')
@@ -597,38 +638,14 @@ let generateShop = () => {
         let sellType = createDiv('expandable')
         sellType.textContent = type
         let sellList = createDiv('sellList')
+        sellList.dataset.type = type
 
-        // TEMP
-        Object.keys(materials[type]).forEach(item => {
-            let shopItem = createDiv('shopItem')
-            shopItem.dataset.itemName = item
-
-            let name = createDiv('itemName')
-            name.textContent = camelCaseToNormal(item)
-
-            let quantity = createDiv('itemQuantity')
-            quantity.textContent = materials[type][item].quantity
-
-            let price = createDiv('itemPrice')
-            price.textContent = `Sell price: ${materials[type][item].sellPrice}`
-
-            let sellQuantity = document.createElement('input');
-            sellQuantity.style.margin = '10px'
-
-
-            appendMoreChilds(shopItem, name, quantity, price, sellQuantity)
-            sellList.appendChild(shopItem)
-        })
-
-
-
+        addShopItems(sellList, type)
         appendMoreChilds(sellDiv, sellType, sellList)
     })
 
     let sellButton = createDiv('sellButton')
     sellButton.innerHTML = 'SELL <br> '
-
-    // ADD BOTH TOGETHER, FIX LATER
 
     // BUY
     let buyDiv = createDiv('buyDiv')
@@ -637,42 +654,45 @@ let generateShop = () => {
         let buyType = createDiv('expandable')
         buyType.textContent = type
         let buyList = createDiv('buyList')
+        buyList.dataset.type = type
 
-        // TEMP
-        Object.keys(materials[type]).forEach(item => {
-            let shopItem = createDiv('shopItem')
-            shopItem.dataset.itemName = item
-
-            let name = createDiv('itemName')
-            name.textContent = camelCaseToNormal(item)
-
-            let quantity = createDiv('itemQuantity')
-            quantity.textContent = materials[type][item].quantity
-
-            let price = createDiv('itemPrice')
-            price.textContent = `Buy price: ${materials[type][item].buyPrice}`
-
-            let buyQuantity = document.createElement('input');
-            buyQuantity.style.margin = '10px'
-
-
-            appendMoreChilds(shopItem, name, quantity, price, buyQuantity)
-            buyList.appendChild(shopItem)
-        })
-
-
-
+        addShopItems(buyList, type)
         appendMoreChilds(buyDiv, buyType, buyList)
     })
 
     let buyButton = createDiv('buyButton')
     buyButton.innerHTML = 'BUY <br> '
 
-
     appendMoreChilds(tab, shopMenu, sellDiv, buyDiv, sellButton, buyButton)
 }
 
 
+let addShopItems = (list, type) => {
+    Object.keys(materials[type]).forEach(item => {
+        let group = list.classList.contains('buyList') ? 'Buy' : 'Sell'
+        
+        if (materials[type][item].quantity <= 0 && group == 'Sell') return
 
+        let shopItem = createDiv('shopItem')
+        shopItem.dataset.itemName = item
+
+        let name = createDiv('itemName')
+        name.textContent = camelCaseToNormal(item)
+
+        let quantity = createDiv('itemQuantity')
+        quantity.textContent = materials[type][item].quantity
+
+        let price = createDiv('itemPrice')
+        price.textContent = `${group} price: ${group == 'Sell' ? 
+        materials[type][item].sellPrice : materials[type][item].buyPrice}`;
+
+        let buyQuantity = document.createElement('input');
+        buyQuantity.style.margin = '10px'
+
+
+        appendMoreChilds(shopItem, name, quantity, price, buyQuantity)
+        list.appendChild(shopItem)
+    })
+}
 
 

@@ -42,24 +42,6 @@ let getDropChance = (mats) => {
 }
 
 let areUpgradeMaterialsAvailable = (requiredMaterials) => {
-
-    // let found = 0;
-
-    // for (let mat in requiredMaterials) {
-    //     for (let group in inventory) {
-    //         if (inventory[group].hasOwnProperty(mat)) {
-    //             found++;
-    //         }
-    //     }
-    // }
-
-    // if materials found are less than required, return
-    // if(found < Object.keys(requiredMaterials).length) {
-    //     return false;
-    // }
-    
-    // debugger
-    
     for (let mat in requiredMaterials) {
         for (let type in materials) {
             if (materials[type].hasOwnProperty(mat)) {
@@ -125,8 +107,6 @@ let removeUpgradeMaterials = (upgradeName) => {
     }
 
     updateInventory()
-    return true
-
 }
 
 let removeUpgradeLevelsOrTier = (upgradeName) => {
@@ -197,11 +177,6 @@ let addUpgradeBonus = (upgradeName) => {
     }
     updateUpgradesCost();
 }
-
-
-
-
-
 
 function addMiningUpgradeBonus(upgradeName, bonus) {
     const tool = tools.mining;
@@ -389,3 +364,70 @@ let updateLocalStorage = function() {
     localStorage.setItem('upgrades', JSON.stringify(upgrades))
     localStorage.setItem('main', JSON.stringify(main))
 }
+
+
+let buy = () => {
+    let totalCost = 0;
+    let materialsClone = new Materials(JSON.parse(JSON.stringify(materials)))
+
+    sa('div.buyDiv > div > div.shopItem').forEach(x => {
+        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        
+        // IGNORE FIELDS WITH 0 or no value
+        if (quantity.trim() === "") return
+        quantity = parseInt(quantity)
+
+        for (let type in materials) {
+            for (let item in materials[type]) {
+                if (shopItemName == item) {
+                    materialsClone[type][item].quantity += quantity
+                    totalCost += materials[type][item].buyPrice * quantity
+                }
+            }
+        }
+    })
+
+    if (main.coins - totalCost >= 0) {
+        main.coins -= totalCost;
+        materials = materialsClone
+    } else {
+        alert("Not enough coins")
+    }
+
+    updateEverything()
+}
+
+let sell = () => {
+    let totalValue = 0;
+    let missingMaterial = false
+
+    sa('div.sellDiv > div > div.shopItem').forEach(x => {
+        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        
+        // IGNORE FIELDS WITH 0 or no value
+        if (quantity.trim() === "") return
+        quantity = parseInt(quantity)
+
+        for (let type in materials) {
+            for (let item in materials[type]) {
+                if (shopItemName == item) {
+                    if (materials[type][item].quantity >= quantity) {
+                        materials[type][item].quantity -= quantity
+                        totalValue += materials[type][item].sellPrice * quantity
+                    } else {
+                        missingMaterial = true
+                    }
+                }
+            }
+        }
+    })
+
+    if (!missingMaterial) {
+        main.coins += totalValue;
+    } else {
+        alert("Not enough materials")
+    }
+
+    updateEverything()
+}
+

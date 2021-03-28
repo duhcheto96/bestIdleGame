@@ -241,66 +241,13 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 
 
 // SELL BUTTON CLICKED
-s('.sellButton').addEventListener('click', () => {
-
-    let totalValue = 0;
-    let missingMaterial = false
-
-    sa('div.sellDiv > div > div.shopItem').forEach(x => {
-        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
-        
-        // IGNORE FIELDS WITH 0 or no value
-        if (quantity.trim() === "") return
-
-
-        for (let type in materials) {
-            for (let item in materials[type]) {
-                if (shopItemName == item) {
-                    if (materials[type][item].quantity >= quantity) {
-                        materials[type][item].quantity -= quantity
-                        totalValue += materials[type][item].sellPrice * quantity
-                    } else {
-                        missingMaterial = true
-                    }
-                }
-            }
-        }
-    })
-
-    if (!missingMaterial) {
-        main.coins += totalValue;
-    } else {
-        alert("Not enough materials")
-    }
-
-    updateEverything()
-})
+// s('.sellButton').addEventListener('click', sell)
 
 
 // BUY BUTTON CLICKED
-s('.buyButton').addEventListener('click', () => {
+s('.buyButton').addEventListener('click', buy)
 
-    let totalCost = 0;
 
-    sa('div.buyDiv > div > div.shopItem').forEach(x => {
-        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
-        
-        // IGNORE FIELDS WITH 0 or no value
-        if (quantity.trim() === "") return
-
-        for (let type in materials) {
-            for (let item in materials[type]) {
-                if (shopItemName == item) {
-                    materials[type][item].quantity += quantity
-                    totalCost += materials[type][item].buyPrice * quantity
-                }
-            }
-        }
-    })
-
-    main.coins -= totalCost;
-    updateEverything()
-})
 
 
 
@@ -314,7 +261,11 @@ updateShop()
 
 
 
-
+sa('.sellDiv > div > .shopItem').forEach(x => {
+    x.childNodes[3].addEventListener('input', () => {
+        toggleSellButton()
+    })
+})
 
 
 
