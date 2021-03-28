@@ -320,7 +320,7 @@ let resetProgress = function() {
     resetIntervals()
     clearLogs()
     resetHPandMatAll()
-    inventory = new Inventory()
+    materials = new Materials()
     tools = new Tools()
     upgrades = new Upgrades()
     areas = new Areas()

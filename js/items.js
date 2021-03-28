@@ -823,4 +823,3 @@ let tools = new Tools(JSON.parse(localStorage.getItem("tools")))
 let upgrades = new Upgrades(JSON.parse(localStorage.getItem("upgrades")))
 let areas = new Areas(JSON.parse(localStorage.getItem("areas")))
 let main = new Main(JSON.parse(localStorage.getItem("main")))
-
