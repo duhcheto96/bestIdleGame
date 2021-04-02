@@ -30,7 +30,7 @@ sa('.areas').forEach((domAreas, tabIndex) => {
         area.addEventListener('click', (e) => {
 
             let type = domAreas.dataset.type;
-            let nextArea = areas[type][`area${index + 1}`];
+            let nextArea = areas[type][`${index}`];
 
             unlockAreas();
 
@@ -86,3 +86,8 @@ sa('.upgrade').forEach((upgrade, num) => {
 
 generateShop()
 
+sa('.sellDiv > div > .shopItem').forEach(x => {
+    x.childNodes[3].addEventListener('input', () => {
+        toggleSellButton()
+    })
+})

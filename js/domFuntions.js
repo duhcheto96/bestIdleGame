@@ -51,10 +51,6 @@ function expandCollapseUpgrades(e, type) {
 }
 
 function addAllElementsToDomInventory() {
-    // POSSIBLE TO ADD THEM ONCE ACQUIRED, but it is easier that way, 
-    // if there are performance issues, thats going to be changed
-    removeAllItemsFromInventory()
-
     Object.keys(materials).forEach((type, index) => {
         let list = sa('.itemsList')[index];
 
@@ -72,32 +68,19 @@ function addAllElementsToDomInventory() {
 
             item.appendChild(invItemName);
             item.appendChild(invItemQuantity);
-            let added = false;
-
-            for (let c = 0; c < list.childNodes.length; c++) {
-                let curItem = list.childNodes[c];
-                let currentMaterialName = curItem.childNodes[0].dataset.name;
-                let curIndex = materials[type][currentMaterialName].index;
-        
-                if (materialIndex < curIndex) {
-                    list.insertBefore(item, curItem);
-                    added = true;
-                    break;
-                }
-            }
-            if (!added) {
-                list.appendChild(item);
-            }
+            list.appendChild(item);
         })
     })
-    // NOT USED ?
+    
     updateInventory();
 }
 
-let removeAllItemsFromInventory = function() {
-    sa('.invItem').forEach(x => {
-        x.remove()
-    })
+let removeAllMaterialsQuantities = function() {
+    for(let type in materials) {
+        for(let item in materials[type]) {
+            materials[type][item].quantity = 0
+        }
+    }
 }
 
 function generateDomUpgrade(type, name) {
@@ -458,9 +441,15 @@ function updateInventory() {
         for (let itemGroup in materials) {
             if (materials[itemGroup][name] !== undefined) {
                 quantity = materials[itemGroup][name].quantity;
+                break;
             }
         }
         item.childNodes[1].textContent = quantity;
+        if (item.childNodes[1].textContent == 0) {
+            item.style.display = 'none'
+        } else {
+            item.style.display = 'grid'
+        }
     });
 }
 
@@ -546,25 +535,25 @@ let updateShop = () => {
     let coins = tab.childNodes[0].childNodes[0]
     coins.textContent = main.coins
 
-    sa(".shopItem").forEach(x => {
-        x.remove()
-    })
-
     sa('.sellList').forEach(list => {
         let type = list.dataset.type
-        addShopItems(list, type)
+        list.childNodes.forEach(item => {
+            let itemName = item.dataset.itemName
+            item.querySelector('.itemQuantity').textContent = materials[type][itemName].quantity
+            item.querySelector('.itemPrice').textContent = 'Sell price :' + materials[type][itemName].sellPrice
+        })
     })
 
     sa('.buyList').forEach(list => {
         let type = list.dataset.type
-        addShopItems(list, type)
-    })
-
-    sa('.sellDiv > div > .shopItem').forEach(x => {
-        x.childNodes[3].addEventListener('input', () => {
-            toggleSellButton()
+        list.childNodes.forEach(item => {
+            let itemName = item.dataset.itemName
+            item.querySelector('.itemQuantity').textContent = materials[type][itemName].quantity
+            item.querySelector('.itemPrice').textContent = 'Buy price: ' + materials[type][itemName].buyPrice
         })
     })
+
+    toggleSellButton()
 }
 
 let toggleSellButton = () => {
@@ -601,9 +590,7 @@ let toggleSellButton = () => {
 }
 
 function updateEverything() {
-    addAllElementsToDomInventory()
     updateInventory()
-    removeMissingItems()
     updateToolStats()
     updateUpgrades()
     markUpgradesBuyable()
@@ -684,17 +671,11 @@ let addShopItems = (list, type) => {
 
         let name = createDiv('itemName')
         name.textContent = camelCaseToNormal(item)
-
         let quantity = createDiv('itemQuantity')
-        quantity.textContent = materials[type][item].quantity
-
         let price = createDiv('itemPrice')
-        price.textContent = `${group} price: ${group == 'Sell' ? 
-        materials[type][item].sellPrice : materials[type][item].buyPrice}`;
 
         let buyQuantity = document.createElement('input');
-        buyQuantity.style.margin = '10px'
-
+        buyQuantity.className = 'inputBox'
 
         appendMoreChilds(shopItem, name, quantity, price, buyQuantity)
         list.appendChild(shopItem)

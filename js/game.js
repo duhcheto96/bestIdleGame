@@ -250,15 +250,10 @@ s('.buyButton').addEventListener('click', buy)
 
 
 
-
+// SAVE TO LOCAL STORAGE
 window.onbeforeunload = () => {
     updateLocalStorage()
 }
-
-
-
-updateShop()
-
 
 
 

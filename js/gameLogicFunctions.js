@@ -316,7 +316,7 @@ function unlockAreas() {
 
 
 let resetProgress = function() {
-    removeAllItemsFromInventory()
+    removeAllMaterialsQuantities()
     resetIntervals()
     clearLogs()
     resetHPandMatAll()
@@ -334,14 +334,6 @@ let resetIntervals = () => {
     })
 }
 
-
-let removeMissingItems = function() {
-    sa('.invItem').forEach(x => {
-        if (x.childNodes[1].textContent === '0' || x.childNodes[1].textContent.trim() === "") {
-            x.remove()
-        }
-    })
-}
 
 let camelCaseToNormal = function(str) {
     let output = "";
