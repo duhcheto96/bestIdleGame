@@ -364,6 +364,7 @@ let buy = () => {
 
     sa('div.buyDiv > div > div.shopItem').forEach(x => {
         let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        x.childNodes[3].value = '' // RESET FIELDS AFTER CLICK
         
         // IGNORE FIELDS WITH 0 or no value
         if (quantity.trim() === "") return
@@ -382,8 +383,6 @@ let buy = () => {
     if (main.coins - totalCost >= 0) {
         main.coins -= totalCost;
         materials = materialsClone
-    } else {
-        alert("Not enough coins")
     }
 
     updateEverything()
@@ -395,6 +394,7 @@ let sell = () => {
 
     sa('div.sellDiv > div > div.shopItem').forEach(x => {
         let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        x.childNodes[3].value = '' // RESET FIELDS AFTER CLICK
         
         // IGNORE FIELDS WITH 0 or no value
         if (quantity.trim() === "") return

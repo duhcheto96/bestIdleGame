@@ -530,64 +530,7 @@ function updateMaterialLevels() {
     //toDo add the other tabs
 }
 
-let updateShop = () => {
-    let tab = sa('.fieldTab')[4]
-    let coins = tab.childNodes[0].childNodes[0]
-    coins.textContent = main.coins
 
-    sa('.sellList').forEach(list => {
-        let type = list.dataset.type
-        list.childNodes.forEach(item => {
-            let itemName = item.dataset.itemName
-            item.querySelector('.itemQuantity').textContent = materials[type][itemName].quantity
-            item.querySelector('.itemPrice').textContent = 'Sell price :' + materials[type][itemName].sellPrice
-        })
-    })
-
-    sa('.buyList').forEach(list => {
-        let type = list.dataset.type
-        list.childNodes.forEach(item => {
-            let itemName = item.dataset.itemName
-            item.querySelector('.itemQuantity').textContent = materials[type][itemName].quantity
-            item.querySelector('.itemPrice').textContent = 'Buy price: ' + materials[type][itemName].buyPrice
-        })
-    })
-
-    toggleSellButton()
-}
-
-let toggleSellButton = () => {
-    let totalValue = 0;
-    let missingMaterial = false
-
-    sa('div.sellDiv > div > div.shopItem').forEach(x => {
-        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
-        
-        // IGNORE FIELDS WITH 0 or no value
-        if (quantity.trim() === "") return
-        quantity = parseInt(quantity)
-
-        for (let type in materials) {
-            for (let item in materials[type]) {
-                if (shopItemName == item) {
-                    if (materials[type][item].quantity >= quantity) {
-                        totalValue += materials[type][item].sellPrice * quantity
-                    } else {
-                        missingMaterial = true
-                    }
-                }
-            }
-        }
-    })
-
-    if (!missingMaterial && totalValue != 0) {
-        s('.sellButton').style.background = 'green'
-        s('.sellButton').addEventListener('click', sell)
-    } else {
-        s('.sellButton').style.background = 'red'
-        s('.sellButton').removeEventListener('click', sell)
-    }
-}
 
 function updateEverything() {
     updateInventory()
@@ -682,4 +625,94 @@ let addShopItems = (list, type) => {
     })
 }
 
+let updateShop = () => {
+    let tab = sa('.fieldTab')[4]
+    let coins = tab.childNodes[0].childNodes[0]
+    coins.textContent = main.coins
 
+    sa('.sellList').forEach(list => {
+        let type = list.dataset.type
+        list.childNodes.forEach(item => {
+            let itemName = item.dataset.itemName
+            item.querySelector('.itemQuantity').textContent = materials[type][itemName].quantity
+            item.querySelector('.itemPrice').textContent = 'Sell price :' + materials[type][itemName].sellPrice
+        })
+    })
+
+    sa('.buyList').forEach(list => {
+        let type = list.dataset.type
+        list.childNodes.forEach(item => {
+            let itemName = item.dataset.itemName
+            item.querySelector('.itemQuantity').textContent = materials[type][itemName].quantity
+            item.querySelector('.itemPrice').textContent = 'Buy price: ' + materials[type][itemName].buyPrice
+        })
+    })
+
+    toggleSellButton()
+    toggleBuyButton()
+}
+
+let toggleSellButton = () => {
+    let totalValue = 0;
+    let missingMaterial = false
+
+    sa('div.sellDiv > div > div.shopItem').forEach(x => {
+        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        
+        // IGNORE FIELDS WITH 0 or no value
+        if (quantity.trim() === "") return
+        quantity = parseInt(quantity)
+
+        for (let type in materials) {
+            for (let item in materials[type]) {
+                if (shopItemName == item) {
+                    if (materials[type][item].quantity >= quantity) {
+                        totalValue += materials[type][item].sellPrice * quantity
+                    } else {
+                        missingMaterial = true
+                    }
+                }
+            }
+        }
+    })
+
+    if (!missingMaterial && totalValue != 0) {
+        s('.sellButton').style.background = 'green'
+        s('.sellButton').innerHTML = `SELL <br> Total value: ${totalValue}`
+        s('.sellButton').addEventListener('click', sell)
+    } else {
+        s('.sellButton').style.background = 'red'
+        s('.sellButton').innerHTML = `SELL <br>`
+        s('.sellButton').removeEventListener('click', sell)
+    }
+}
+
+let toggleBuyButton = () => {
+    let totalCost = 0;
+
+    sa('div.buyDiv > div > div.shopItem').forEach(x => {
+        let [quantity, shopItemName] = [x.childNodes[3].value, x.dataset.itemName];
+        
+        // IGNORE FIELDS WITH 0 or no value
+        if (quantity.trim() === "") return
+        quantity = parseInt(quantity)
+
+        for (let type in materials) {
+            for (let item in materials[type]) {
+                if (shopItemName == item) {
+                    totalCost += materials[type][item].buyPrice * quantity
+                }
+            }
+        }
+    })
+
+    if (totalCost <= main.coins && totalCost != 0) {
+        s('.buyButton').style.background = 'green'
+        s('.buyButton').innerHTML = `BUY <br> Total cost: ${totalCost}`
+        s('.buyButton').addEventListener('click', buy)
+    } else {
+        s('.buyButton').style.background = 'red'
+        s('.buyButton').innerHTML = `BUY <br>`
+        s('.buyButton').removeEventListener('click', buy)
+    }
+}

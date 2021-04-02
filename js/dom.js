@@ -91,3 +91,9 @@ sa('.sellDiv > div > .shopItem').forEach(x => {
         toggleSellButton()
     })
 })
+
+sa('.buyDiv > div > .shopItem').forEach(x => {
+    x.childNodes[3].addEventListener('input', () => {
+        toggleBuyButton()
+    })
+})
