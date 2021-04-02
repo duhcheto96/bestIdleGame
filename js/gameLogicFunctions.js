@@ -302,13 +302,11 @@ function getMaterialHealth(mainType) {
 
 // update level *** 
 function unlockAreas() {
-    Object.keys(areas).forEach((areaType, typeIndex) => {
-        Object.keys(areas[areaType]).forEach((area, areaIndex) => {
-
-            if (areas[areaType][area].level >= areas[areaType][area].levelForNextArea) {
-                if (areas[areaType][`area${areaIndex + 2}`] !== undefined) {
-                    areas[areaType][`area${areaIndex + 2}`].unlocked = true;
-                }
+    Object.keys(areas).forEach((type, typeIndex) => {
+        Object.keys(areas[type]).forEach((area, areaIndex) => {
+            if (areas[type][area].hasOwnProperty('previousAreaLevelRequired') && 
+            areas[type][areaIndex-1].level >= areas[type][area].previousAreaLevelRequired) {
+                areas[type][area].unlocked = true;
             }
         })
     })

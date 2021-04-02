@@ -26,33 +26,30 @@ sa('.menuItem').forEach((x, y) => {
 
 // Set active area
 sa('.areas').forEach((domAreas, tabIndex) => {
-    domAreas.childNodes.forEach((area, index) => {
-        area.addEventListener('click', (e) => {
-
+    domAreas.childNodes.forEach((domArea, index) => {
+        domArea.addEventListener('click', (e) => {
+            
             let type = domAreas.dataset.type;
-            let nextArea = areas[type][`${index}`];
+            let area = areas[type][index];
 
-            unlockAreas();
-
-            if (!nextArea.unlocked) {
+            if (!area.unlocked) {
                 return;
             }
 
-            main[type].area = nextArea;
-
+            main[type].areaIndex = index;
 
             domAreas.childNodes.forEach((area) => {
                 area.classList.remove('activeArea');
             });
-            area.classList.add('activeArea');
+            domArea.classList.add('activeArea');
 
             updateMaterialLevels();
 
             // MAKE IT FOR ALL, NOT JUST MINING ,,,, LATER
-            clearInterval(main.mining.breakingTime);
-            clearTimeout(main.mining.timeout);
-            main.mining.clicked = false;
-            resetHPandMat(sa('.fieldTab')[1]);
+            // clearInterval(main.mining.breakingTime);
+            // clearTimeout(main.mining.timeout);
+            // main.mining.clicked = false;
+            // resetHPandMat(sa('.fieldTab')[1]);
         });
     });
 });

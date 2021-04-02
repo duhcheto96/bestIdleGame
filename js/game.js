@@ -50,10 +50,10 @@ sa('.fieldTab').forEach(tab => {
         return
     }
     let type = tab.dataset.type
-    let area = main[type].area
 
     let leftArrowImage = tab.querySelectorAll('.arrowImg')[0]
     leftArrowImage.addEventListener('click', (e) => {
+        let area = main[type].area
         if (area.level > 1) {
             area.level--;
         }
@@ -64,6 +64,7 @@ sa('.fieldTab').forEach(tab => {
     
     let rightArrowImage = tab.querySelectorAll('.arrowImg')[1]
     rightArrowImage.addEventListener('click', (e) => {
+        let area = main[type].area
         if (area.materialsDropped >= area.requiredMaterialsForNextLevel) {
             if (area.level == area.totalLevel) {
                 area.totalLevel++;

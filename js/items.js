@@ -38,7 +38,7 @@ class Areas {
                 level: 1,
                 totalLevel: 1,
                 materialsDropped: 0,
-                requiredMaterialsForNextLevel : 40,
+                requiredMaterialsForNextLevel : 4,
                 unlocked : true,
             },
             1: {
@@ -49,9 +49,9 @@ class Areas {
                 index : 1,
                 level : 1,
                 totalLevel : 1,
-                previousAreaLevelRequired : 50,
+                previousAreaLevelRequired : 5,
                 materialsDropped : 0,
-                requiredMaterialsForNextLevel : 40,
+                requiredMaterialsForNextLevel : 4,
                 unlocked : false,
             },
             2: {
@@ -113,7 +113,7 @@ class Areas {
                 index : 1,
                 level : 1,
                 totalLevel : 1,
-                previousAreaLevelRequired : 50,
+                previousAreaLevelRequired : 5,
                 materialsDropped : 0,
                 requiredMaterialsForNextLevel : 5,
                 unlocked : false,
@@ -538,8 +538,8 @@ class Tools {
                 powerFromLevels: 0,
                 powerFromUpgrades: 0,
             },
-            aps : 2_000,
-            lookingForTime : 2_000,
+            aps : 2_00,
+            lookingForTime : 2_00,
             chanceForDoubleMaterial : 0,
         }
         this.woodcutting = {
@@ -567,8 +567,8 @@ class Tools {
                 powerFromLevels: 0,
                 powerFromUpgrades: 0,
             },
-            aps : 2_000,
-            lookingForTime : 2_000,
+            aps : 2_00,
+            lookingForTime : 2_00,
             chanceForDoubleMaterial : 0,
         }
         this.hunting = {

@@ -620,7 +620,19 @@ let addShopItems = (list, type) => {
         let buyQuantity = document.createElement('input');
         buyQuantity.className = 'inputBox'
 
-        appendMoreChilds(shopItem, name, quantity, price, buyQuantity)
+        let sellAllButton = document.createElement('button');
+        sellAllButton.textContent = 'Max'
+        sellAllButton.addEventListener('click', () => {
+            buyQuantity.value = materials[type][item].quantity
+            toggleSellButton()
+        })
+
+        if (group == 'Sell') {
+            appendMoreChilds(shopItem, name, quantity, price, buyQuantity, sellAllButton)
+        } else {
+            appendMoreChilds(shopItem, name, quantity, price, buyQuantity)
+        }
+
         list.appendChild(shopItem)
     })
 }
