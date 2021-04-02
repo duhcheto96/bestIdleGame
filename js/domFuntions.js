@@ -379,12 +379,12 @@ function updateAreas() {
             totalLevel.textContent = `total level: ${currentArea.totalLevel}`;
             if (currentArea.unlocked) {
                 unlocked.textContent = 'Area unlocked!';
-                unlocked.style.backgroundColor = 'rgb(12, 242, 58)';
+                unlocked.style.backgroundColor = greenColor;
                 unlocked.style.color = 'rgb(11, 55, 3)';
             } else {
                 let previousArea = areas[`${domAreas.dataset.type}`][`${index - 1}`];
                 unlocked.textContent = `Area locked. Need lvl ${currentArea.previousAreaLevelRequired} ${previousArea.name}.`;
-                unlocked.style.backgroundColor = 'rgb(184, 29, 50)';
+                unlocked.style.backgroundColor = redColor;
                 unlocked.style.color = 'rgb(44, 22, 33)';
             }
 
