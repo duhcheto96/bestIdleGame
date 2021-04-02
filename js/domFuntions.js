@@ -677,11 +677,11 @@ let toggleSellButton = () => {
     })
 
     if (!missingMaterial && totalValue != 0) {
-        s('.sellButton').style.background = 'green'
+        s('.sellButton').style.background = greenColor
         s('.sellButton').innerHTML = `SELL <br> Total value: ${totalValue}`
         s('.sellButton').addEventListener('click', sell)
     } else {
-        s('.sellButton').style.background = 'red'
+        s('.sellButton').style.background = redColor
         s('.sellButton').innerHTML = `SELL <br>`
         s('.sellButton').removeEventListener('click', sell)
     }
@@ -707,11 +707,11 @@ let toggleBuyButton = () => {
     })
 
     if (totalCost <= main.coins && totalCost != 0) {
-        s('.buyButton').style.background = 'green'
+        s('.buyButton').style.background = greenColor
         s('.buyButton').innerHTML = `BUY <br> Total cost: ${totalCost}`
         s('.buyButton').addEventListener('click', buy)
     } else {
-        s('.buyButton').style.background = 'red'
+        s('.buyButton').style.background = redColor
         s('.buyButton').innerHTML = `BUY <br>`
         s('.buyButton').removeEventListener('click', buy)
     }

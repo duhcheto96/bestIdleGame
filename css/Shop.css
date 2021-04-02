@@ -2,7 +2,6 @@
     grid-template-columns: 50% 50%;
     grid-template-rows: 10% 80% 10%;
     height: 700px;
-    background-color: red;
 }
 
 .shopMenu {
@@ -21,14 +20,13 @@
 }
 
 .shopItem :nth-child(2) {
-    background-color: rgb(176, 176, 192);
+    background-color: rgb(199, 199, 212);
     width: 100px;
 }
 
 .sellDiv {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
-    background-color: blueviolet;
     overflow: auto;
 }
 
@@ -37,14 +35,12 @@
 }
 
 .sellButton {
-    background: yellow;
     display: grid;
     align-items: center;
     text-align: center;
 }
 
 .buyButton {
-    background: greenyellow;
     display: grid;
     align-items: center;
     text-align: center;
@@ -54,7 +50,6 @@
 .buyDiv {
     grid-column: 2 / span 1;
     grid-row: 2 / span 1;
-    background-color: rgb(91, 11, 167);
     overflow: auto;
 }
 
