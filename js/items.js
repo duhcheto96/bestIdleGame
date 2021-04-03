@@ -603,8 +603,8 @@ class Tools {
                 powerFromLevels: 0,
                 powerFromUpgrades: 0,
             },
-            aps : 2_00,
-            lookingForTime : 2_00,
+            aps : 2_000,
+            lookingForTime : 2_000,
             chanceForDoubleMaterial : 0,
         }
         this.hunting = {
