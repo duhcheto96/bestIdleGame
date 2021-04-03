@@ -569,11 +569,11 @@ let generateShop = () => {
 
     // SELL
     let sellDiv = createDiv('sellDiv')
-
+    
     Object.keys(materials).forEach(type => {
         let sellType = createDiv('expandable')
         sellType.textContent = type
-        let sellList = createDiv('sellList')
+        let sellList = createDiv('sellList', 'expanded')
         sellList.dataset.type = type
 
         addShopItems(sellList, type)
@@ -589,7 +589,7 @@ let generateShop = () => {
     Object.keys(materials).forEach(type => {
         let buyType = createDiv('expandable')
         buyType.textContent = type
-        let buyList = createDiv('buyList')
+        let buyList = createDiv('buyList', 'expanded')
         buyList.dataset.type = type
 
         addShopItems(buyList, type)
@@ -607,7 +607,7 @@ let addShopItems = (list, type) => {
     Object.keys(materials[type]).forEach(item => {
         let group = list.classList.contains('buyList') ? 'Buy' : 'Sell'
         
-        if (materials[type][item].quantity <= 0 && group == 'Sell') return
+        // if (materials[type][item].quantity <= 0 && group == 'Sell') return
 
         let shopItem = createDiv('shopItem')
         shopItem.dataset.itemName = item
@@ -627,6 +627,7 @@ let addShopItems = (list, type) => {
             toggleSellButton()
         })
 
+        console.log(group);
         if (group == 'Sell') {
             appendMoreChilds(shopItem, name, quantity, price, buyQuantity, sellAllButton)
         } else {
@@ -637,6 +638,7 @@ let addShopItems = (list, type) => {
     })
 }
 
+// change display type
 let updateShop = () => {
     let tab = sa('.fieldTab')[4]
     let coins = tab.childNodes[0].childNodes[0]
@@ -648,6 +650,12 @@ let updateShop = () => {
             let itemName = item.dataset.itemName
             item.querySelector('.itemQuantity').textContent = materials[type][itemName].quantity
             item.querySelector('.itemPrice').textContent = 'Sell price :' + materials[type][itemName].sellPrice
+            
+            if (item.childNodes[1].textContent == 0) {
+                item.style.display = 'none'
+            } else {
+                item.style.display = 'inline-block'
+            }
         })
     })
 

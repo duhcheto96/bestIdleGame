@@ -12,6 +12,8 @@ generateMaterialGatheringTab(sa('.fieldTab')[1], 'mining');
 generateMaterialGatheringTab(sa('.fieldTab')[2], 'woodcutting');
 generateMaterialGatheringTab(sa('.fieldTab')[3], 'hunting');
 
+generateShop()
+
 
 sa('.expandCollapseAllUpg').forEach(x => x.addEventListener('click', (e) => {
     expandCollapseUpgrades(e, x.dataset.type)
@@ -44,12 +46,6 @@ sa('.areas').forEach((domAreas, tabIndex) => {
             domArea.classList.add('activeArea');
 
             updateMaterialLevels();
-
-            // MAKE IT FOR ALL, NOT JUST MINING ,,,, LATER
-            // clearInterval(main.mining.breakingTime);
-            // clearTimeout(main.mining.timeout);
-            // main.mining.clicked = false;
-            // resetHPandMat(sa('.fieldTab')[1]);
         });
     });
 });
@@ -80,8 +76,6 @@ sa('.upgrade').forEach((upgrade, num) => {
     });
 });
 
-
-generateShop()
 
 sa('.sellDiv > div > .shopItem').forEach(x => {
     x.childNodes[3].addEventListener('input', () => {

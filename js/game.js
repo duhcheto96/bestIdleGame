@@ -119,9 +119,6 @@ let breakBlock = (mainType) => {
     updateHPbar(sa('.progress')[mainType.index], mainType.currentHP, mainType.totalHP);
 
     if (mainType.currentHP == 0) {
-        // if (mainType.materials[mainType.material] === undefined) {
-        //         materials[mainType.type][mainType.material] = 0;
-        // }
 
         let area = mainType.area;
 
@@ -220,6 +217,7 @@ document.addEventListener('keydown', (key) => {
         else if (multiplier == 25) multiplier = 50;
         else if (multiplier == 50) multiplier = 1;
 
+        updateUpgradesCost();
         updateEverything();
     }
 });
@@ -241,21 +239,11 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 
 
 
-// SELL BUTTON CLICKED
-// s('.sellButton').addEventListener('click', sell)
-
-
-// BUY BUTTON CLICKED
-s('.buyButton').addEventListener('click', buy)
-
-
-
 
 // SAVE TO LOCAL STORAGE
 window.onbeforeunload = () => {
     updateLocalStorage()
 }
-
 
 
 
