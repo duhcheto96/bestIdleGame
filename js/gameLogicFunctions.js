@@ -252,7 +252,7 @@ function increaseDrop(material) {
 function increaseUpgradeRequirements(requiredMaterials) {
     for (let mat in requiredMaterials) {
         // row below have to be CHANGED!!!! 
-        requiredMaterials[mat].initialRequired += requiredMaterials[mat].requiredOnLevel;
+        // requiredMaterials[mat].initialRequired += requiredMaterials[mat].requiredOnLevel;
         requiredMaterials[mat].required += requiredMaterials[mat].requiredOnLevel;
     }
 }
@@ -269,16 +269,6 @@ let getDropQuantity = function(mainType) {
     return drop;
 }
 
-
-
-
-let requiredMaterial = function(required, requiredOnLevel) {
-    return {
-        required: required,
-        initialRequired: required,
-        requiredOnLevel: requiredOnLevel,
-    }
-}
 
 function logElementColor(e, mat) {
     if (mat == "dirt") e.style.color = "gold";

@@ -627,7 +627,6 @@ let addShopItems = (list, type) => {
             toggleSellButton()
         })
 
-        console.log(group);
         if (group == 'Sell') {
             appendMoreChilds(shopItem, name, quantity, price, buyQuantity, sellAllButton)
         } else {
