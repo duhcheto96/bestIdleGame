@@ -1,5 +1,8 @@
 "use strict"
 
+let x = fetch("http://localhost:8080/data").then(response => response.json())
+
+
 addAllElementsToDomInventory();
 
 updateEverything();
@@ -83,6 +86,7 @@ sa('.fieldTab').forEach(tab => {
 
 
 let mainMaterialGatheringFunction = (mainType) => {
+
     let lookingFor = ''
     lookingFor = mainType.type === 'hunting' ? 'Looking for animal' : "Looking for material"
 
@@ -242,6 +246,14 @@ sa(".fieldTab")[5].childNodes[3].addEventListener('click', x => {
 
 // SAVE TO LOCAL STORAGE
 window.onbeforeunload = () => {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/getData", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify({
+    //     pool: "rumble now!"
+    // }));
+    xhr.send(JSON.stringify(localStorage));
+
     updateLocalStorage()
 }
 

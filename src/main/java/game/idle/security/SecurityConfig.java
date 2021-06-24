@@ -13,5 +13,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity security) throws Exception {
         // Disable spring security login screen
         security.httpBasic().disable();
+        security.csrf().disable();
+        security.authorizeRequests().anyRequest().permitAll()
+                .and().logout().permitAll();
     }
 }

@@ -853,7 +853,7 @@ class Upgrades {
 }
 
 
-localStorage.clear()
+//localStorage.clear()
 
 
 let multiplier = 1;
